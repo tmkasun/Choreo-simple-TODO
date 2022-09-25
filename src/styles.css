@@ -3,9 +3,17 @@
 }
 
 body {
-  font-family: sans-serif;
-  margin: 20px;
+  font-family: roboto, sans-serif;
+  margin: 0px;
   padding: 0;
+
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 h1 {
@@ -45,6 +53,3 @@ code {
 ul {
   padding-left: 20px;
 }
-
-label { display: block; }
-input { margin-top: 10px; }
