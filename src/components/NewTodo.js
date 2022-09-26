@@ -7,21 +7,22 @@ export function NewTodo({ onAdd }) {
     const [text, setText] = useState('');
 
     function handleAddClick() {
-        setText('');
-        onAdd(createTodo(text));
+        if (text !== '') {
+            onAdd(createTodo(text));
+            setText('');
+        }
     }
 
     return (
         <div className='new-todo'>
-            <input value={text} autoFocus 
-            onKeyDown={(e) => {
-                if (e.key === "Enter") {
-
-                    handleAddClick()
-                }
-            }} 
-            onChange={e => setText(e.target.value)} />
-            <button onClick={handleAddClick}>
+            <input value={text} autoFocus
+                onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                        handleAddClick()
+                    }
+                }}
+                onChange={e => setText(e.target.value)} />
+            <button disabled={text === ''} onClick={handleAddClick}>
                 Add
             </button>
         </div>

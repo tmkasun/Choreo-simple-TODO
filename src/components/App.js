@@ -11,29 +11,50 @@ export default function TodoList() {
 
   return (
     <div className='app-base'>
-      <div>
+      <div className='new-todo-layout'>
         <NewTodo onAdd={newTodo => setTodos([...todos, newTodo])} />
       </div>
 
       <div className='todo-list'>
-        <label>
+        <div className='active-selector'>
           <input
+            id='show-only-active-todos'
             type="checkbox"
+            className='show-only-active'
             checked={showActive}
             onChange={e => setShowActive(e.target.checked)}
           />
-          Show only active todos
-        </label>
+          <label htmlFor='show-only-active-todos'>
+            Show only active todos
+          </label>
+        </div>
+        <ul>
+          {visibleTodos.map(todo => (
+            <li key={todo.id}>
+              <div className='todo-item'>
+                <div className='todo-item-text'>
+                  <input
+                    id={`show-only-active-todos-${todo.id}`}
+                    type="checkbox"
+                    className='show-only-active'
+                    onChange={(e) => {e.preventDefault()}}
+                  />
+                  <label htmlFor={`show-only-active-todos-${todo.id}`}>
+                    {todo.completed ? <s>{todo.text}</s> : todo.text}
+                  </label>
+                </div>
 
-          <ul>
-            {visibleTodos.map(todo => (
-              <li key={todo.id}>
-                {todo.completed ? <s>{todo.text}</s> : todo.text}
-              </li>
-            ))}
-          </ul>
+                <div className='todo-item-actions'>
+                  <button className='todo-action-delete'>
+                    Delete
+                  </button>
+                </div>
+
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
-
     </div>
   );
 }
