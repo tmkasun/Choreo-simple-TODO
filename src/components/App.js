@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { initialTodos, getVisibleTodos } from '../data/todos.js';
+import { initialTodos, getVisibleTodos, useTodos } from '../data/todos.js';
 
 import './App.css'
 import NewTodo from './NewTodo';
 
 export default function TodoList() {
-  const [todos, setTodos] = useState(initialTodos);
+  const {data: todos} = useTodos();
+  const [, setTodos] = useState(initialTodos);
   const [showActive, setShowActive] = useState(false);
   const visibleTodos = getVisibleTodos(todos, showActive);
 

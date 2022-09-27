@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+
+const API_BASE_URL = process.env.API_BASE_URL;
+
 let nextId = 0;
 let calls = 0;
 
@@ -21,3 +25,24 @@ export const initialTodos = [
   createTodo('Get oranges', true),
   createTodo('Get carrots'),
 ];
+
+export function useTodos() {
+  const [data, setData] = useState();
+  const [isLoading, setIsLoading] = useState();
+  const [error, setError] = useState();
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(`${API_BASE_URL}/todos`);
+        const data = await response.json();
+        setData(data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    })()
+  }, [])
+  return { data, isLoading, error };
+}
