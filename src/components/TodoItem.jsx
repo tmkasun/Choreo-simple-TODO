@@ -3,6 +3,7 @@ import { useDeleteTodo, useUpdateTodo } from '../data/hooks';
 import deleteIcon from "../images/delete.png";
 
 import '../styles/TodoItem.css'
+import { IconButton } from './IconButton';
 
 export function TodoItem(props) {
     const { todo, onDelete, onUpdate } = props;
@@ -26,14 +27,14 @@ export function TodoItem(props) {
                             e.preventDefault();
                             e.stopPropagation();
                             const { checked: done } = e.target;
-                            updateTodo({ ...todo, done }, {onSuccess: onUpdate});
+                            updateTodo({ ...todo, done }, { onSuccess: onUpdate });
                         }}
                     />
                     <label
                         htmlFor={`show-only-active-todos-${todo.id}`}
                     >
                         {todo.done ? (
-                            <s>{todo.text}</s>
+                            <s style={{ color: '#838282' }}>{todo.text}</s>
                         ) : (
                             todo.text
                         )}
@@ -41,20 +42,14 @@ export function TodoItem(props) {
                 </div>
 
                 <div className="todo-item-actions">
-                    <button
+                    <IconButton
                         disabled={isDeleting}
                         onClick={() => {
                             deleteTodo(todo, { onSuccess: onDelete });
                         }}
-                        className="todo-action-delete"
-                    >
-                        <img
-                            width={20}
-                            height={20}
-                            alt="Delete Icon"
-                            src={deleteIcon}
-                        ></img>
-                    </button>
+                        iconImage={deleteIcon}
+                        alt="Delete Icon"
+                    />
                 </div>
             </div>
         </li>

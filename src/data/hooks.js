@@ -12,8 +12,7 @@ export function useTodos() {
     try {
       const response = await fetch(`${API_BASE_URL}/todos`, { headers: { Authorization: `bearer ${API_TOKEN}` } });
       const data = await response.json();
-      debugger;
-      if (status.stale === false) {
+      if (status.stale !== true) {
         setData(data);
       }
     } catch (error) {
@@ -27,7 +26,6 @@ export function useTodos() {
     let status = { stale: false };
     refetch(status);
     return () => {
-      debugger;
       status.stale = true;
     }
   }, [])

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useAddTodo } from '../data/hooks.js';
 import { createTodo } from '../data/utilities.js';
 
@@ -6,11 +6,13 @@ import '../styles/NewTodo.css';
 
 export function NewTodo({ onAdd }) {
     const [text, setText] = useState('');
+    const todoInputRef = useRef();
     const { addTodo, isLoading, error, data, isSuccess } = useAddTodo();
     useEffect(() => {
         if (isSuccess && data) {
             onAdd(data);
             setText('');
+            todoInputRef.current.focus();
         }
     }, [isSuccess, data])
     function handleAddClick() {
@@ -22,7 +24,7 @@ export function NewTodo({ onAdd }) {
 
     return (
         <div className='new-todo'>
-            <input disabled={isLoading} value={text} autoFocus
+            <input ref={todoInputRef} placeholder="Type & press `Enter`" disabled={isLoading} value={text} autoFocus
                 onKeyDown={(e) => {
                     if (e.key === "Enter") {
                         handleAddClick()
