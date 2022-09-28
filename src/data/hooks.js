@@ -13,7 +13,7 @@ export function useTodos() {
       const response = await fetch(`${API_BASE_URL}/todos`, { headers: { Authorization: `bearer ${API_TOKEN}` } });
       const data = await response.json();
       debugger;
-      if (status.stale !== false) {
+      if (status.stale === false) {
         setData(data);
       }
     } catch (error) {
