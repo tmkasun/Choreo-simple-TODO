@@ -2,6 +2,8 @@
   "name": "sandpack-project-forked",
   "main": "/index.js",
   "dependencies": {
+    "@asgardeo/auth-react": "^1.1.18",
+    "@asgardeo/token-exchange-plugin": "^0.1.5",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-scripts": "^4.0.0"

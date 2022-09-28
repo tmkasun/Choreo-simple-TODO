@@ -7,7 +7,6 @@ import TodoList from './TodoList';
 
 export default function App() {
   const { data: todos, isLoading, error, setData, refetch } = useTodos();
-  const [showActive, setShowActive] = useState(false);
   const onDelete = (deletedTodo) => {
     setData({
       list: todos.list.filter(todo => deletedTodo.id !== todo.id),
