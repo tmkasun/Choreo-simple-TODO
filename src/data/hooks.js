@@ -16,6 +16,7 @@ export function useTodos() {
         setData(data);
       }
     } catch (error) {
+      console.error(error);
       setError(error);
     } finally {
       setIsLoading(false);
@@ -51,6 +52,7 @@ export function useAddTodo() {
       setStatus('success');
     } catch (error) {
       setError(error);
+      console.error(error);
       setStatus('error');
     } finally {
       setIsLoading(false);
@@ -84,6 +86,7 @@ export function useDeleteTodo() {
       onSuccess(todo);
     } catch (error) {
       setError(error);
+      console.error(error);
       setStatus('error');
     } finally {
       setIsLoading(false);
@@ -118,6 +121,7 @@ export function useUpdateTodo() {
       onSuccess(data);
     } catch (error) {
       setError(error);
+      console.error(error);
       setStatus('error');
     } finally {
       setIsLoading(false);
