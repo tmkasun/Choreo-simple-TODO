@@ -12,6 +12,7 @@ export function useTodos() {
     try {
       const response = await fetch(`${API_BASE_URL}/todos`, { headers: { Authorization: `bearer ${API_TOKEN}` } });
       const data = await response.json();
+      debugger;
       if (status.stale !== false) {
         setData(data);
       }
@@ -25,7 +26,10 @@ export function useTodos() {
   useEffect(() => {
     let status = { stale: false };
     refetch(status);
-    return () => { status.stale = true; }
+    return () => {
+      debugger;
+      status.stale = true;
+    }
   }, [])
   return { data, isLoading, error, refetch, setData };
 }
