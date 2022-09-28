@@ -1,21 +1,32 @@
 import React, { useState } from 'react';
-import { useTodos } from '../data/todos.js';
+import { useTodos } from '../data/hooks.js';
 
-import './App.css'
+import '../styles/App.css'
 import NewTodo from './NewTodo';
 import TodoList from './TodoList';
 
 export default function App() {
-  const {data: todos, isLoading, error, refetch} = useTodos();
-  // const [todos, setTodos] = useState(initialTodos);
+  const { data: todos, isLoading, error, setData } = useTodos();
   const [showActive, setShowActive] = useState(false);
-
+  const onDelete = (deletedTodo) => {
+    setData({
+      list: todos.list.filter(todo => deletedTodo.id !== todo.id),
+      length: todos.length - 1
+    })
+  }
+  const onUpdate = (updatedTodo) => {
+    setData({
+      list: todos.list.map(todo => updatedTodo.id === todo.id ? updatedTodo : todo),
+      length: todos.length
+    })
+  }
   return (
     <div className='app-base'>
       <div className='new-todo-layout'>
-        <NewTodo onAdd={refetch} />
+        <NewTodo onAdd={newTodo => setData({ list: [...todos.list, newTodo], length: todos.length + 1 })} />
       </div>
-      {isLoading || !todos ? "Loading . . ." : <TodoList todos={todos} />}
+      {isLoading || !todos ? "Loading . . ." : <TodoList onUpdate={onUpdate} onDelete={onDelete} todos={todos} />}
+      {todos && todos.list.length === 0 && "No any todo items."}
     </div>
   );
 }

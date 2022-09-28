@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { useAddTodo } from '../data/todos.js';
+import { useAddTodo } from '../data/hooks.js';
 import { createTodo } from '../data/utilities.js';
 
-import './NewTodo.css';
+import '../styles/NewTodo.css';
 
 export function NewTodo({ onAdd }) {
     const [text, setText] = useState('');
     const { addTodo, isLoading, error, data, isSuccess } = useAddTodo();
     useEffect(() => {
-        if(isSuccess && data) {
+        if (isSuccess && data) {
             onAdd(data);
+            setText('');
         }
-    },[isSuccess, data])
+    }, [isSuccess, data])
     function handleAddClick() {
         if (text !== '') {
             const newTodo = createTodo(text);
             addTodo(newTodo);
-            setText('');
         }
     }
 
     return (
         <div className='new-todo'>
-            <input value={text} autoFocus
+            <input disabled={isLoading} value={text} autoFocus
                 onKeyDown={(e) => {
                     if (e.key === "Enter") {
                         handleAddClick()

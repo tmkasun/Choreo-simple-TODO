@@ -1,0 +1,50 @@
+.todo-item-overlay {
+    position: absolute;
+    width: 100%;
+    background: #ffffffb5;
+    height: 100%;
+    margin: -12.8px;
+    border-radius: 1rem;
+    backdrop-filter: blur(0.8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.todo-item-actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 0.2rem;
+}
+
+.todo-item-actions button {
+    background-color: white;
+    border: 0;
+    padding: 0.2rem 0.3rem;
+    cursor: pointer;
+
+}
+
+.todo-item-text {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 1rem;
+}
+
+.todo-item-li {
+    position: relative;
+}
+
+.todo-item-li:hover {
+    /* background-color: red; */
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}

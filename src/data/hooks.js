@@ -26,7 +26,7 @@ export function useTodos() {
     refetch(status);
     return () => { status.stale = true; }
   }, [])
-  return { data, isLoading, error, refetch };
+  return { data, isLoading, error, refetch, setData };
 }
 
 export function useAddTodo() {
@@ -67,7 +67,7 @@ export function useDeleteTodo() {
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState('initial');
   const [error, setError] = useState();
-  const deleteTodo = async (todo) => {
+  const deleteTodo = async (todo, { onSuccess }) => {
     setIsLoading(true);
     setData(null);
     try {
@@ -81,6 +81,7 @@ export function useDeleteTodo() {
       const data = await response.json();
       setData(data);
       setStatus('success');
+      onSuccess(todo);
     } catch (error) {
       setError(error);
       setStatus('error');
@@ -90,5 +91,39 @@ export function useDeleteTodo() {
   }
   return {
     deleteTodo, data, isLoading, error, isSuccess: status === 'success', isError: status === 'error'
+  }
+}
+
+
+export function useUpdateTodo() {
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState('initial');
+  const [error, setError] = useState();
+  const updateTodo = async (updatedTodo, { onSuccess }) => {
+    setIsLoading(true);
+    setData(null);
+    try {
+      const response = await fetch(`${API_BASE_URL}/todos/${updatedTodo.id}`, {
+        headers: {
+          Authorization: `bearer ${API_TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+        method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify(updatedTodo), // body data type must match "Content-Type" header
+      });
+      const data = await response.json();
+      setData(data);
+      setStatus('success');
+      onSuccess(data);
+    } catch (error) {
+      setError(error);
+      setStatus('error');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  return {
+    updateTodo, data, isLoading, error, isSuccess: status === 'success', isError: status === 'error'
   }
 }
