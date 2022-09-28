@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { useDeleteTodo } from '../data/todos';
-import { getVisibleTodos } from '../data/utilities';
+import React, { useState } from "react";
+import { useDeleteTodo } from "../data/todos";
+import { getVisibleTodos } from "../data/utilities";
 
+import deleteIcon from "../images/delete.png";
 
 export default function TodoList(props) {
     const { todos } = props;
@@ -10,41 +11,59 @@ export default function TodoList(props) {
     const { deleteTodo } = useDeleteTodo();
 
     return (
-        <div className='todo-list'>
-            <div className='active-selector'>
+        <div className="todo-list">
+            <div className="active-selector">
                 <input
-                    id='show-only-active-todos'
+                    id="show-only-active-todos"
                     type="checkbox"
-                    className='show-only-active'
+                    className="show-only-active"
                     checked={showActive}
-                    onChange={e => setShowActive(e.target.checked)}
+                    onChange={(e) => setShowActive(e.target.checked)}
                 />
-                <label htmlFor='show-only-active-todos'>
+                <label htmlFor="show-only-active-todos">
                     Show only active todos
                 </label>
             </div>
             <ul>
-                {visibleTodos.map(todo => (
+                {visibleTodos.map((todo) => (
                     <li key={todo.id}>
-                        <div className='todo-item'>
-                            <div className='todo-item-text'>
+                        <div className="todo-item">
+                            <div className="todo-item-text">
                                 <input
                                     id={`show-only-active-todos-${todo.id}`}
                                     type="checkbox"
-                                    className='show-only-active'
-                                    onChange={(e) => { e.preventDefault() }}
+                                    className="show-only-active"
+                                    onChange={(e) => {
+                                        e.preventDefault();
+                                    }}
                                 />
-                                <label htmlFor={`show-only-active-todos-${todo.id}`}>
-                                    {todo.completed ? <s>{todo.text}</s> : todo.text}
+                                <label
+                                    htmlFor={`show-only-active-todos-${todo.id}`}
+                                >
+                                    {todo.completed ? (
+                                        <s>{todo.text}</s>
+                                    ) : (
+                                        todo.text
+                                    )}
                                 </label>
                             </div>
 
-                            <div className='todo-item-actions'>
-                                <button onClick={() => { deleteTodo(todo) }} className='todo-action-delete'>
-                                    Delete
+                            <div className="todo-item-actions">
+                                <button
+                                    onClick={() => {
+                                        deleteTodo(todo);
+                                    }}
+                                    className="todo-action-delete"
+                                >
+                                    sadasdas sdas
+                                    <img
+                                        width={20}
+                                        height={20}
+                                        alt="Delete Icon"
+                                        src={deleteIcon}
+                                    ></img>
                                 </button>
                             </div>
-
                         </div>
                     </li>
                 ))}
