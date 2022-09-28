@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
-import { createTodo } from '../data/todos.js';
+import React, { useEffect, useState } from 'react';
+import { useAddTodo } from '../data/todos.js';
+import { createTodo } from '../data/utilities.js';
 
 import './NewTodo.css';
 
 export function NewTodo({ onAdd }) {
     const [text, setText] = useState('');
-
+    const { addTodo, isLoading, error, data, isSuccess } = useAddTodo();
+    useEffect(() => {
+        if(isSuccess && data) {
+            onAdd(data);
+        }
+    },[isSuccess, data])
     function handleAddClick() {
         if (text !== '') {
-            onAdd(createTodo(text));
+            const newTodo = createTodo(text);
+            addTodo(newTodo);
             setText('');
         }
     }
@@ -22,8 +29,8 @@ export function NewTodo({ onAdd }) {
                     }
                 }}
                 onChange={e => setText(e.target.value)} />
-            <button disabled={text === ''} onClick={handleAddClick}>
-                Add
+            <button disabled={text === '' || isLoading} onClick={handleAddClick}>
+                {isLoading ? 'Adding' : 'Add'}
             </button>
         </div>
     );
