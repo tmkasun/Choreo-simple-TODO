@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getVisibleTodos } from "../data/utilities";
+import { getVisibleTodos } from "../data/utils";
 
 import { TodoItem } from "./TodoItem";
 import refreshButton from '../images/refresh-button.svg';

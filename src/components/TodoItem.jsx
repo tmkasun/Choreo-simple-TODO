@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDeleteTodo, useUpdateTodo } from '../data/hooks';
+import { useDeleteTodo, useUpdateTodo } from '../data/hooks/todos';
 import deleteIcon from "../images/delete.png";
 
 import '../styles/TodoItem.css'

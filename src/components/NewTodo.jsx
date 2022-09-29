@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useAddTodo } from '../data/hooks.js';
-import { createTodo } from '../data/utilities.js';
+import { useAddTodo } from '../data/hooks/todos.js';
+import { createTodo } from '../data/utils.js';
 
 import '../styles/NewTodo.css';
 

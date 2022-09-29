@@ -1,11 +1,13 @@
 {
-  "name": "sandpack-project-forked",
+  "name": "Choreo demo - Todo Application",
   "main": "/index.js",
   "dependencies": {
     "@asgardeo/auth-react": "^1.1.18",
     "@asgardeo/token-exchange-plugin": "^0.1.5",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "nanoid": "^4.0.0",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.0"
   },
   "devDependencies": {
