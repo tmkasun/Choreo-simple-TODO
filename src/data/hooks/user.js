@@ -1,16 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 import { parseJwt } from "../utils/auth";
-import { getCookie } from "../utils/cookies";
+import { deleteCookie, getCookie } from "../utils/cookies";
 
 export default function useUser() {
     const accessToken = getCookie('access_token');
     const memonizedUser = useMemo(() => {
         let user = null;
         if (accessToken) {
-            const idTokenString = sessionStorage.getItem('id_token');
-            const idToken = parseJwt(idTokenString);
-            const { given_name, picture, email } = idToken;
+            const idToken = sessionStorage.getItem('id_token');
+            const { given_name, picture, email } = parseJwt(idToken);
             user = {
+                logout: () => {
+                    deleteCookie('access_token');
+                    sessionStorage.removeItem('id_token');
+                },
                 idToken,
                 accessToken,
                 given_name, picture, email

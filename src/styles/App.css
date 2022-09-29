@@ -72,3 +72,8 @@
     justify-content: flex-start;
     align-items: center;
 }
+
+.top-bar {
+    display: flex;
+    align-self: flex-end;
+}

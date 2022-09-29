@@ -9,6 +9,7 @@ import NewTodo from '../components/NewTodo';
 import TodoList from '../components/TodoList';
 import Callback from './oauth/Callback.jsx';
 import useUser from '../data/hooks/user.js';
+import Landing from '../components/Landing.jsx';
 // import { default as authConfig } from "../data/authConfig.json";
 
 
@@ -29,7 +30,7 @@ function App() {
     }
     return (
         <div className='main-container'>
-            <LoginButton />
+            {user && <div className='top-bar'><LoginButton /></div>}
             <div className='app-base'>
                 {user ? (
                     <>
@@ -39,7 +40,7 @@ function App() {
                         {isLoading || !todos ? "Loading . . ." : <TodoList onRefresh={refetch} onUpdate={onUpdate} onDelete={onDelete} todos={todos} />}
                         {todos && todos.list.length === 0 && "No any todo items."}
                     </>
-                ) : <LoginButton />}
+                ) : <Landing />}
             </div>
         </div>
     );

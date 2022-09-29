@@ -2,7 +2,7 @@
     "clientID": "uucHcY_vnIejdo_Er5aFa0Z4Basa",
     "baseUrl": "https://api.asgardeo.io/t/sudo",
     "signInRedirectURL": "https://tmkasun-choreo-simple-todo-64gqpr4wv6h45rj-3000.githubpreview.dev/oauth/callback",
-    "signOutRedirectURL": "https://tmkasun-choreo-simple-todo-64gqpr4wv6h45rj-3000.githubpreview.dev/oauth/logout",
+    "signOutRedirectURL": "https://tmkasun-choreo-simple-todo-64gqpr4wv6h45rj-3000.githubpreview.dev/",
     "scope": ["openid","email","profile"],
     "stsConfig": {
         "client_id": "VMzPkQinffe5nVl6NGJMd_GW8qQa",
