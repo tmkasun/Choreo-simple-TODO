@@ -10,7 +10,6 @@ import TodoList from '../components/TodoList';
 import Callback from './oauth/Callback.jsx';
 import useUser from '../data/hooks/user.js';
 import Landing from '../components/Landing.jsx';
-// import { default as authConfig } from "../data/authConfig.json";
 
 
 function App() {
