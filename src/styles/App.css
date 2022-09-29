@@ -65,24 +65,6 @@
     /* box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset; */
 }
 
-.login-panel {
-    align-self: flex-end;
-}
-
-.login-panel .login-button {
-    display: flex;
-    align-items: center;
-    column-gap: 0.5rem;
-    font-size: 1.3rem;
-    border-radius: 0.5rem;
-    border: none;
-    background: white;
-    padding: 0.5rem;
-    box-shadow: rgb(102 102 102 / 34%) 0px 2px 6px 0px;
-    cursor: pointer;
-    margin: 1rem;
-}
-
 .main-container {
     display: flex;
     flex-direction: column;

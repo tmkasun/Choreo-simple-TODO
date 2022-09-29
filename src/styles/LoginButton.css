@@ -1,0 +1,45 @@
+.login-panel {
+    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.login-panel .login-button {
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+    font-size: 1.3rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: white;
+    padding: 0.5rem;
+    box-shadow: rgb(102 102 102 / 34%) 0px 2px 6px 0px;
+    cursor: pointer;
+    margin: 1rem;
+}
+
+.user-avatar {
+    width: 40px;
+    border-radius: 20px;
+}
+
+.login-dropdown {
+    display: flex;
+    position: absolute;
+    bottom: -35px;
+    right: 0px;
+}
+
+.login-dropdown button{
+    border-radius: 0.5rem;
+    border: none;
+    background: white;
+    padding: 0.5rem;
+    box-shadow: rgb(102 102 102 / 34%) 0px 2px 6px 0px;
+    cursor: pointer;
+    margin: 1rem;
+    margin-top: 0;
+}

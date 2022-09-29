@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { getVisibleTodos } from "../data/utils";
 
 import { TodoItem } from "./TodoItem";
 import refreshButton from '../images/refresh-button.svg';
 import { IconButton } from "./IconButton";
+import { getVisibleTodos } from "../data/utils/auth";
 
 export default function TodoList(props) {
     const { todos, onDelete, onUpdate, onRefresh } = props;

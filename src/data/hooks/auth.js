@@ -1,7 +1,11 @@
-import { generateCodeVerifier, generateHash } from "../utils";
+import React, { useState, useEffect, useCallback } from 'react';
+
+import { ASGARDEO_STATE_SUFFIX_CHOREO, generateCodeVerifier, generateHash } from "../utils/auth";
+import { default as asgardeoSdkConfig } from '../../data/configs/asgardeo.json'
+import { useLocation } from 'react-router-dom';
 
 export const useAuthRequestURL = () => {
-    const [codeChallenge, setCodeChallenge] = useState < null | string > (null);
+    const [codeChallenge, setCodeChallenge] = useState(null);
 
     useEffect(() => {
         (async () => {
@@ -13,27 +17,135 @@ export const useAuthRequestURL = () => {
     }, []);
 
     const getAuthRequestURL = useCallback(
-        (configs) => {
+        (configs = {}) => {
             const {
                 endpoints: { authorizationEndpoint },
                 clientID,
                 signInRedirectURL,
+                scope
             } = asgardeoSdkConfig;
-            const { fidp, state, captchaInfo, username } = configs;
-            const captchaInfoQueryParam = `&captchaInfo=${captchaInfo}`;
+            const { state } = configs;
             return (
                 `${authorizationEndpoint}?response_type=code&client_id=${clientID}` +
-                `&scope=openid+${asgardeoSdkScopes.replaceAll(
-                    '|',
-                    '+'
-                )}&redirect_uri=${signInRedirectURL}` +
+                `&scope=${scope.join('+')}&redirect_uri=${signInRedirectURL}` +
                 `&response_mode=query&code_challenge_method=S256&code_challenge=${codeChallenge}` +
-                `&fidp=${fidp}&state=${state}${ASGARDEO_STATE_SUFFIX_CHOREO}${captchaInfo ? captchaInfoQueryParam : ''
-                }${username ? `&username=${username}` : ''}`
+                `&state=${state}${ASGARDEO_STATE_SUFFIX_CHOREO} : ''}`
             );
         },
         [codeChallenge]
     );
 
-    return [getAuthRequestURL, codeChallenge];
+    return { getAuthRequestURL, codeChallenge };
 };
+
+export const useAsgardeoToken = () => {
+    const [asgardeoTokenData, setAsgardeoData] = useState();
+    const [isAsgardeoLoading, setAsgardeoIsLoading] = useState(true);
+    const [asgardeoError, setAsgardeoError] = useState();
+    const [asgardeoStatus, setAsgardeoStatus] = useState('initial');
+
+    const [choreoTokenData, setChoreoToken] = useState();
+    const [isChoreoTokenLoading, setIsChoreoTokenLoading] = useState(true);
+    const [choreoError, setChoreoError] = useState();
+    const [choreoStatus, setChoreoStatus] = useState('initial');
+
+    const {
+        endpoints: { tokenEndpoint },
+        clientID,
+        signInRedirectURL,
+        stsTokenEndpoint,
+        stsConfig
+    } = asgardeoSdkConfig;
+
+    const { search } = useLocation();
+    const sessionState = new URLSearchParams(search).get("session_state");
+    const oauthCode = new URLSearchParams(search).get("code");
+    useEffect(() => {
+        if (oauthCode) {
+            (async () => {
+                setAsgardeoIsLoading(true);
+                const formBody = new URLSearchParams({
+                    'client_id': clientID,
+                    'code': oauthCode,
+                    'grant_type': 'authorization_code',
+                    'redirect_uri': signInRedirectURL,
+                    'code_verifier': sessionStorage.getItem('pkce_code_verifier#0'),
+                });
+
+                try {
+                    const response = await fetch(tokenEndpoint, {
+                        "headers": {
+                            "content-type": "application/x-www-form-urlencoded"
+                        },
+                        "body": formBody,
+                        "method": "POST",
+                        "mode": "cors",
+                        "credentials": "omit"
+                    });
+                    if (!response.ok) {
+                        setAsgardeoError(response);
+                        console.error(response);
+                        setAsgardeoStatus('error');
+                    } else {
+                        const data = await response.json();
+                        setAsgardeoData(data);
+                        setAsgardeoStatus('success');
+                    }
+                } catch (error) {
+                    setAsgardeoError(error);
+                    console.error(error);
+                    setAsgardeoStatus('error');
+                } finally {
+                    setAsgardeoIsLoading(false);
+                }
+            })()
+        }
+    }, [oauthCode]);
+
+    useEffect(() => {
+        if (asgardeoStatus === 'success') {
+            (async () => {
+                setIsChoreoTokenLoading(true);
+                const { client_id, orgHandle, scope } = stsConfig;
+                const { id_token, access_token } = asgardeoTokenData;
+                const formBody = new URLSearchParams({
+                    client_id: client_id,
+                    grant_type: 'urn:ietf:params:oauth:grant-type:token-exchange',
+                    subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
+                    scope: scope.join('+'),
+                    subject_token: id_token,
+                    orgHandle,
+                });
+                try {
+                    const response = await fetch(stsTokenEndpoint, {
+                        "headers": {
+                            "authorization": `Bearer ${id_token}`,
+                            "content-type": "application/x-www-form-urlencoded"
+                        },
+                        "body": formBody,
+                        "method": "POST",
+                        "mode": "cors",
+                        "credentials": "include"
+                    });
+                    if (!response.ok) {
+                        setChoreoError(response);
+                        console.error(response);
+                        setChoreoStatus('error');
+                    } else {
+                        const data = await response.json();
+                        setChoreoToken(data);
+                        setChoreoStatus('success');
+                    }
+                } catch (error) {
+                    setChoreoError(error);
+                    console.error(error);
+                    setChoreoStatus('error');
+                } finally {
+                    sessionStorage.removeItem('pkce_code_verifier#0')
+                    setIsChoreoTokenLoading(false);
+                }
+            })();
+        }
+    }, [asgardeoStatus])
+    return { asgardeoTokenData, isAsgardeoLoading, asgardeoError, asgardeoStatus, choreoTokenData, isChoreoTokenLoading, choreoError, choreoStatus }
+}
