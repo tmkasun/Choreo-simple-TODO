@@ -7,8 +7,8 @@ export default function Callback(params) {
     const { isAsgardeoLoading, isChoreoTokenLoading, choreoTokenData, asgardeoStatus, choreoStatus, asgardeoError, choreoError } = useAsgardeoToken();
     const history = useHistory();
     useEffect(() => {
-        if(choreoTokenData) {
-            sessionStorage.setItem('id_token', choreoTokenData.id_token);
+        if (choreoTokenData) {
+            setCookie('id_token', choreoTokenData.id_token, choreoTokenData.expires_in);
             setCookie('access_token', choreoTokenData.access_token, choreoTokenData.expires_in);
             history.push('/')
         }

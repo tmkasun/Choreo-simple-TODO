@@ -7,12 +7,12 @@ export default function useUser() {
     const memonizedUser = useMemo(() => {
         let user = null;
         if (accessToken) {
-            const idToken = sessionStorage.getItem('id_token');
+            const idToken = getCookie('id_token');
             const { given_name, picture, email } = parseJwt(idToken);
             user = {
                 logout: () => {
                     deleteCookie('access_token');
-                    sessionStorage.removeItem('id_token');
+                    deleteCookie('id_token');
                 },
                 idToken,
                 accessToken,
