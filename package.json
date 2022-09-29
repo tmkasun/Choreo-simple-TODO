@@ -1,5 +1,5 @@
 {
-  "name": "Choreo demo - Todo Application",
+  "name": "Choreo demo Todo Application",
   "main": "/index.js",
   "dependencies": {
     "@asgardeo/auth-react": "^1.1.13",
