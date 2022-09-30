@@ -8,6 +8,7 @@ export default function useUser() {
         let user = null;
         if (accessToken) {
             const idToken = getCookie('id_token');
+            const asgardeoIdToken = getCookie('asgardeo_id_token');
             const { given_name, picture, email } = parseJwt(idToken);
             user = {
                 logout: () => {
@@ -15,6 +16,7 @@ export default function useUser() {
                     deleteCookie('id_token');
                 },
                 idToken,
+                asgardeoIdToken,
                 accessToken,
                 given_name, picture, email
             }

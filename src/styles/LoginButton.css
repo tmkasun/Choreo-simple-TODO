@@ -32,7 +32,7 @@
     right: 0px;
 }
 
-.login-dropdown button{
+.login-dropdown button {
     border-radius: 0.5rem;
     border: none;
     background: white;
@@ -41,4 +41,8 @@
     cursor: pointer;
     margin: 1rem;
     margin-top: 0;
+}
+
+.gray-logo {
+    filter: grayscale(1);
 }

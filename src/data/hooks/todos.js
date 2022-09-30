@@ -54,6 +54,11 @@ export function useAddTodo() {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         body: JSON.stringify(newTodo), // body data type must match "Content-Type" header
       });
+      if (!response.ok) {
+        setError(response);
+        console.error(response);
+        setStatus('error');
+      }
       const data = await response.json();
       setData(data);
       setStatus('success');
@@ -89,6 +94,11 @@ export function useDeleteTodo() {
         },
         method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
       });
+      if (!response.ok) {
+        setError(response);
+        console.error(response);
+        setStatus('error');
+      }
       const data = await response.json();
       setData(data);
       setStatus('success');
@@ -126,6 +136,11 @@ export function useUpdateTodo() {
         method: 'PUT', // *GET, POST, PUT, DELETE, etc.
         body: JSON.stringify(updatedTodo), // body data type must match "Content-Type" header
       });
+      if (!response.ok) {
+        setError(response);
+        console.error(response);
+        setStatus('error');
+      }
       const data = await response.json();
       setData(data);
       setStatus('success');

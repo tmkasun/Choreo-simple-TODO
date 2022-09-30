@@ -3,8 +3,10 @@ import { useHistory } from 'react-router-dom';
 import { useAsgardeoToken } from '../../data/hooks/auth';
 import { setCookie } from '../../data/utils/cookies';
 
+import '../../styles/Callback.css';
+
 export default function Callback(params) {
-    const { isAsgardeoLoading, isChoreoTokenLoading, choreoTokenData, asgardeoStatus, choreoStatus, asgardeoError, choreoError } = useAsgardeoToken();
+    const { isAsgardeoLoading, isChoreoTokenLoading, choreoTokenData, asgardeoStatus, choreoStatus, asgardeoError, choreoError,asgardeoTokenData } = useAsgardeoToken();
     const history = useHistory();
     useEffect(() => {
         if (choreoTokenData) {
@@ -13,8 +15,14 @@ export default function Callback(params) {
             history.push('/')
         }
     }, [choreoTokenData])
+
+    useEffect(() => {
+        if (asgardeoTokenData) {
+            setCookie('asgardeo_id_token', asgardeoTokenData.id_token, asgardeoTokenData.expires_in);
+        }
+    }, [asgardeoTokenData])
     return (
-        <div>
+        <div className='callback-layout'>
             <ul>
                 <li>
                     {asgardeoStatus === "success" ? "Asgardeo token Done" : "Asgardeo token pending . . ."}

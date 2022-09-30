@@ -32,13 +32,13 @@ function App() {
             {user && <div className='top-bar'><LoginButton /></div>}
             <div className='app-base'>
                 {user ? (
-                    <>
+                    error ? "Error loading todos" : (<>
                         <div className='new-todo-layout'>
                             <NewTodo onAdd={newTodo => setData({ list: [...todos.list, newTodo], length: todos.length + 1 })} />
                         </div>
                         {isLoading || !todos ? "Loading . . ." : <TodoList onRefresh={refetch} onUpdate={onUpdate} onDelete={onDelete} todos={todos} />}
                         {todos && todos.list.length === 0 && "No any todo items."}
-                    </>
+                    </>)
                 ) : <Landing />}
             </div>
         </div>
