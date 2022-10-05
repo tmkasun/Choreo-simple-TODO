@@ -1,0 +1,12 @@
+
+.search-container input {
+    line-height: 1.6rem;
+    font-size: 1.3rem;
+    border-radius: 0.5rem;
+    border: 0.1rem solid #068a8a;
+    padding: 0.5rem;
+}
+
+.search-container {
+    flex-grow: 2;
+}

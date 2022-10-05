@@ -1,0 +1,19 @@
+.base-grid {
+    padding: 1rem 1rem 0rem 1rem;
+    display: grid;
+    /* background-color: aqua; */
+    width: 100%;
+    grid-template-columns: 1fr;
+    grid-template-rows: 4rem 1fr 2rem;
+}
+
+.grid-footer{
+    color: rgb(136, 136, 136);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
