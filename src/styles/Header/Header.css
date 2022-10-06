@@ -2,4 +2,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-grow: 1;
+}
+
+.header-right{
+    display: flex;
+    column-gap: 0.5rem;
 }
