@@ -8,11 +8,14 @@ export default function Header(props) {
     const user = useUser();
     return (
         <div className='header-container'>
-            <SearchInput />
-            <div className='header-right'>
-            <FilterTasks />
-            <AvatarMenu />
+            <div className='header-left'>
+                <SearchInput />
+                <FilterTasks />
             </div>
-            
+
+            <div className='header-right'>
+                <AvatarMenu />
+            </div>
+
         </div>)
 }

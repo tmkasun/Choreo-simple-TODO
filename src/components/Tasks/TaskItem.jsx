@@ -1,17 +1,25 @@
 import React from 'react';
-import { useDeleteTodo, useUpdateTodo } from '../data/hooks/todos';
-import deleteIcon from "../images/delete.png";
+import { TASK_STATUS } from '../../data/hooks/tasks';
+import { useDeleteTodo, useUpdateTodo } from '../../data/hooks/todos';
+import deleteIcon from "../../images/delete.png";
 
-import '../styles/TodoItem.css'
-import { IconButton } from './IconButton';
+import '../../styles/Tasks/TaskItem.css'
+import { IconButton } from '../IconButton';
 
-export function TodoItem(props) {
-    const { todo, onDelete, onUpdate } = props;
+export function TaskItem(props) {
+    const { task, onDelete, onUpdate } = props;
     const { deleteTodo, isLoading: isDeleting } = useDeleteTodo();
     const { updateTodo, isLoading: isUpdating } = useUpdateTodo();
-
+    let className = 'todo-item-li';
+    if (task.status === TASK_STATUS.INPROGRSS) {
+        className += ' inprogress-task'
+    } else if (task.status === TASK_STATUS.PENDING) {
+        className += ' pending-task'
+    } else if (task.status === TASK_STATUS.COMPLETED) {
+        className += ' completed-task'
+    }
     return (
-        <li className='todo-item-li'>
+        <li className={className}>
             {(isDeleting || isUpdating) && <div className='todo-item-overlay'>
                 {isUpdating && `Updating . . .`}
                 {isDeleting && `Deleting . . .`}
@@ -19,24 +27,24 @@ export function TodoItem(props) {
             <div className="todo-item">
                 <div className="todo-item-text">
                     <input
-                        checked={todo.done}
-                        id={`show-only-active-todos-${todo.id}`}
+                        checked={task.done}
+                        id={`show-only-active-todos-${task.id}`}
                         type="checkbox"
                         className="show-only-active"
                         onChange={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             const { checked: done } = e.target;
-                            updateTodo({ ...todo, done }, { onSuccess: onUpdate });
+                            updateTodo({ ...task, done }, { onSuccess: onUpdate });
                         }}
                     />
                     <label
-                        htmlFor={`show-only-active-todos-${todo.id}`}
+                        htmlFor={`show-only-active-todos-${task.id}`}
                     >
-                        {todo.done ? (
-                            <s style={{ color: '#838282' }}>{todo.text}</s>
+                        {task.done ? (
+                            <s style={{ color: '#838282' }}>{task.text}</s>
                         ) : (
-                            todo.text
+                            task.text
                         )}
                     </label>
                 </div>
@@ -45,7 +53,7 @@ export function TodoItem(props) {
                     <IconButton
                         disabled={isDeleting}
                         onClick={() => {
-                            deleteTodo(todo, { onSuccess: onDelete });
+                            deleteTodo(task, { onSuccess: onDelete });
                         }}
                         iconImage={deleteIcon}
                         alt="Delete Icon"

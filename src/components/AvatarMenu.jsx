@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useUser from '../data/hooks/user.js';
-import '../styles/LoginButton.css'
+import '../styles/AvatarMenu.css'
 
 import { default as AsgardeoConfig } from '../data/configs/asgardeo.json';
 const signOutRedirectURL = process.env.REACT_APP_signOutRedirectURL;
@@ -21,7 +21,7 @@ export default function AvatarMenu() {
                 <img className='user-avatar' src={user.picture} alt='User avatar' /> Hi <b>{user.given_name}</b>
             </button>
             {user && isHovered && !isInProgress && <div onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} className='login-dropdown'>
-                <button onClick={logoutHandler}>
+                <button className='logout-button' onClick={logoutHandler}>
                     Logout
                 </button>
             </div>}

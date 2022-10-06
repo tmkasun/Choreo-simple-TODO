@@ -5,9 +5,9 @@ export default function FilterTasks(params) {
             <label htmlFor="filter-by-status">Show:</label>
             <select name="filter-by-status" id="filter-by-status">
                 <option value="free" selected>All</option>
-                <option value="bronze">Bronze</option>
-                <option value="silver">Silver</option>
-                <option value="Gold">Gold</option>
+                <option value="bronze">Completed</option>
+                <option value="silver">Inprogress</option>
+                <option value="Gold">Started</option>
             </select>
         </div>
     )

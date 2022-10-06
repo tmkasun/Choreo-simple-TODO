@@ -1,3 +1,6 @@
+.search-container {
+    width: 30vw
+}
 
 .search-container input {
     line-height: 1.6rem;
@@ -5,9 +8,5 @@
     border-radius: 0.5rem;
     border: 0.1rem solid #068a8a;
     padding: 0.5rem;
-    width: 50%;
-}
-
-.search-container {
-    flex-grow: 2;
+    width: 100%;
 }

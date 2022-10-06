@@ -1,0 +1,33 @@
+.login-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.user-avatar {
+    width: 40px;
+    border-radius: 20px;
+}
+
+.login-dropdown {
+    display: flex;
+    position: absolute;
+    bottom: -2.6rem;
+    right: 0px;
+}
+
+.gray-logo {
+    filter: grayscale(1);
+}
+
+.logout-button {
+    font-size: 1.3rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: white;
+    padding: 0.5rem;
+    box-shadow: rgb(102 102 102 / 34%) 0px 2px 6px 0px;
+    cursor: pointer;
+}

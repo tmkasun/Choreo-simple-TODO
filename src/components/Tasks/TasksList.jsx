@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
-import { TodoItem } from "./TodoItem";
-import refreshButton from '../images/refresh-button.svg';
-import { IconButton } from "./IconButton";
-import { getVisibleTodos } from "../data/utils/auth";
+import { TaskItem } from "./TaskItem";
+import refreshButton from '../../images/refresh-button.svg';
+import { IconButton } from "../IconButton";
+import { getVisibleTodos } from "../../data/utils/auth";
 
-export default function TodoList(props) {
-    const { todos, onDelete, onUpdate, onRefresh } = props;
+export default function TasksList(props) {
+    const { tasks, onDelete, onUpdate, onRefresh } = props;
     const [showActive, setShowActive] = useState(false);
-    const visibleTodos = getVisibleTodos(todos.list, showActive);
+    const visibleTodos = getVisibleTodos(tasks.list, showActive);
 
     return (
         <div className="todo-list">
@@ -29,8 +29,8 @@ export default function TodoList(props) {
                 <IconButton onClick={onRefresh} iconImage={refreshButton} />
             </div>
             <ul>
-                {visibleTodos.map((todo) => (
-                    <TodoItem onUpdate={onUpdate} onDelete={onDelete} key={todo.id} todo={todo} />
+                {visibleTodos.map((task) => (
+                    <TaskItem onUpdate={onUpdate} onDelete={onDelete} key={task.id} task={task} />
                 ))}
             </ul>
         </div>

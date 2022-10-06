@@ -1,7 +1,8 @@
-.filter-container{
+.filter-container {
     display: flex;
     align-items: center;
     column-gap: 0.5rem;
+    width: 20vw;
 }
 
 .filter-container select {
@@ -10,4 +11,5 @@
     border-radius: 0.5rem;
     border: 0.1rem solid #068a8a;
     padding: 0.5rem;
+    width: 100%;
 }
