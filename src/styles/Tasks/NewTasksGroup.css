@@ -1,0 +1,31 @@
+.new-task-group-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem;
+}
+
+.new-task-group-container span {
+    font-size: 3rem;
+    text-shadow: 0px 0px 20px #717171;
+    background: white;
+    border-radius: 1.5rem;
+    padding: 1rem;
+    width: 3rem;
+    height: 3rem;
+    position: relative;
+    cursor: pointer;
+}
+
+.new-task-group-container span:hover {
+    box-shadow: 0 0 9px -4px;
+}
+
+.add-character:before {
+    content: "+";
+    margin-top: -1.6rem;
+    margin-left: -0.3rem;
+    position: absolute;
+
+
+}
