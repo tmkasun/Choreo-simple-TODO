@@ -14,13 +14,14 @@ import Header from '../components/Header/Header.jsx';
 import Login from './login/index.jsx';
 import { useTaskGroups } from '../data/hooks/tasks.js';
 import TasksGroup from '../components/Tasks/TasksGroup.jsx';
+import NewTaskGroup from '../components/Tasks/NewTaskGroup.jsx';
 
 
 function App() {
     const { data: taskGroups, isLoading, error, setData, refetch } = useTaskGroups();
     // const { data: todos, isLoading, error, setData, refetch } = useTodos();
     const user = useUser();
-    
+
     if (!user) {
         return <Redirect to="/login" />
     }
@@ -30,6 +31,7 @@ function App() {
         >
             <div className='task-list-container'>
                 {taskGroups.map(group => <TasksGroup keey={group.id} group={group} />)}
+                <NewTaskGroup />
             </div>
         </BaseLayout>
     );

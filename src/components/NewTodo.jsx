@@ -24,7 +24,7 @@ export function NewTodo({ onAdd }) {
 
     return (
         <div className='new-todo'>
-            <input ref={todoInputRef} placeholder="Type & press `Enter`" disabled={isLoading} value={text} autoFocus
+            <input ref={todoInputRef} placeholder="Type & press `Enter`" disabled={isLoading} value={text}
                 onKeyDown={(e) => {
                     if (e.key === "Enter") {
                         handleAddClick()
