@@ -14,7 +14,7 @@ import Header from '../components/Header/Header.jsx';
 import Login from './login/index.jsx';
 import { useTaskGroups } from '../data/hooks/tasks.js';
 import TasksGroup from '../components/Tasks/TasksGroup.jsx';
-import NewTaskGroup from '../components/Tasks/NewTaskGroup.jsx';
+import NewTaskGroup from '../components/Tasks/NewTaskGroup';
 
 
 function App() {
