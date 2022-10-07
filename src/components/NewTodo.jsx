@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, forwardRef } from 'react';
 import { useAddTodo } from '../data/hooks/todos.js';
 import { createTodo } from '../data/utils/auth.js';
 
 import '../styles/NewTodo.css';
 
-export function NewTodo({ onAdd }) {
+export const NewTodo = forwardRef(({ onAdd }, ref) => {
     const [text, setText] = useState('');
     const todoInputRef = useRef();
     const { addTodo, isLoading, error, data, isSuccess } = useAddTodo();
@@ -23,7 +23,7 @@ export function NewTodo({ onAdd }) {
     }
 
     return (
-        <div className='new-todo'>
+        <div ref={ref} className='new-todo'>
             <input ref={todoInputRef} placeholder="Type & press `Enter`" disabled={isLoading} value={text}
                 onKeyDown={(e) => {
                     if (e.key === "Enter") {
@@ -36,6 +36,6 @@ export function NewTodo({ onAdd }) {
             </button>
         </div>
     );
-}
+})
 
 export default NewTodo;

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 
 import { TaskItem } from "./TaskItem";
 import refreshButton from '../../images/refresh-button.svg';
 import { IconButton } from "../IconButton";
 import { getVisibleTodos } from "../../data/utils/auth";
 
-export default function TasksList(props) {
-    const { tasks, onDelete, onUpdate, onRefresh } = props;
+const TasksList = forwardRef((props, ref) => {
+    const { tasks, onDelete, onUpdate, onRefresh, groupId } = props;
     const [showActive, setShowActive] = useState(false);
     const visibleTodos = getVisibleTodos(tasks.list, showActive);
 
@@ -28,11 +28,13 @@ export default function TasksList(props) {
                 </div>
                 <IconButton onClick={onRefresh} iconImage={refreshButton} />
             </div>
-            <ul>
+            <ul ref={ref}>
                 {visibleTodos.map((task) => (
-                    <TaskItem onUpdate={onUpdate} onDelete={onDelete} key={task.id} task={task} />
+                    <TaskItem onUpdate={onUpdate} groupId={groupId} onDelete={onDelete} key={task.id} task={task} />
                 ))}
             </ul>
         </div>
     );
-}
+});
+
+export default TasksList;

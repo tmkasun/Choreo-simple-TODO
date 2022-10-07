@@ -34,6 +34,7 @@
 
 .todo-item-li {
     position: relative;
+    cursor: move;
 }
 
 .todo-item-li:hover {

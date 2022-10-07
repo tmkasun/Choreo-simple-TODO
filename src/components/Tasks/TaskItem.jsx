@@ -1,4 +1,6 @@
 import React from 'react';
+import { useDraggable } from '@dnd-kit/core'
+
 import { TASK_STATUS } from '../../data/hooks/tasks';
 import { useDeleteTodo, useUpdateTodo } from '../../data/hooks/todos';
 import deleteIcon from "../../images/delete.png";
@@ -7,9 +9,17 @@ import '../../styles/Tasks/TaskItem.css'
 import { IconButton } from '../IconButton';
 
 export function TaskItem(props) {
-    const { task, onDelete, onUpdate } = props;
+    const { task, onDelete, onUpdate, groupId } = props;
     const { deleteTodo, isLoading: isDeleting } = useDeleteTodo();
     const { updateTodo, isLoading: isUpdating } = useUpdateTodo();
+    const { attributes, listeners, setNodeRef, transform } = useDraggable({
+        id: task.id + groupId,
+    });
+    const style = transform ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        position: 'fixed'
+    } : undefined;
+
     let className = 'todo-item-li';
     if (task.status === TASK_STATUS.INPROGRSS) {
         className += ' inprogress-task'
@@ -19,7 +29,7 @@ export function TaskItem(props) {
         className += ' completed-task'
     }
     return (
-        <li className={className}>
+        <li ref={setNodeRef} style={style} {...listeners} {...attributes} className={className}>
             {(isDeleting || isUpdating) && <div className='todo-item-overlay'>
                 {isUpdating && `Updating . . .`}
                 {isDeleting && `Deleting . . .`}
