@@ -1,7 +1,6 @@
 // import { TokenExchangePlugin } from '@asgardeo/token-exchange-plugin';
 import React from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
-import { DndContext } from '@dnd-kit/core';
 
 import '../styles/App.css'
 import Callback from './oauth/Callback.jsx';
@@ -12,12 +11,15 @@ import Login from './login/index.jsx';
 import { useTaskGroups } from '../data/hooks/tasks.js';
 import TasksGroup from '../components/Tasks/TasksGroup.jsx';
 import NewTaskGroup from '../components/Tasks/NewTaskGroup';
+import { DragDropContext } from 'react-beautiful-dnd';
 
 
 function App() {
     const { data: taskGroups, isLoading, error, setData, refetch } = useTaskGroups();
     // const { data: todos, isLoading, error, setData, refetch } = useTodos();
     const user = useUser();
+    const onDragEnd = (result) => {
+    }
 
     if (!user) {
         return <Redirect to="/login" />
@@ -27,9 +29,9 @@ function App() {
             header={<Header />}
         >
             <div className='task-list-container'>
-                <DndContext>
+                <DragDropContext onDragEnd={onDragEnd}>
                     {taskGroups.map(group => <TasksGroup keey={group.id} group={group} />)}
-                </DndContext>
+                </DragDropContext>
                 <NewTaskGroup />
             </div>
         </BaseLayout>
