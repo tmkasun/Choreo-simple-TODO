@@ -22,7 +22,7 @@ export default function Dropdown(props) {
                     <li></li>
                     <li></li>
                 </ul>
-                {true && (<div class="dropdown-content">
+                {show && (<div class="dropdown-content">
                     <a href="#home">Done</a>
                     <a href="#about">Start</a>
                 </div>)}
