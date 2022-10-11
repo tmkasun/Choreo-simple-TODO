@@ -1,0 +1,55 @@
+.icons li {
+    background: none repeat scroll 0 0 black;
+    height: 4px;
+    width: 4px;
+    line-height: 0;
+    list-style: none outside none;
+    margin-right: 15px;
+    margin-top: 4px;
+    vertical-align: top;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.dropbtn {
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropbtn:hover,
+.dropbtn:focus {}
+
+.dropdown {
+    display: flex;
+    position: relative;
+}
+
+.dropdown-content {
+    position: absolute;
+    background: white;
+    margin-top: 2rem;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 20%);
+    z-index: 10;
+    top: 0;
+    margin-left: -8rem;
+    border-radius: 0.5rem;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: flex;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.show {
+    display: block;
+}

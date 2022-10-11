@@ -1,12 +1,11 @@
-import React, { forwardRef, useState } from "react";
+import React, { useState } from "react";
 
 import { TaskItem } from "./TaskItem";
 import refreshButton from '../../images/refresh-button.svg';
 import { IconButton } from "../IconButton";
 import { getVisibleTodos } from "../../data/utils/auth";
 import { Droppable } from "react-beautiful-dnd";
-
-const grid = 8;
+import '../../styles/Tasks/TasksList.css'
 
 const getListStyle = isDraggingOver => ({
     background: isDraggingOver ? "#d4dbe7a1" : "white",
@@ -15,7 +14,7 @@ const getListStyle = isDraggingOver => ({
 
 });
 
-const TasksList = forwardRef((props, ref) => {
+const TasksList = (props) => {
     const { tasks, onDelete, onUpdate, onRefresh, groupId } = props;
     const [showActive, setShowActive] = useState(false);
     const visibleTodos = getVisibleTodos(tasks.list, showActive);
@@ -47,6 +46,7 @@ const TasksList = forwardRef((props, ref) => {
                         ref={provided.innerRef}
                         style={getListStyle(snapshot.isDraggingOver)}
                         {...provided.droppableProps}
+                        className='task-list-ul'
                     >
                         {visibleTodos.map((task, index) => (
                             <TaskItem index={index} onUpdate={onUpdate} groupId={groupId} onDelete={onDelete} key={task.id} task={task} />
@@ -60,6 +60,6 @@ const TasksList = forwardRef((props, ref) => {
         </div>
 
     );
-});
+};
 
 export default TasksList;

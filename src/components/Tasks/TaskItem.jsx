@@ -6,11 +6,12 @@ import { useDeleteTodo, useUpdateTodo } from '../../data/hooks/todos';
 import deleteIcon from "../../images/delete.png";
 
 import '../../styles/Tasks/TaskItem.css'
+import Dropdown from '../Dropdown';
 import { IconButton } from '../IconButton';
 
 const getItemStyle = (isDragging, draggableStyle, status) => ({
     // change background colour if dragging
-    background: isDragging ? "#59b7ffa6" : status === TASK_STATUS.INPROGRSS ? '#8ac926a6' : status === TASK_STATUS.PENDING ? '#ffca3aa6': status === TASK_STATUS.COMPLETED && '#ff595ea6' ,
+    background: isDragging ? "#59b7ffa6" : status === TASK_STATUS.INPROGRSS ? '#8ac926a6' : status === TASK_STATUS.PENDING ? '#ffca3aa6' : status === TASK_STATUS.COMPLETED && '#ff595ea6',
     // styles we need to apply on draggables
     ...draggableStyle
 });
@@ -21,7 +22,7 @@ export function TaskItem(props) {
     const { updateTodo, isLoading: isUpdating } = useUpdateTodo();
 
     let className = 'todo-item-li';
-    
+
     return (
         <Draggable
             draggableId={`${task.id}=${groupId}`}
@@ -76,6 +77,7 @@ export function TaskItem(props) {
                                 iconImage={deleteIcon}
                                 alt="Delete Icon"
                             />
+                            <Dropdown />
                         </div>
                     </div>
                 </li>
