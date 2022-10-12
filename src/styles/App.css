@@ -5,3 +5,10 @@
     column-gap: 1rem;
     padding-bottom: 1rem;
 }
+
+.listing-notifications {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}

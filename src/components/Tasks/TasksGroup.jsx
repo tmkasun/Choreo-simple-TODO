@@ -7,7 +7,6 @@ import '../../styles/Tasks/TasksGroup.css'
 export default function TasksGroup(props) {
     const { group } = props;
     const { id, name } = group;
-    const { data, isLoading, error, refetch, setData } = useTasksByGroup(id);
     const { tasks } = group;
     const onDelete = (deletedTodo) => {
         setData({
@@ -23,16 +22,12 @@ export default function TasksGroup(props) {
     }
     return (
         <div className='task-group-container'>
-            {error ? "Error loading todos" : (<>
-                <h3 className="task-group-name">{name}</h3>
-                <div className='new-todo-layout'>
-                    <NewTodo onAdd={newTodo => setData({ list: [...tasks, newTodo], length: tasks.length + 1 })} />
-                </div>
-                {isLoading || !tasks ? "Loading . . ." : (
-                    <TasksList groupId={id} onRefresh={refetch} onUpdate={onUpdate} onDelete={onDelete} tasks={tasks} />
-                )}
-                {!isLoading && tasks && tasks.length === 0 && "No any todo items."}
-            </>)}
+            <h3 className="task-group-name">{name}</h3>
+            <div className='new-todo-layout'>
+                <NewTodo onAdd={newTodo => setData({ list: [...tasks, newTodo], length: tasks.length + 1 })} />
+            </div>
+            <TasksList groupId={id} onRefresh={() => { }} onUpdate={onUpdate} onDelete={onDelete} tasks={tasks} />
+            {tasks.length === 0 && "No any todo items."}
         </div>
     )
 }

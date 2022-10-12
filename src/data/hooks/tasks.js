@@ -55,10 +55,8 @@ export const useTaskGroups = () => {
                                             }
                                         }
                                         `,user)
-                debugger;
                 setData(data);
             } catch (error) {
-                debugger;
                 console.error(error);
                 setError(error);
             } finally {

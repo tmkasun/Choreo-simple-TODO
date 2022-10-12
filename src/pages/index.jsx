@@ -13,6 +13,7 @@ import TasksGroup from '../components/Tasks/TasksGroup.jsx';
 import NewTaskGroup from '../components/Tasks/NewTaskGroup';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Loading from '../components/Loading';
+import Banner from '../components/Banner/Banner';
 
 
 function App() {
@@ -29,17 +30,20 @@ function App() {
         <BaseLayout
             header={<Header />}
         >
-            <div className='task-list-container'>
-                {isLoading && <Loading />}
-                {!isLoading && data && (
-                    <>
-                        <DragDropContext onDragEnd={onDragEnd}>
-                            {data.data.groups.map(group => <TasksGroup keey={group.id} group={group} />)}
-                        </DragDropContext>
-                        <NewTaskGroup />
-                    </>
-                )}
-            </div>
+
+            {isLoading && <div className='listing-notifications'> <Loading /></div>}
+            {!isLoading && error && <div className='listing-notifications'><Banner error={error} /></div>}
+
+
+            {!isLoading && data && (
+                <div className='task-list-container'>
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        {data.data.groups.map(group => <TasksGroup keey={group.id} group={group} />)}
+                    </DragDropContext>
+                    <NewTaskGroup />
+                </div>
+            )}
+
         </BaseLayout>
     );
 }
