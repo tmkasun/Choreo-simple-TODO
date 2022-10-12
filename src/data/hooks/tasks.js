@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { getCookie } from "../utils/cookies";
+import { fetchGraphQL } from "../utils/gqlHelper";
 import { API_BASE_URL } from "./todos";
-
+import useUser from "./user";
 
 export const TASK_STATUS = {
-    INPROGRSS: 'inprogress',
-    COMPLETED: 'completed',
-    PENDING: 'pending',
+    INPROGRSS: 'in-progress',
+    COMPLETED: 'complete',
+    OPEN: 'open',
 }
 
 const getRandomStatus = () => Object.values(TASK_STATUS)[Math.floor(Math.random() * (3))]
@@ -24,7 +25,7 @@ export const useTasksByGroup = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if(!tempData) {
+        if (!tempData) {
             tempData = allTasks();
         }
         tempData.then(setData).finally(() => setIsLoading(false));
@@ -34,11 +35,37 @@ export const useTasksByGroup = () => {
 }
 
 export const useTaskGroups = () => {
-    const data = [
-        { id: "foo", name: "Urgent & important" },
-        { id: "bar", name: "Urgent, not important" },
-        { id: "zoo", name: "Important, not urgent" },
-        { id: "woo", name: "Not important and not urgent" }
-    ]
-    return { data };
+    const [data, setData] = useState();
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState();
+    const user = useUser();
+    useEffect(() => {
+        (async () => {
+            try {
+                const data = await fetchGraphQL(`
+                                        {
+                                            groups {
+                                                id
+                                                name
+                                                tasks {
+                                                    id
+                                                    title
+                                                    status
+                                                }
+                                            }
+                                        }
+                                        `,user)
+                debugger;
+                setData(data);
+            } catch (error) {
+                debugger;
+                console.error(error);
+                setError(error);
+            } finally {
+                setIsLoading(false);
+            }
+        })();
+    }, []);
+
+    return { data, isLoading, error };
 }

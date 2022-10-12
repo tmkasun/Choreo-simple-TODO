@@ -11,7 +11,7 @@ import { IconButton } from '../IconButton';
 
 const getItemStyle = (isDragging, draggableStyle, status) => ({
     // change background colour if dragging
-    background: isDragging ? "#59b7ffa6" : status === TASK_STATUS.INPROGRSS ? '#8ac926a6' : status === TASK_STATUS.PENDING ? '#ffca3aa6' : status === TASK_STATUS.COMPLETED && '#ff595ea6',
+    background: isDragging ? "#59b7ffa6" : status === TASK_STATUS.INPROGRSS ? '#8ac926a6' : status === TASK_STATUS.OPEN ? '#ffca3aa6' : status === TASK_STATUS.COMPLETED && '#ff595ea6',
     // styles we need to apply on draggables
     ...draggableStyle
 });
@@ -46,7 +46,7 @@ export function TaskItem(props) {
                     <div className="todo-item">
                         <div className="todo-item-text">
                             <input
-                                checked={task.done}
+                                checked={task.status === 'completed'}
                                 id={`show-only-active-todos-${task.id}`}
                                 type="checkbox"
                                 className="show-only-active"
@@ -61,9 +61,9 @@ export function TaskItem(props) {
                                 htmlFor={`show-only-active-todos-${task.id}`}
                             >
                                 {task.done ? (
-                                    <s style={{ color: '#838282' }}>{task.text}</s>
+                                    <s style={{ color: '#838282' }}>{task.title}</s>
                                 ) : (
-                                    task.text
+                                    task.title
                                 )}
                             </label>
                         </div>

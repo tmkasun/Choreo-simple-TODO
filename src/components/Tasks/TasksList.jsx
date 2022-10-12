@@ -17,7 +17,7 @@ const getListStyle = isDraggingOver => ({
 const TasksList = (props) => {
     const { tasks, onDelete, onUpdate, onRefresh, groupId } = props;
     const [showActive, setShowActive] = useState(false);
-    const visibleTodos = getVisibleTodos(tasks.list, showActive);
+    const visibleTodos = getVisibleTodos(tasks, showActive);
     return (
 
         <div

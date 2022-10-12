@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import '../styles/Dropdown.css';
 
+/**
+ * Ref: https://codepen.io/danimerida2000/pen/wVXegX
+ * @param {*} props 
+ * @returns 
+ */
 export default function Dropdown(props) {
     const [show, setShow] = useState(false);
     useEffect(() => {
@@ -16,13 +21,13 @@ export default function Dropdown(props) {
     }, [])
     return (
         <>
-            <div class="dropdown">
-                <ul class="dropbtn icons btn-right" onClick={() => setShow(true)}>
+            <div className="dropdown">
+                <ul className="dropbtn icons btn-right" onClick={() => setShow(true)}>
                     <li></li>
                     <li></li>
                     <li></li>
                 </ul>
-                {show && (<div class="dropdown-content">
+                {show && (<div className="dropdown-content">
                     <a href="#home">Done</a>
                     <a href="#about">Start</a>
                 </div>)}

@@ -1,8 +1,8 @@
 import { nanoid } from 'nanoid';
 
-export function getVisibleTodos(todos, showActive) {
-  const activeTodos = todos.filter(todo => !todo.done);
-  const visibleTodos = showActive ? activeTodos : todos;
+export function getVisibleTodos(tasks, showActive) {
+  const activeTodos = tasks.filter(task => task.status === 'complete');
+  const visibleTodos = showActive ? activeTodos : tasks;
   return visibleTodos;
 }
 
@@ -45,7 +45,7 @@ function arrayBufferToBase64(buffer) {
 }
 
 export function parseJwt(token) {
-  if(!token) {
+  if (!token) {
     return null;
   }
   var base64Url = token.split('.')[1];

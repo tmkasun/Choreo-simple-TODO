@@ -12,10 +12,11 @@ import { useTaskGroups } from '../data/hooks/tasks.js';
 import TasksGroup from '../components/Tasks/TasksGroup.jsx';
 import NewTaskGroup from '../components/Tasks/NewTaskGroup';
 import { DragDropContext } from 'react-beautiful-dnd';
+import Loading from '../components/Loading';
 
 
 function App() {
-    const { data: taskGroups, isLoading, error, setData, refetch } = useTaskGroups();
+    const { data, isLoading, error, setData, refetch } = useTaskGroups();
     // const { data: todos, isLoading, error, setData, refetch } = useTodos();
     const user = useUser();
     const onDragEnd = (result) => {
@@ -29,10 +30,15 @@ function App() {
             header={<Header />}
         >
             <div className='task-list-container'>
-                <DragDropContext onDragEnd={onDragEnd}>
-                    {taskGroups.map(group => <TasksGroup keey={group.id} group={group} />)}
-                </DragDropContext>
-                <NewTaskGroup />
+                {isLoading && <Loading />}
+                {!isLoading && data && (
+                    <>
+                        <DragDropContext onDragEnd={onDragEnd}>
+                            {data.data.groups.map(group => <TasksGroup keey={group.id} group={group} />)}
+                        </DragDropContext>
+                        <NewTaskGroup />
+                    </>
+                )}
             </div>
         </BaseLayout>
     );
