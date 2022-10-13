@@ -46,7 +46,7 @@ export function TaskItem(props) {
                     <div className="todo-item">
                         <div className="todo-item-text">
                             <input
-                                checked={task.status === 'completed'}
+                                checked={task.status === TASK_STATUS.COMPLETED}
                                 id={`show-only-active-todos-${task.id}`}
                                 type="checkbox"
                                 className="show-only-active"
@@ -60,7 +60,7 @@ export function TaskItem(props) {
                             <label
                                 htmlFor={`show-only-active-todos-${task.id}`}
                             >
-                                {task.done ? (
+                                {task.status === TASK_STATUS.COMPLETED ? (
                                     <s style={{ color: '#838282' }}>{task.title}</s>
                                 ) : (
                                     task.title
