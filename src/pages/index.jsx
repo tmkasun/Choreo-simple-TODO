@@ -20,6 +20,28 @@ function App() {
     const { data: groups, isLoading, error, setData, refetch } = useTaskGroups();
     const user = useUser();
     const onDragEnd = (result) => {
+        const { source, destination, draggableId } = result;
+        const movingTaskId = parseInt(draggableId, 10);
+        const sourceGroupId = parseInt(source.droppableId, 10);
+        const destinationGroupId = parseInt(destination.droppableId, 10);
+
+        const sourceTasksGroup = groups.find(group => group.id === sourceGroupId);
+        const destinationTasksGroup = groups.find(group => group.id === destinationGroupId);
+        const movingTask = sourceTasksGroup.tasks.find(task => task.id === movingTaskId);
+
+        const updatedSourceTasks = sourceTasksGroup.tasks.filter(task => task.id !== movingTaskId);
+        const updatedDestinationTasks = [...destinationTasksGroup.tasks, movingTask];
+        const updatedGroups = groups.map(group => {
+            if (group.id === sourceGroupId) {
+                return { ...group, tasks: updatedSourceTasks }
+            } else if (group.id === destinationGroupId) {
+                return { ...group, tasks: updatedDestinationTasks }
+            } else {
+                return group;
+            }
+        });
+        debugger;
+        setData(updatedGroups);
     }
     if (!user) {
         return <Redirect to="/login" />

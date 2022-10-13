@@ -23,7 +23,7 @@ export function TaskItem(props) {
     
     return (
         <Draggable
-            draggableId={`${task.id}=${groupId}`}
+            draggableId={`${task.id}`}
             index={index}
         >
             {(provided, snapshot) => (
