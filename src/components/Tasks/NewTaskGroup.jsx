@@ -14,8 +14,8 @@ export default function NewTaskGroup(props) {
     }, [openAddGroup]);
     return (
         <div className='new-task-group-container'>
-            {!openAddGroup && <span onClick={() => setOpenAddGroup(true)} className='add-character' />}
             {openAddGroup && <NewTask ref={addNewGroupRef} onAdd={() => { }} />}
+            {<span onClick={() => setOpenAddGroup(!openAddGroup)} className={openAddGroup ? 'close-character' : 'add-character'} />}
         </div>
     )
 }

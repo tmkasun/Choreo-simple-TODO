@@ -28,3 +28,15 @@
 
 
 }
+
+.close-character {
+    margin-left: 0.5rem;
+}
+
+.close-character:before {
+    content: "\2715";
+    margin-top: -0.9rem;
+    margin-left: -0.3rem;
+    position: absolute;
+    font-size: 2rem;
+}
