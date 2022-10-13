@@ -9,21 +9,30 @@ export default function TasksGroup(props) {
     const { id, name } = group;
     const { tasks } = group;
     const onDelete = (deletedTask) => {
-        const updatedTasks = tasks.filter(task => task.id !== deletedTask.id)
-        onGroupUpdate(id, updatedTasks)
+        onGroupUpdate((currentGroups) => {
+            const currentTasks = currentGroups.find(group => group.id === id).tasks;
+            const updatedTasks = currentTasks.filter(task => task.id !== deletedTask.id)
+            return [id, updatedTasks];
+        })
     }
     const onUpdate = (updatedTask) => {
-        const updatedTasks = tasks.map(task => {
-            if (task.id === updatedTask.id) {
-                return updatedTask;
-            } else {
-                return { ...task }
-            }
+        onGroupUpdate((currentGroups) => {
+            const currentTasks = currentGroups.find(group => group.id === id).tasks;
+            const updatedTasks = currentTasks.map(task => {
+                if (task.id === updatedTask.id) {
+                    return updatedTask;
+                } else {
+                    return { ...task }
+                }
+            })
+            return [id, updatedTasks];
         })
-        onGroupUpdate(id, updatedTasks)
     }
     const onAdd = (newTask) => {
-        onGroupUpdate(id, [...tasks, newTask])
+        onGroupUpdate((currentGroups) => {
+            const currentTasks = currentGroups.find(group => group.id === id).tasks;
+            return [id, [...currentTasks, newTask]];
+        })
     }
 
     return (
