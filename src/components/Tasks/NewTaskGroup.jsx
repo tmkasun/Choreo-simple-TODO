@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import '../../styles/Tasks/NewTasksGroup.css'
-import { IconButton } from '../IconButton';
-import NewTodo from '../NewTodo';
+import NewTask from './NewTask';
 
 
 export default function NewTaskGroup(props) {
@@ -16,7 +15,7 @@ export default function NewTaskGroup(props) {
     return (
         <div className='new-task-group-container'>
             {!openAddGroup && <span onClick={() => setOpenAddGroup(true)} className='add-character' />}
-            {openAddGroup && <NewTodo ref={addNewGroupRef} onAdd={() => { }} />}
+            {openAddGroup && <NewTask ref={addNewGroupRef} onAdd={() => { }} />}
         </div>
     )
 }

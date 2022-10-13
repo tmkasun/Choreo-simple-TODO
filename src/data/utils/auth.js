@@ -1,19 +1,5 @@
 import { nanoid } from 'nanoid';
 
-export function getVisibleTodos(tasks, showActive) {
-  const activeTodos = tasks.filter(task => task.status === 'complete');
-  const visibleTodos = showActive ? activeTodos : tasks;
-  return visibleTodos;
-}
-
-export function createTodo(text, done = false) {
-  return {
-    text,
-    done
-  };
-}
-
-
 export function generateCodeVerifier() {
   return nanoid(48);
 }

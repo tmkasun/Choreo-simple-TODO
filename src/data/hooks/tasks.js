@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { getCookie } from "../utils/cookies";
 import { fetchGraphQL } from "../utils/gqlHelper";
-import { API_BASE_URL } from "./todos";
 import useUser from "./user";
+
+export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export const TASK_STATUS = {
     INPROGRSS: 'in-progress',
@@ -10,20 +11,18 @@ export const TASK_STATUS = {
     OPEN: 'open',
 }
 
-const getRandomStatus = () => Object.values(TASK_STATUS)[Math.floor(Math.random() * (3))]
-
-let tempData = null;
-const allTasks = async () => {
-    const response = await fetch(`${API_BASE_URL}/todos`, { headers: { Authorization: `bearer ${getCookie('access_token')}` } });
-    const data = await response.json();
-    data.list = data.list.map(task => ({ ...task, status: getRandomStatus() }));
-    return data;
-}
-
 export const useTasksByGroup = () => {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-
+    const query = `
+        {
+        groups(filter: {id: { eq: 1 }}) {
+          tasks {
+            groupId
+            id
+          }
+          id
+        }`
     useEffect(() => {
         if (!tempData) {
             tempData = allTasks();
@@ -42,20 +41,20 @@ export const useTaskGroups = () => {
     useEffect(() => {
         (async () => {
             try {
-                const data = await fetchGraphQL(`
-                                        {
-                                            groups {
-                                                id
-                                                name
-                                                tasks {
-                                                    id
-                                                    title
-                                                    status
-                                                }
-                                            }
-                                        }
-                                        `,user)
-                setData(data);
+                const query = `
+                {
+                    groups {
+                        id
+                        name
+                        tasks {
+                            id
+                            title
+                            status
+                        }
+                    }
+                }`
+                const data = await fetchGraphQL(query, user)
+                setData(data.data.groups);
             } catch (error) {
                 console.error(error);
                 setError(error);
@@ -65,5 +64,45 @@ export const useTaskGroups = () => {
         })();
     }, []);
 
-    return { data, isLoading, error };
+    return { data, isLoading, error, setData };
+}
+
+export function useAddTask() {
+    const [data, setData] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [status, setStatus] = useState('initial');
+    const [error, setError] = useState();
+    const user = useUser();
+
+    const addTask = async (newTask) => {
+        setIsLoading(true);
+        setData(null);
+        try {
+            const response = await fetch(`${API_BASE_URL}/tasks`, {
+                headers: {
+                    Authorization: `bearer ${user.accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                body: JSON.stringify(newTask), // body data type must match "Content-Type" header
+            });
+            if (!response.ok) {
+                setError(response);
+                console.error(response);
+                setStatus('error');
+            }
+            const data = await response.json();
+            setData(data);
+            setStatus('success');
+        } catch (error) {
+            setError(error);
+            console.error(error);
+            setStatus('error');
+        } finally {
+            setIsLoading(false);
+        }
+    }
+    return {
+        addTask, data, isLoading, error, isSuccess: status === 'success', isError: status === 'error'
+    }
 }

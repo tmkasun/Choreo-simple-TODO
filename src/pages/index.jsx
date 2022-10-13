@@ -17,14 +17,22 @@ import Banner from '../components/Banner/Banner';
 
 
 function App() {
-    const { data, isLoading, error, setData, refetch } = useTaskGroups();
-    // const { data: todos, isLoading, error, setData, refetch } = useTodos();
+    const { data: groups, isLoading, error, setData, refetch } = useTaskGroups();
     const user = useUser();
     const onDragEnd = (result) => {
     }
-
     if (!user) {
         return <Redirect to="/login" />
+    }
+    const onGroupUpdate = (groupId, updatedTaks) => {
+        const updatedGroups = groups.map(group => {
+            if (group.id === groupId) {
+                return { ...group, tasks: updatedTaks };
+            } else {
+                return group;
+            }
+        });
+        setData(updatedGroups);
     }
     return (
         <BaseLayout
@@ -35,10 +43,10 @@ function App() {
             {!isLoading && error && <div className='listing-notifications'><Banner error={error} /></div>}
 
 
-            {!isLoading && data && (
+            {!isLoading && groups && (
                 <div className='task-list-container'>
                     <DragDropContext onDragEnd={onDragEnd}>
-                        {data.data.groups.map(group => <TasksGroup keey={group.id} group={group} />)}
+                        {groups.map(group => <TasksGroup onGroupUpdate={onGroupUpdate} key={group.id} group={group} />)}
                     </DragDropContext>
                     <NewTaskGroup />
                 </div>
