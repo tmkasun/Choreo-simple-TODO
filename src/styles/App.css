@@ -1,6 +1,7 @@
 .task-list-container {
     display: flex;
     width: 90vw;
+    height: 80vh;
     overflow-x: scroll;
     column-gap: 1rem;
     padding-bottom: 1rem;
@@ -11,4 +12,5 @@
     justify-content: center;
     align-items: center;
     height: 100%;
+    width: 100%;
 }

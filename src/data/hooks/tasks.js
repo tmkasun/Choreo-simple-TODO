@@ -9,6 +9,7 @@ export const TASK_STATUS = {
     INPROGRSS: 'in-progress',
     COMPLETED: 'complete',
     OPEN: 'open',
+    ALL: 'all'
 }
 
 export const useTasksByGroup = () => {
@@ -50,6 +51,8 @@ export const useTaskGroups = () => {
                             id
                             title
                             status
+                            groupId
+                            createdAt
                         }
                     }
                 }`
@@ -195,7 +198,7 @@ export function useMoveTask() {
         setIsLoading(true);
         setData(null);
         const payload = {
-            groupId: movingTask.id,
+            groupId: movingTask.groupId,
             newGroupId: destinationGroupId
         }
         try {

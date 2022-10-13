@@ -15,9 +15,9 @@ const getListStyle = isDraggingOver => ({
 });
 
 const TasksList = (props) => {
-    const { tasks, onDelete, onUpdate, onRefresh, groupId } = props;
+    const { tasks, onDelete, onUpdate, onRefresh, groupId, movingTasks } = props;
     const [showActive, setShowActive] = useState(false);
-    const sortedByStatus = tasks.sort((a,b) => b.status.localeCompare(a.status))
+    const sortedByStatus = tasks.sort((a, b) => b.status.localeCompare(a.status))
     const visibleTasks = getActiveTasks(sortedByStatus, showActive);
     return (
         <div className="todo-list">
@@ -31,7 +31,7 @@ const TasksList = (props) => {
                         onChange={(e) => setShowActive(e.target.checked)}
                     />
                     <label htmlFor="show-only-active-todos">
-                        Show only active todos
+                        Show only active tasks
                     </label>
 
                 </div>
@@ -46,7 +46,7 @@ const TasksList = (props) => {
                         className='task-list-ul'
                     >
                         {visibleTasks.map((task, index) => (
-                            <TaskItem index={index} onUpdate={onUpdate} groupId={groupId} onDelete={onDelete} key={task.id} task={task} />
+                            <TaskItem isMoving={movingTasks[task.id]} index={index} onUpdate={onUpdate} groupId={groupId} onDelete={onDelete} key={task.id} task={task} />
                         ))}
                         {provided.placeholder}
 

@@ -24,3 +24,10 @@
 .top-bar {
     padding-top: 1rem;
 }
+
+.task-board {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}

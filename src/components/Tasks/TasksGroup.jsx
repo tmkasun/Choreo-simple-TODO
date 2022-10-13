@@ -1,11 +1,11 @@
-import { useTasksByGroup } from "../../data/hooks/tasks";
+import React from 'react';
 import NewTask from "./NewTask";
 import TasksList from "./TasksList";
 
 import '../../styles/Tasks/TasksGroup.css'
 
-export default function TasksGroup(props) {
-    const { group, onGroupUpdate } = props;
+function TasksGroup(props) {
+    const { group, onGroupUpdate, movingTasks } = props;
     const { id, name } = group;
     const { tasks } = group;
     const onDelete = (deletedTask) => {
@@ -41,8 +41,10 @@ export default function TasksGroup(props) {
             <div className='new-todo-layout'>
                 <NewTask groupId={id} onAdd={onAdd} />
             </div>
-            <TasksList groupId={id} onRefresh={() => { }} onUpdate={onUpdate} onDelete={onDelete} tasks={tasks} />
-            {tasks.length === 0 && "No any todo items."}
+            <TasksList movingTasks={movingTasks} groupId={id} onRefresh={() => { }} onUpdate={onUpdate} onDelete={onDelete} tasks={tasks} />
+            {tasks.length === 0 && "No tasks available."}
         </div>
     )
 }
+
+export default React.memo(TasksGroup);

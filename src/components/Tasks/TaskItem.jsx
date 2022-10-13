@@ -2,7 +2,6 @@ import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
 import { TASK_STATUS, useDeleteTask, useUpdateTask } from '../../data/hooks/tasks';
-import { useDeleteTodo, useUpdateTodo } from '../../data/hooks/todos';
 import deleteIcon from "../../images/delete.png";
 
 import '../../styles/Tasks/TaskItem.css'
@@ -11,16 +10,16 @@ import { IconButton } from '../IconButton';
 
 const getItemStyle = (isDragging, draggableStyle, status) => ({
     // change background colour if dragging
-    background: isDragging ? "#59b7ffa6" : status === TASK_STATUS.INPROGRSS ? '#8ac926a6' : status === TASK_STATUS.OPEN ? '#ffca3aa6' : status === TASK_STATUS.COMPLETED && '#ff595ea6',
+    background: isDragging ? "#5392ffdb" : status === TASK_STATUS.INPROGRSS ? '#8ac926a6' : status === TASK_STATUS.OPEN ? '#ffca3aa6' : status === TASK_STATUS.COMPLETED && '#ff595ea6',
     // styles we need to apply on draggables
     ...draggableStyle
 });
 
 export function TaskItem(props) {
-    const { task, onDelete, onUpdate, groupId, index } = props;
+    const { task, onDelete, onUpdate, groupId, index, isMoving } = props;
     const { deleteTask, isLoading: isDeleting } = useDeleteTask();
     const { updateTask, isLoading: isUpdating } = useUpdateTask();
-    
+    const isPendingOperation = isMoving || isDeleting || isUpdating;
     return (
         <Draggable
             draggableId={`${task.id}`}
@@ -37,9 +36,10 @@ export function TaskItem(props) {
                         task.status
                     )}
                     className='todo-item-li'>
-                    {(isDeleting || isUpdating) && <div className='todo-item-overlay'>
+                    {(isPendingOperation) && <div className='todo-item-overlay'>
                         {isUpdating && `Updating . . .`}
                         {isDeleting && `Deleting . . .`}
+                        {isMoving && `Moving . . .`}
                     </div>}
                     <div className="todo-item">
                         <div className="todo-item-text">
