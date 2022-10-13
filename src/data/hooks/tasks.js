@@ -106,3 +106,46 @@ export function useAddTask() {
         addTask, data, isLoading, error, isSuccess: status === 'success', isError: status === 'error'
     }
 }
+
+
+
+export function useUpdateTask() {
+    const [data, setData] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [status, setStatus] = useState('initial');
+    const [error, setError] = useState();
+    const user = useUser();
+
+    const updateTask = async (updatedTask, { onSuccess }) => {
+        setIsLoading(true);
+        setData(null);
+        try {
+            const response = await fetch(`${API_BASE_URL}/tasks/${updatedTask.id}`, {
+                headers: {
+                    Authorization: `bearer ${user.accessToken}}`,
+                    'Content-Type': 'application/json'
+                },
+                method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+                body: JSON.stringify(updatedTask), // body data type must match "Content-Type" header
+            });
+            if (!response.ok) {
+                setError(response);
+                console.error(response);
+                setStatus('error');
+            }
+            const data = await response.json();
+            setData(data);
+            setStatus('success');
+            onSuccess(data);
+        } catch (error) {
+            setError(error);
+            console.error(error);
+            setStatus('error');
+        } finally {
+            setIsLoading(false);
+        }
+    }
+    return {
+        updateTask, data, isLoading, error, isSuccess: status === 'success', isError: status === 'error'
+    }
+}

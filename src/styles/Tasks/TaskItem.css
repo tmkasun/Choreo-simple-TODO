@@ -1,11 +1,11 @@
 .todo-item-overlay {
     position: absolute;
     width: 100%;
-    background: #ffffffb5;
+    background: #ffffffdb;
     height: 100%;
     margin: -12.8px;
-    border-radius: 1rem;
-    backdrop-filter: blur(0.8px);
+    border-radius: 2% / 20%;
+    backdrop-filter: blur(10px);
     display: flex;
     justify-content: center;
     align-items: center;

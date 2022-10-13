@@ -1,7 +1,7 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
-import { TASK_STATUS } from '../../data/hooks/tasks';
+import { TASK_STATUS, useUpdateTask } from '../../data/hooks/tasks';
 import { useDeleteTodo, useUpdateTodo } from '../../data/hooks/todos';
 import deleteIcon from "../../images/delete.png";
 
@@ -19,10 +19,8 @@ const getItemStyle = (isDragging, draggableStyle, status) => ({
 export function TaskItem(props) {
     const { task, onDelete, onUpdate, groupId, index } = props;
     const { deleteTodo, isLoading: isDeleting } = useDeleteTodo();
-    const { updateTodo, isLoading: isUpdating } = useUpdateTodo();
-
-    let className = 'todo-item-li';
-
+    const { updateTask, isLoading: isUpdating } = useUpdateTask();
+    
     return (
         <Draggable
             draggableId={`${task.id}=${groupId}`}
@@ -38,7 +36,7 @@ export function TaskItem(props) {
                         provided.draggableProps.style,
                         task.status
                     )}
-                    className={className}>
+                    className='todo-item-li'>
                     {(isDeleting || isUpdating) && <div className='todo-item-overlay'>
                         {isUpdating && `Updating . . .`}
                         {isDeleting && `Deleting . . .`}
@@ -53,8 +51,14 @@ export function TaskItem(props) {
                                 onChange={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
-                                    const { checked: done } = e.target;
-                                    updateTodo({ ...task, done }, { onSuccess: onUpdate });
+                                    const { checked } = e.target;
+                                    const updatedTask = { ...task };
+                                    if (checked) {
+                                        updatedTask.status = TASK_STATUS.COMPLETED;
+                                    } else {
+                                        updatedTask.status = TASK_STATUS.INPROGRSS;
+                                    }
+                                    updateTask(updatedTask, { onSuccess: onUpdate });
                                 }}
                             />
                             <label

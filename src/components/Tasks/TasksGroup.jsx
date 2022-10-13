@@ -14,17 +14,25 @@ export default function TasksGroup(props) {
             length: taskGroups.length - 1
         })
     }
-    const onUpdate = (updatedTodo) => {
-        onGroupUpdate(id, {
-            list: taskGroups.list.map(todo => updatedTodo.id === todo.id ? updatedTodo : todo),
-            length: taskGroups.length
+    const onUpdate = (updatedTask) => {
+        const updatedTasks = tasks.map(task => {
+            if (task.id === updatedTask.id) {
+                return updatedTask;
+            } else {
+                return { ...task }
+            }
         })
+        onGroupUpdate(id, updatedTasks)
     }
+    const onAdd = (newTask) => {
+        onGroupUpdate(id, [...tasks, newTask])
+    }
+
     return (
         <div className='task-group-container'>
             <h3 className="task-group-name">{name}</h3>
             <div className='new-todo-layout'>
-                <NewTask groupId={id} onAdd={newTask => onGroupUpdate(id, [...tasks, newTask])} />
+                <NewTask groupId={id} onAdd={onAdd} />
             </div>
             <TasksList groupId={id} onRefresh={() => { }} onUpdate={onUpdate} onDelete={onDelete} tasks={tasks} />
             {tasks.length === 0 && "No any todo items."}
