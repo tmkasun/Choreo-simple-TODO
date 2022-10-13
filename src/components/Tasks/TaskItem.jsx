@@ -1,7 +1,7 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
-import { TASK_STATUS, useUpdateTask } from '../../data/hooks/tasks';
+import { TASK_STATUS, useDeleteTask, useUpdateTask } from '../../data/hooks/tasks';
 import { useDeleteTodo, useUpdateTodo } from '../../data/hooks/todos';
 import deleteIcon from "../../images/delete.png";
 
@@ -18,7 +18,7 @@ const getItemStyle = (isDragging, draggableStyle, status) => ({
 
 export function TaskItem(props) {
     const { task, onDelete, onUpdate, groupId, index } = props;
-    const { deleteTodo, isLoading: isDeleting } = useDeleteTodo();
+    const { deleteTask, isLoading: isDeleting } = useDeleteTask();
     const { updateTask, isLoading: isUpdating } = useUpdateTask();
     
     return (
@@ -76,7 +76,7 @@ export function TaskItem(props) {
                             <IconButton
                                 disabled={isDeleting}
                                 onClick={() => {
-                                    deleteTodo(task, { onSuccess: onDelete });
+                                    deleteTask(task, { onSuccess: onDelete });
                                 }}
                                 iconImage={deleteIcon}
                                 alt="Delete Icon"

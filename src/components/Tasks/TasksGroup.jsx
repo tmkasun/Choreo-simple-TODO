@@ -8,11 +8,9 @@ export default function TasksGroup(props) {
     const { group, onGroupUpdate } = props;
     const { id, name } = group;
     const { tasks } = group;
-    const onDelete = (deletedTodo) => {
-        onGroupUpdate(id, {
-            list: taskGroups.list.filter(todo => deletedTodo.id !== todo.id),
-            length: taskGroups.length - 1
-        })
+    const onDelete = (deletedTask) => {
+        const updatedTasks = tasks.filter(task => task.id !== deletedTask.id)
+        onGroupUpdate(id, updatedTasks)
     }
     const onUpdate = (updatedTask) => {
         const updatedTasks = tasks.map(task => {

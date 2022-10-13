@@ -107,8 +107,6 @@ export function useAddTask() {
     }
 }
 
-
-
 export function useUpdateTask() {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -149,3 +147,39 @@ export function useUpdateTask() {
         updateTask, data, isLoading, error, isSuccess: status === 'success', isError: status === 'error'
     }
 }
+
+export function useDeleteTask() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [status, setStatus] = useState('initial');
+    const [error, setError] = useState();
+    const user = useUser();
+  
+    const deleteTask = async (task, { onSuccess }) => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(`${API_BASE_URL}/tasks/${task.id}`, {
+          headers: {
+            Authorization: `bearer ${user.accessToken}`,
+            'Content-Type': 'application/json'
+          },
+          method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+        });
+        if (!response.ok) {
+          setError(response);
+          console.error(response);
+          setStatus('error');
+        }
+        setStatus('success');
+        onSuccess(task);
+      } catch (error) {
+        setError(error);
+        console.error(error);
+        setStatus('error');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    return {
+      deleteTask, isLoading, error, isSuccess: status === 'success', isError: status === 'error'
+    }
+  }
