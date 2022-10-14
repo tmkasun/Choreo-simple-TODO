@@ -11,7 +11,7 @@ export default function BaseLayout(props) {
                 {children}
             </div>
             <div className="grid-footer">
-                Powered By Choreo
+                Powered By <a className='footer-choreo-link' target='_blank' href='https://choreo.dev/'>Choreo</a>
             </div>
         </main>
     )

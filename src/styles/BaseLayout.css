@@ -31,3 +31,13 @@
     justify-content: center;
     align-items: flex-start;
 }
+
+.footer-choreo-link {
+    text-decoration: inherit;
+    margin-left: 0.3rem;
+    transition: color 0.3s linear;
+}
+
+.footer-choreo-link:hover {
+    color: #5567d5;
+}

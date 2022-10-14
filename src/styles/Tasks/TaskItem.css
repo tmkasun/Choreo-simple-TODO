@@ -50,14 +50,7 @@
     transform: scale(1.01, 1.01);
 }
 
-.pending-task {
-    background-color: #ffca3aa6;
-}
-
-.completed-task {
-    background-color: #ff595ea6;
-}
-
-.inprogress-task {
-    background-color: #8ac926a6;
+.drawer-opened {
+    z-index: 1;
+    position: relative;
 }

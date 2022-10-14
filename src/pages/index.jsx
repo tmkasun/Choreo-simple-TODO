@@ -83,6 +83,16 @@ function App() {
         return updatedGroups;
     }, [searchText, groups, showByStatus]);
 
+    const onGroupAdd = (newGroup) => {
+        setData((currentGroups) => {
+            const alreadyExist = currentGroups.find(group => group.id === newGroup.id);
+            if (alreadyExist) {
+                console.warn(`Group with ${newGroup.id} already exist!`);
+                // throw new Error(`Group with ${newGroup.id} already exist!`);
+            }
+            return [...currentGroups, { ...newGroup, tasks: [] }];
+        })
+    }
     if (!user) {
         return <Redirect to="/login" />
     }
@@ -98,7 +108,7 @@ function App() {
                     <DragDropContext onDragEnd={onDragEnd}>
                         {filteredGroups.map(group => <TasksGroup movingTasks={moving} onGroupUpdate={onGroupUpdate} key={group.id} group={group} />)}
                     </DragDropContext>
-                    <NewTaskGroup />
+                    <NewTaskGroup onGroupAdd={onGroupAdd} />
                 </div>
             )}
 

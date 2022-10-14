@@ -1,4 +1,4 @@
-import '../styles/Header/SearchInput.css';
+import '../../styles/Header/SearchInput.css';
 
 export default function SearchInput(props) {
     const { searchText, setSearchText } = props;

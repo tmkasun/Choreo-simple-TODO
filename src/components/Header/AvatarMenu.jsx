@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import useUser from '../data/hooks/user.js';
-import '../styles/AvatarMenu.css'
+import useUser from '../../data/hooks/user.js';
+import '../../styles/AvatarMenu.css'
 
-import { default as AsgardeoConfig } from '../data/configs/asgardeo.json';
+import { default as AsgardeoConfig } from '../../data/configs/asgardeo.json';
 const signOutRedirectURL = process.env.REACT_APP_signOutRedirectURL;
 
 export default function AvatarMenu() {

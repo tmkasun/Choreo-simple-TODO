@@ -1,8 +1,7 @@
-import useUser from '../../data/hooks/user';
 import '../../styles/Header/Header.css';
-import AvatarMenu from '../AvatarMenu';
-import FilterTasks from '../FilterTasks';
-import SearchInput from '../SearchInput';
+import AvatarMenu from './AvatarMenu';
+import FilterTasks from './FilterTasks';
+import SearchInput from './SearchInput';
 
 export default function Header(props) {
     const { searchText, setSearchText, showByStatus, setShowByStatus } = props;

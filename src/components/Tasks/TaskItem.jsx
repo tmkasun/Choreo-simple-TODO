@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
 import { TASK_STATUS, useDeleteTask, useUpdateTask } from '../../data/hooks/tasks';
@@ -19,7 +19,15 @@ export function TaskItem(props) {
     const { task, onDelete, onUpdate, groupId, index, isMoving } = props;
     const { deleteTask, isLoading: isDeleting } = useDeleteTask();
     const { updateTask, isLoading: isUpdating } = useUpdateTask();
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const isPendingOperation = isMoving || isDeleting || isUpdating;
+    const transitionalStates = Object.values(TASK_STATUS).filter(state => {
+        if (state === TASK_STATUS.ALL || state === task.status) {
+            return false;
+        } else {
+            return true;
+        }
+    })
     return (
         <Draggable
             draggableId={`${task.id}`}
@@ -35,7 +43,7 @@ export function TaskItem(props) {
                         provided.draggableProps.style,
                         task.status
                     )}
-                    className='todo-item-li'>
+                    className={`todo-item-li ${isDrawerOpen && 'drawer-opened'}`}>
                     {(isPendingOperation) && <div className='todo-item-overlay'>
                         {isUpdating && `Updating . . .`}
                         {isDeleting && `Deleting . . .`}
@@ -81,7 +89,10 @@ export function TaskItem(props) {
                                 iconImage={deleteIcon}
                                 alt="Delete Icon"
                             />
-                            <Dropdown />
+                            <Dropdown
+                                onChange={(newState) => updateTask({ ...task, status: newState }, { onSuccess: onUpdate })}
+                                values={transitionalStates}
+                                onOpen={(state) => setIsDrawerOpen(state)} />
                         </div>
                     </div>
                 </li>

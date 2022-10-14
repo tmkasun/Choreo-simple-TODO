@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { getCookie } from "../utils/cookies";
 import { fetchGraphQL } from "../utils/gqlHelper";
 import useUser from "./user";
 

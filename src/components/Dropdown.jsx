@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../styles/Dropdown.css';
 
 /**
@@ -7,10 +7,15 @@ import '../styles/Dropdown.css';
  * @returns 
  */
 export default function Dropdown(props) {
+    const { onOpen, values, onChange } = props;
     const [show, setShow] = useState(false);
+    const dropdownRef = useRef();
+    useEffect(() => {
+        onOpen(show);
+    }, [show]);
     useEffect(() => {
         const windowClicker = function (event) {
-            if (!event.target.matches(".dropbtn")) {
+            if (event.target !== dropdownRef.current) {
                 setShow(false);
             }
         };
@@ -22,14 +27,13 @@ export default function Dropdown(props) {
     return (
         <>
             <div className="dropdown">
-                <ul className="dropbtn icons btn-right" onClick={() => setShow(true)}>
+                <ul ref={dropdownRef} className="dropbtn icons btn-right" onClick={() => setShow(true)}>
                     <li></li>
                     <li></li>
                     <li></li>
                 </ul>
                 {show && (<div className="dropdown-content">
-                    <a href="#home">Done</a>
-                    <a href="#about">Start</a>
+                    {values.map((value) => (<a onClick={() => onChange(value)} href="#">{value}</a>))}
                 </div>)}
             </div>
         </>
