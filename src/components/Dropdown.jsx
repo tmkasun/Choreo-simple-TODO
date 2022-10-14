@@ -11,8 +11,10 @@ export default function Dropdown(props) {
     const [show, setShow] = useState(false);
     const dropdownRef = useRef();
     useEffect(() => {
-        onOpen(show);
-    }, [show]);
+        if (onOpen) {
+            onOpen(show);
+        }
+    }, [show, onOpen]);
     useEffect(() => {
         const windowClicker = function (event) {
             if (event.target !== dropdownRef.current) {

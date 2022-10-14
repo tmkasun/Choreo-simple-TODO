@@ -10,6 +10,8 @@
     grid-row-gap: 1rem;
     row-gap: 1rem;
     background: white;
+    /* TODO: Remove if overlayed delete button is not needed */
+    position: relative;
 }
 
 .new-todo-layout {
@@ -22,6 +24,7 @@
     justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
+    height: 100%;
     row-gap: 1rem;
     overflow: scroll;
 }
@@ -47,4 +50,30 @@
 
 .task-group-name {
     margin: 0;
+}
+
+/* TODO: Remove if overlayed delete button is not needed */
+.task-delete-container {
+    position: absolute;
+    right: -7px;
+    top: -7px;
+}
+
+/* TODO: Remove if overlayed delete button is not needed */
+.task-group-delete-button {
+    font-size: 1.5rem;
+    background: white;
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 0 5px -2px;
+    color: rgb(255 89 94);
+    cursor: pointer;
+}
+
+/* TODO: Remove if overlayed delete button is not needed */
+.group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }

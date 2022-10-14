@@ -4,7 +4,8 @@
     height: 80vh;
     overflow-x: scroll;
     column-gap: 1rem;
-    padding-bottom: 1rem;
+    /* TODO: Remove if overlayed delete button is not needed */
+    padding: 1rem 0;
 }
 
 .listing-notifications {

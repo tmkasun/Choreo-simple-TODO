@@ -19,18 +19,19 @@ const TasksList = (props) => {
     const [showActive, setShowActive] = useState(false);
     const sortedByStatus = tasks.sort((a, b) => b.status.localeCompare(a.status))
     const visibleTasks = getActiveTasks(sortedByStatus, showActive);
+    const inputID = `show-only-active-todos-${groupId}`;
     return (
         <div className="todo-list">
             <div className="todo-actions">
                 <div className="active-selector">
                     <input
-                        id="show-only-active-todos"
+                        id={inputID}
                         type="checkbox"
                         className="show-only-active"
                         checked={showActive}
                         onChange={(e) => setShowActive(e.target.checked)}
                     />
-                    <label htmlFor="show-only-active-todos">
+                    <label htmlFor={inputID}>
                         Show only active tasks
                     </label>
 

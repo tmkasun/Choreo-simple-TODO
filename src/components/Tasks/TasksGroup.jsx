@@ -3,6 +3,7 @@ import NewTask from "./NewTask";
 import TasksList from "./TasksList";
 
 import '../../styles/Tasks/TasksGroup.css'
+import Dropdown from '../Dropdown';
 
 function TasksGroup(props) {
     const { group, onGroupUpdate, movingTasks } = props;
@@ -37,7 +38,15 @@ function TasksGroup(props) {
 
     return (
         <div className='task-group-container'>
-            <h3 className="task-group-name">{name}</h3>
+            <div className='task-delete-container'>
+                <button className='task-group-delete-button'>
+                    X
+                </button>
+            </div>
+            <div className='group-header'>
+                <h3 className="task-group-name">{name}</h3>
+                <Dropdown values={['delete', 'edit']} onChange={() => { }} />
+            </div>
             <div className='new-todo-layout'>
                 <NewTask groupId={id} onAdd={onAdd} />
             </div>
