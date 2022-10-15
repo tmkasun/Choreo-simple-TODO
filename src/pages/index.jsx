@@ -100,11 +100,20 @@ function App() {
         <BaseLayout
             header={<Header showByStatus={showByStatus} setShowByStatus={setShowByStatus} searchText={searchText} setSearchText={setSearchText} />}
         >
+            <div className='scroller-button scroller-button-left'>
+                <button>
+                </button>
+            </div>
+            <div className='scroller-button scroller-button-right'>
+                <button>
+                </button>
+            </div>
             {isLoading && <div className='listing-notifications'> <Loading /></div>}
             {!isLoading && error && <div className='listing-notifications'><Banner error={error} /></div>}
 
             {!isLoading && filteredGroups && (
-                <div className='task-list-container'>
+                <div className='task-list-container right-shadow left-shadow '>
+
                     <DragDropContext onDragEnd={onDragEnd}>
                         {filteredGroups.map(group => <TasksGroup movingTasks={moving} onGroupUpdate={onGroupUpdate} key={group.id} group={group} />)}
                     </DragDropContext>
