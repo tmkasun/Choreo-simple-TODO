@@ -62,7 +62,7 @@ function App() {
                 ...currentlyMoving,
                 [movingTaskId]: false,
             }));
-        moveTask(movingTask, destinationGroupId, { onSuccess });
+        moveTask(movingTask, destinationGroupId, sourceGroupId, { onSuccess });
         const updatedSourceTasks = sourceTasksGroup.tasks.filter(
             (task) => task.id !== movingTaskId
         );

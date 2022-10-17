@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { fetchGraphQL } from "../utils/gqlHelper";
-import useUser from "./user";
+import { useEffect, useState } from 'react';
+import { fetchGraphQL } from '../utils/gqlHelper';
+import useUser from './user';
 
 export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -8,8 +8,8 @@ export const TASK_STATUS = {
     INPROGRSS: 'in-progress',
     COMPLETED: 'complete',
     OPEN: 'open',
-    ALL: 'all'
-}
+    ALL: 'all',
+};
 
 export const useTasksByGroup = () => {
     const [data, setData] = useState(null);
@@ -22,16 +22,16 @@ export const useTasksByGroup = () => {
             id
           }
           id
-        }`
+        }`;
     useEffect(() => {
         if (!tempData) {
             tempData = allTasks();
         }
         tempData.then(setData).finally(() => setIsLoading(false));
-    }, [])
+    }, []);
 
     return { data, isLoading, setData };
-}
+};
 
 export const useTaskGroups = () => {
     const [data, setData] = useState();
@@ -50,12 +50,10 @@ export const useTaskGroups = () => {
                             id
                             title
                             status
-                            groupId
-                            createdAt
                         }
                     }
-                }`
-                const data = await fetchGraphQL(query, user)
+                }`;
+                const data = await fetchGraphQL(query, user);
                 setData(data.data.groups);
             } catch (error) {
                 console.error(error);
@@ -67,7 +65,7 @@ export const useTaskGroups = () => {
     }, []);
 
     return { data, isLoading, error, setData };
-}
+};
 
 export function useAddTask() {
     const [data, setData] = useState(null);
@@ -83,7 +81,7 @@ export function useAddTask() {
             const response = await fetch(`${API_BASE_URL}/tasks`, {
                 headers: {
                     Authorization: `bearer ${user.accessToken}`,
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 method: 'POST', // *GET, POST, PUT, DELETE, etc.
                 body: JSON.stringify(newTask), // body data type must match "Content-Type" header
@@ -103,10 +101,15 @@ export function useAddTask() {
         } finally {
             setIsLoading(false);
         }
-    }
+    };
     return {
-        addTask, data, isLoading, error, isSuccess: status === 'success', isError: status === 'error'
-    }
+        addTask,
+        data,
+        isLoading,
+        error,
+        isSuccess: status === 'success',
+        isError: status === 'error',
+    };
 }
 
 export function useUpdateTask() {
@@ -120,14 +123,17 @@ export function useUpdateTask() {
         setIsLoading(true);
         setData(null);
         try {
-            const response = await fetch(`${API_BASE_URL}/tasks/${updatedTask.id}`, {
-                headers: {
-                    Authorization: `bearer ${user.accessToken}}`,
-                    'Content-Type': 'application/json'
-                },
-                method: 'PUT', // *GET, POST, PUT, DELETE, etc.
-                body: JSON.stringify(updatedTask), // body data type must match "Content-Type" header
-            });
+            const response = await fetch(
+                `${API_BASE_URL}/tasks/${updatedTask.id}`,
+                {
+                    headers: {
+                        Authorization: `bearer ${user.accessToken}}`,
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+                    body: JSON.stringify(updatedTask), // body data type must match "Content-Type" header
+                }
+            );
             if (!response.ok) {
                 setError(response);
                 console.error(response);
@@ -144,10 +150,15 @@ export function useUpdateTask() {
         } finally {
             setIsLoading(false);
         }
-    }
+    };
     return {
-        updateTask, data, isLoading, error, isSuccess: status === 'success', isError: status === 'error'
-    }
+        updateTask,
+        data,
+        isLoading,
+        error,
+        isSuccess: status === 'success',
+        isError: status === 'error',
+    };
 }
 
 export function useDeleteTask() {
@@ -162,7 +173,7 @@ export function useDeleteTask() {
             const response = await fetch(`${API_BASE_URL}/tasks/${task.id}`, {
                 headers: {
                     Authorization: `bearer ${user.accessToken}`,
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
             });
@@ -180,10 +191,14 @@ export function useDeleteTask() {
         } finally {
             setIsLoading(false);
         }
-    }
+    };
     return {
-        deleteTask, isLoading, error, isSuccess: status === 'success', isError: status === 'error'
-    }
+        deleteTask,
+        isLoading,
+        error,
+        isSuccess: status === 'success',
+        isError: status === 'error',
+    };
 }
 
 export function useMoveTask() {
@@ -193,22 +208,30 @@ export function useMoveTask() {
     const [error, setError] = useState();
     const user = useUser();
 
-    const moveTask = async (movingTask, destinationGroupId, { onSuccess }) => {
+    const moveTask = async (
+        movingTask,
+        destinationGroupId,
+        sourceGroupId,
+        { onSuccess }
+    ) => {
         setIsLoading(true);
         setData(null);
         const payload = {
-            groupId: movingTask.groupId,
-            newGroupId: destinationGroupId
-        }
+            groupId: sourceGroupId,
+            newGroupId: destinationGroupId,
+        };
         try {
-            const response = await fetch(`${API_BASE_URL}/tasks/${movingTask.id}/change-group`, {
-                headers: {
-                    Authorization: `bearer ${user.accessToken}}`,
-                    'Content-Type': 'application/json'
-                },
-                method: 'POST', // *GET, POST, PUT, DELETE, etc.
-                body: JSON.stringify(payload), // body data type must match "Content-Type" header
-            });
+            const response = await fetch(
+                `${API_BASE_URL}/tasks/${movingTask.id}/change-group`,
+                {
+                    headers: {
+                        Authorization: `bearer ${user.accessToken}}`,
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                    body: JSON.stringify(payload), // body data type must match "Content-Type" header
+                }
+            );
             if (!response.ok) {
                 setError(response);
                 console.error(response);
@@ -225,8 +248,13 @@ export function useMoveTask() {
         } finally {
             setIsLoading(false);
         }
-    }
+    };
     return {
-        moveTask, data, isLoading, error, isSuccess: status === 'success', isError: status === 'error'
-    }
+        moveTask,
+        data,
+        isLoading,
+        error,
+        isSuccess: status === 'success',
+        isError: status === 'error',
+    };
 }

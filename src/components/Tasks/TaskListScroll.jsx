@@ -2,7 +2,7 @@ import NewTaskGroup from './NewTaskGroup';
 import TasksGroup from './TasksGroup';
 import { useOnScreen } from '../../data/hooks/utils';
 import { DragDropContext } from "react-beautiful-dnd";
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 const TaskListScroll = (props) => {
     const { filteredGroups, moving, onDragEnd, onGroupUpdate, onGroupAdd } = props;

@@ -16,13 +16,14 @@ const getItemStyle = (isDragging, draggableStyle, status) => ({
 });
 
 export function TaskItem(props) {
-    const { task, onDelete, onUpdate, groupId, index, isMoving } = props;
+    const { task, onDelete, onUpdate, index, isMoving } = props;
+    const status = task.status.toLocaleLowerCase();
     const { deleteTask, isLoading: isDeleting } = useDeleteTask();
     const { updateTask, isLoading: isUpdating } = useUpdateTask();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const isPendingOperation = isMoving || isDeleting || isUpdating;
     const transitionalStates = Object.values(TASK_STATUS).filter(state => {
-        if (state === TASK_STATUS.ALL || state === task.status) {
+        if (state === TASK_STATUS.ALL || state === status) {
             return false;
         } else {
             return true;
@@ -41,7 +42,7 @@ export function TaskItem(props) {
                     style={getItemStyle(
                         snapshot.isDragging,
                         provided.draggableProps.style,
-                        task.status
+                        status
                     )}
                     className={`todo-item-li ${isDrawerOpen && 'drawer-opened'}`}>
                     {(isPendingOperation) && <div className='todo-item-overlay'>
@@ -52,7 +53,7 @@ export function TaskItem(props) {
                     <div className="todo-item">
                         <div className="todo-item-text">
                             <input
-                                checked={task.status === TASK_STATUS.COMPLETED}
+                                checked={status === TASK_STATUS.COMPLETED}
                                 id={`show-only-active-todos-${task.id}`}
                                 type="checkbox"
                                 className="show-only-active"
@@ -72,7 +73,7 @@ export function TaskItem(props) {
                             <label
                                 htmlFor={`show-only-active-todos-${task.id}`}
                             >
-                                {task.status === TASK_STATUS.COMPLETED ? (
+                                {status.toLocaleLowerCase() === TASK_STATUS.COMPLETED ? (
                                     <s style={{ color: '#838282' }}>{task.title}</s>
                                 ) : (
                                     task.title
