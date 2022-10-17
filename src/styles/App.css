@@ -28,7 +28,6 @@
     position: absolute;
     top: 40%;
     z-index: 1;
-
 }
 
 .scroller-button button {
@@ -48,9 +47,9 @@
 }
 
 .scroller-button-left button::before {
-    content: "<";
-    margin-top: -1.6rem;
-    margin-left: -1rem;
+    content: '\2039';
+    margin-top: -1.9rem;
+    margin-left: -0.6rem;
     position: absolute;
 }
 
@@ -59,8 +58,8 @@
 }
 
 .scroller-button-right button::before {
-    content: ">";
-    margin-top: -1.6rem;
-    margin-left: -0.6rem;
+    content: '\203A';
+    margin-top: -1.8rem;
+    margin-left: -0.3rem;
     position: absolute;
 }
