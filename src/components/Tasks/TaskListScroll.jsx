@@ -5,19 +5,11 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { useEffect, useRef } from 'react';
 
 const TaskListScroll = (props) => {
-    const { filteredGroups, moving, onLeft, onRight, onDragEnd, onGroupUpdate, onGroupAdd } = props;
+    const { filteredGroups, moving, onDragEnd, onGroupUpdate, onGroupAdd } = props;
     const leftRef = useRef();
     const rightRef = useRef();
     const isLeft = useOnScreen(leftRef)
     const isRight = useOnScreen(rightRef)
-
-    useEffect(() => {
-        onLeft(isLeft);
-    }, [isLeft]);
-
-    useEffect(() => {
-        onRight(isRight);
-    }, [isRight]);
 
     return (
         <>
