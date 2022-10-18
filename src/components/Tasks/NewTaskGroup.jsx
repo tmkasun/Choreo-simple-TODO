@@ -21,6 +21,7 @@ export default function NewTaskGroup(props) {
             {<span onClick={() => setOpenAddGroup(!openAddGroup)} className={openAddGroup ? 'close-character' : 'add-character'} />}
             {openAddGroup && <InputWithButton
                 loading={isLoading}
+                disabled={isLoading}
                 onSubmit={onSubmit}
                 buttonText="Add" loadingButtonText="Adding"
                 inputProps={{ placeholder: "Add new Group" }}

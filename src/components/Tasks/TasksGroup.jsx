@@ -49,15 +49,18 @@ function TasksGroup(props) {
     };
 
     const handleGroupUpdate = (selection) => {
+        setIsEditing(true);
         if(selection === GROUP_ACTIONS.DELETE) {
             deleteGroup(group.id, {onSuccess: onGroupDelete});
         }
         if(selection === GROUP_ACTIONS.EDIT) {
-            setIsEditing(true);
         }
      }
     return (
         <div className='task-group-container'>
+            {isEditing && <div className='group-deleting-overlay'>
+                Deleting . . .
+            </div>}
             <div className='group-header'>
                 <div className='group-header-content'>
                     <h2 className="task-group-name">{name}</h2>

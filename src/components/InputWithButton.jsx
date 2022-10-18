@@ -8,7 +8,6 @@ export const InputWithButton = forwardRef(({ onSubmit, groupId, inputProps = {},
     const disableAll = inputDisabled || disabled;
     function handleSubmit() {
         onSubmit(inputValue);
-        setInputValue('');
     }
     return (
         <div ref={ref} className='input-with-button-container'>
