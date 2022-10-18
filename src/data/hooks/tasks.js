@@ -72,21 +72,23 @@ export function useAddTask() {
     const [isLoading, setIsLoading] = useState(false);
     const [status, setStatus] = useState('initial');
     const [error, setError] = useState();
-    const [user, generateCustomHeaders] = useUser();
+    const [user, generateCustomQueries] = useUser();
 
     const addTask = async (newTask) => {
         setIsLoading(true);
         setData(null);
         try {
-            const response = await fetch(`${API_BASE_URL}/tasks`, {
-                headers: {
-                    Authorization: `bearer ${user.accessToken}`,
-                    'Content-Type': 'application/json',
-                    ...generateCustomHeaders(),
-                },
-                method: 'POST', // *GET, POST, PUT, DELETE, etc.
-                body: JSON.stringify(newTask), // body data type must match "Content-Type" header
-            });
+            const response = await fetch(
+                `${API_BASE_URL}/tasks` + `?${generateCustomQueries()}`,
+                {
+                    headers: {
+                        Authorization: `bearer ${user.accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                    body: JSON.stringify(newTask), // body data type must match "Content-Type" header
+                }
+            );
             if (!response.ok) {
                 setError(response);
                 console.error(response);
@@ -118,19 +120,19 @@ export function useUpdateTask() {
     const [isLoading, setIsLoading] = useState(false);
     const [status, setStatus] = useState('initial');
     const [error, setError] = useState();
-    const [user, generateCustomHeaders] = useUser();
+    const [user, generateCustomQueries] = useUser();
 
     const updateTask = async (updatedTask, { onSuccess }) => {
         setIsLoading(true);
         setData(null);
         try {
             const response = await fetch(
-                `${API_BASE_URL}/tasks/${updatedTask.id}`,
+                `${API_BASE_URL}/tasks/${updatedTask.id}` +
+                    `?${generateCustomQueries()}`,
                 {
                     headers: {
                         Authorization: `bearer ${user.accessToken}}`,
                         'Content-Type': 'application/json',
-                        ...generateCustomHeaders(),
                     },
                     method: 'PUT', // *GET, POST, PUT, DELETE, etc.
                     body: JSON.stringify(updatedTask), // body data type must match "Content-Type" header
@@ -167,19 +169,22 @@ export function useDeleteTask() {
     const [isLoading, setIsLoading] = useState(false);
     const [status, setStatus] = useState('initial');
     const [error, setError] = useState();
-    const [user, generateCustomHeaders] = useUser();
+    const [user, generateCustomQueries] = useUser();
 
     const deleteTask = async (task, { onSuccess }) => {
         setIsLoading(true);
         try {
-            const response = await fetch(`${API_BASE_URL}/tasks/${task.id}`, {
-                headers: {
-                    Authorization: `bearer ${user.accessToken}`,
-                    'Content-Type': 'application/json',
-                    ...generateCustomHeaders(),
-                },
-                method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
-            });
+            const response = await fetch(
+                `${API_BASE_URL}/tasks/${task.id}` +
+                    `?${generateCustomQueries()}`,
+                {
+                    headers: {
+                        Authorization: `bearer ${user.accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+                }
+            );
             if (!response.ok) {
                 setError(response);
                 console.error(response);
@@ -209,7 +214,7 @@ export function useMoveTask() {
     const [isLoading, setIsLoading] = useState(false);
     const [status, setStatus] = useState('initial');
     const [error, setError] = useState();
-    const [user, generateCustomHeaders] = useUser();
+    const [user, generateCustomQueries] = useUser();
 
     const moveTask = async (
         movingTask,
@@ -225,12 +230,12 @@ export function useMoveTask() {
         };
         try {
             const response = await fetch(
-                `${API_BASE_URL}/tasks/${movingTask.id}/change-group`,
+                `${API_BASE_URL}/tasks/${movingTask.id}/change-group` +
+                    `?${generateCustomQueries()}`,
                 {
                     headers: {
                         Authorization: `bearer ${user.accessToken}}`,
                         'Content-Type': 'application/json',
-                        ...API_BASE_URL(),
                     },
                     method: 'POST', // *GET, POST, PUT, DELETE, etc.
                     body: JSON.stringify(payload), // body data type must match "Content-Type" header

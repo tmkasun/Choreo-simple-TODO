@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { parseJwt } from '../utils/auth';
 import { deleteCookie, getCookie } from '../utils/cookies';
 
-const customHeaders = (user) => ({
+const customParams = (user) => ({
     'x-choreo-user-email': user.email,
     'x-choreo-user-sid': user.sid,
 });
@@ -28,15 +28,15 @@ export default function useUser() {
                 picture,
                 email,
                 sid,
-                customHeaders: customHeaders({ email, sid }),
+                customParams: new URLSearchParams({ email, sid }).toString(),
             };
         }
         return user;
     }, [accessToken]);
 
-    const generateCustomHeaders = () => {
-        const user = memonizedUser();
-        return customHeaders(user);
+    const generateCustomParams = () => {
+        const queryPrams = new URLSearchParams(customParams(memonizedUser))
+        return queryPrams.toString();
     };
-    return [memonizedUser, generateCustomHeaders];
+    return [memonizedUser, generateCustomParams];
 }

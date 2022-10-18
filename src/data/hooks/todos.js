@@ -8,15 +8,17 @@ export function useTodos() {
     const [data, setData] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState();
-    const [user, generateCustomHeaders] = useUser();
+    const [user, generateCustomQueries] = useUser();
 
     const refetch = async (status = {}) => {
         setIsLoading(true);
         try {
-            const response = await fetch(`${API_BASE_URL}/todos`, {
-                headers: { Authorization: `bearer ${user.accessToken}` },
-                ...generateCustomHeaders();
-            });
+            const response = await fetch(
+                `${API_BASE_URL}/todos` + `?${generateCustomQueries()}`,
+                {
+                    headers: { Authorization: `bearer ${user.accessToken}` },
+                }
+            );
             const data = await response.json();
             if (status.stale !== true) {
                 setData(data);
