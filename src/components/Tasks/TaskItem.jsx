@@ -52,33 +52,11 @@ export function TaskItem(props) {
                     </div>}
                     <div className="todo-item">
                         <div className="todo-item-text">
-                            <input
-                                checked={status === TASK_STATUS.COMPLETED}
-                                id={`show-only-active-todos-${task.id}`}
-                                type="checkbox"
-                                className="show-only-active"
-                                onChange={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    const { checked } = e.target;
-                                    const updatedTask = { ...task };
-                                    if (checked) {
-                                        updatedTask.status = TASK_STATUS.COMPLETED;
-                                    } else {
-                                        updatedTask.status = TASK_STATUS.INPROGRSS;
-                                    }
-                                    updateTask(updatedTask, { onSuccess: onUpdate });
-                                }}
-                            />
-                            <label
-                                htmlFor={`show-only-active-todos-${task.id}`}
-                            >
                                 {status.toLocaleLowerCase() === TASK_STATUS.COMPLETED ? (
                                     <s style={{ color: '#838282' }}>{task.title}</s>
                                 ) : (
                                     task.title
                                 )}
-                            </label>
                         </div>
 
                         <div className="todo-item-actions">
