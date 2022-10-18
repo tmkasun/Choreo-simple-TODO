@@ -36,7 +36,7 @@ const TasksList = (props) => {
                     </label>
 
                 </div>
-                <IconButton onClick={onRefresh} iconImage={refreshButton} />
+                {/* <IconButton onClick={onRefresh} iconImage={refreshButton} /> */}
             </div>
             <Droppable droppableId={`${groupId}`}>
                 {(provided, snapshot) => (

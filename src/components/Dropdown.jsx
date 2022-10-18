@@ -7,7 +7,7 @@ import '../styles/Dropdown.css';
  * @returns 
  */
 export default function Dropdown(props) {
-    const { onOpen, values, onChange } = props;
+    const { onOpen, values, onChange, horizontal=false } = props;
     const [show, setShow] = useState(false);
     const dropdownRef = useRef();
     useEffect(() => {
@@ -29,7 +29,7 @@ export default function Dropdown(props) {
     return (
         <>
             <div className="dropdown">
-                <ul ref={dropdownRef} className="dropbtn icons btn-right" onClick={() => setShow(true)}>
+                <ul ref={dropdownRef} className={`dropbtn icons ${horizontal ? 'horizontal-btn' : 'vertical-btn'}`} onClick={() => setShow(!show)}>
                     <li></li>
                     <li></li>
                     <li></li>

@@ -24,7 +24,7 @@ const TaskListScroll = (props) => {
 
                 </div>
             )}
-        <div className={`task-list-container ${isLeft && 'left-shadow'} ${isRight && 'right-shadow'}`}>
+        <div className={`task-list-container ${!isLeft && isRight && 'left-shadow'} ${!isRight && isLeft && 'right-shadow'} ${!isRight && !isLeft && 'left-right-shadow'}`}>
             <div ref={leftRef}>
             </div>
             <DragDropContext onDragEnd={onDragEnd}>

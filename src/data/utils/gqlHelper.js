@@ -12,6 +12,7 @@ export async function fetchGraphQL(text, user, variables) {
         headers: {
             Authorization: `bearer ${user.accessToken}`,
             'Content-Type': 'application/json',
+            ...user.customHeaders
         },
         body: JSON.stringify({
             query: text,

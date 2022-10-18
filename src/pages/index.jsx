@@ -34,7 +34,7 @@ function App() {
     const [moving, setMoving] = useState({});
     const [searchText, setSearchText] = useState('');
     const [showByStatus, setShowByStatus] = useState(TASK_STATUS.ALL);
-    const user = useUser();
+    const [user] = useUser();
     const onDragEnd = (result) => {
         const { source, destination, draggableId } = result;
         const movingTaskId = parseInt(draggableId, 10);

@@ -7,7 +7,7 @@ export function useAddGroup() {
     const [isLoading, setIsLoading] = useState(false);
     const [status, setStatus] = useState('initial');
     const [error, setError] = useState();
-    const user = useUser();
+    const [user, generateCustomHeaders] = useUser();
 
     const addGroup = async (newGroup, { onSuccess }) => {
         setIsLoading(true);
@@ -16,7 +16,8 @@ export function useAddGroup() {
             const response = await fetch(`${API_BASE_URL}/groups`, {
                 headers: {
                     Authorization: `bearer ${user.accessToken}`,
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    ...generateCustomHeaders()
                 },
                 method: 'POST', // *GET, POST, PUT, DELETE, etc.
                 body: JSON.stringify(newGroup), // body data type must match "Content-Type" header

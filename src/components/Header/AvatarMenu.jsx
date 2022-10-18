@@ -8,7 +8,7 @@ const signOutRedirectURL = process.env.REACT_APP_signOutRedirectURL;
 export default function AvatarMenu() {
     const [isHovered, setIsHovered] = useState(false);
     const [isInProgress, setIsInProgress] = useState(false);
-    const user = useUser();
+    const [user] = useUser();
     const logoutHandler = () => {
         setIsInProgress(true);
         user.logout();

@@ -1,19 +1,22 @@
 .task-list-container {
     display: flex;
-    width: 90vw;
+    width: 95vw;
     height: 80vh;
     overflow-x: scroll;
     column-gap: 0.5rem;
-    /* TODO: Remove if overlayed delete button is not needed */
-    padding: 1rem 0;
-}
-
-.left-shadow {
-    box-shadow: inset -19px 0 20px -30px;
+    padding-bottom: 1rem;
 }
 
 .right-shadow {
+    box-shadow: inset -19px 0 20px -30px;
+}
+
+.left-shadow {
     box-shadow: inset 19px 0 20px -30px;
+}
+
+.left-right-shadow {
+    box-shadow: inset 19px 0 20px -30px, inset -19px 0 20px -30px;
 }
 
 .listing-notifications {

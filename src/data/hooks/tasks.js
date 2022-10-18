@@ -37,7 +37,7 @@ export const useTaskGroups = () => {
     const [data, setData] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState();
-    const user = useUser();
+    const [user] = useUser();
     useEffect(() => {
         (async () => {
             try {
@@ -72,7 +72,7 @@ export function useAddTask() {
     const [isLoading, setIsLoading] = useState(false);
     const [status, setStatus] = useState('initial');
     const [error, setError] = useState();
-    const user = useUser();
+    const [user, generateCustomHeaders] = useUser();
 
     const addTask = async (newTask) => {
         setIsLoading(true);
@@ -82,6 +82,7 @@ export function useAddTask() {
                 headers: {
                     Authorization: `bearer ${user.accessToken}`,
                     'Content-Type': 'application/json',
+                    ...generateCustomHeaders(),
                 },
                 method: 'POST', // *GET, POST, PUT, DELETE, etc.
                 body: JSON.stringify(newTask), // body data type must match "Content-Type" header
@@ -117,7 +118,7 @@ export function useUpdateTask() {
     const [isLoading, setIsLoading] = useState(false);
     const [status, setStatus] = useState('initial');
     const [error, setError] = useState();
-    const user = useUser();
+    const [user, generateCustomHeaders] = useUser();
 
     const updateTask = async (updatedTask, { onSuccess }) => {
         setIsLoading(true);
@@ -129,6 +130,7 @@ export function useUpdateTask() {
                     headers: {
                         Authorization: `bearer ${user.accessToken}}`,
                         'Content-Type': 'application/json',
+                        ...generateCustomHeaders(),
                     },
                     method: 'PUT', // *GET, POST, PUT, DELETE, etc.
                     body: JSON.stringify(updatedTask), // body data type must match "Content-Type" header
@@ -165,7 +167,7 @@ export function useDeleteTask() {
     const [isLoading, setIsLoading] = useState(false);
     const [status, setStatus] = useState('initial');
     const [error, setError] = useState();
-    const user = useUser();
+    const [user, generateCustomHeaders] = useUser();
 
     const deleteTask = async (task, { onSuccess }) => {
         setIsLoading(true);
@@ -174,6 +176,7 @@ export function useDeleteTask() {
                 headers: {
                     Authorization: `bearer ${user.accessToken}`,
                     'Content-Type': 'application/json',
+                    ...generateCustomHeaders(),
                 },
                 method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
             });
@@ -206,7 +209,7 @@ export function useMoveTask() {
     const [isLoading, setIsLoading] = useState(false);
     const [status, setStatus] = useState('initial');
     const [error, setError] = useState();
-    const user = useUser();
+    const [user, generateCustomHeaders] = useUser();
 
     const moveTask = async (
         movingTask,
@@ -227,6 +230,7 @@ export function useMoveTask() {
                     headers: {
                         Authorization: `bearer ${user.accessToken}}`,
                         'Content-Type': 'application/json',
+                        ...API_BASE_URL(),
                     },
                     method: 'POST', // *GET, POST, PUT, DELETE, etc.
                     body: JSON.stringify(payload), // body data type must match "Content-Type" header
