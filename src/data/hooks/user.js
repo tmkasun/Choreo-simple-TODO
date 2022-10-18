@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
 import { parseJwt } from '../utils/auth';
 import { deleteCookie, getCookie } from '../utils/cookies';
 
@@ -9,6 +10,7 @@ const customParams = (user) => ({
 
 export default function useUser() {
     const accessToken = getCookie('access_token');
+    const history = useHistory();
     const memonizedUser = useMemo(() => {
         let user = null;
         if (accessToken) {
@@ -33,10 +35,16 @@ export default function useUser() {
         }
         return user;
     }, [accessToken]);
-
+    if (!memonizedUser) {
+        history.push('/login');
+    }
     const generateCustomParams = () => {
-        const queryPrams = new URLSearchParams(customParams(memonizedUser))
-        return queryPrams.toString();
+        if (memonizedUser) {
+            const queryPrams = new URLSearchParams(customParams(memonizedUser));
+            return queryPrams.toString();
+        } else {
+            return '';
+        }
     };
     return [memonizedUser, generateCustomParams];
 }

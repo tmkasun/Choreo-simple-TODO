@@ -35,7 +35,7 @@ export default function Dropdown(props) {
                     <li></li>
                 </ul>
                 {show && (<div className="dropdown-content">
-                    {values.map((value) => (<a onClick={() => onChange(value)} href="#">{value}</a>))}
+                    {values.map((value) => (<a key={value} onClick={() => onChange(value)} href="#">{value}</a>))}
                 </div>)}
             </div>
         </>

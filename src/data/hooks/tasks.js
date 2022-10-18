@@ -125,17 +125,18 @@ export function useUpdateTask() {
     const updateTask = async (updatedTask, { onSuccess }) => {
         setIsLoading(true);
         setData(null);
+        const payload = { status: updatedTask.status };
         try {
             const response = await fetch(
-                `${API_BASE_URL}/tasks/${updatedTask.id}` +
+                `${API_BASE_URL}/tasks/${updatedTask.id}/change-status` +
                     `?${generateCustomQueries()}`,
                 {
                     headers: {
                         Authorization: `bearer ${user.accessToken}}`,
                         'Content-Type': 'application/json',
                     },
-                    method: 'PUT', // *GET, POST, PUT, DELETE, etc.
-                    body: JSON.stringify(updatedTask), // body data type must match "Content-Type" header
+                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                    body: JSON.stringify(payload), // body data type must match "Content-Type" header
                 }
             );
             if (!response.ok) {
@@ -144,9 +145,10 @@ export function useUpdateTask() {
                 setStatus('error');
             }
             const data = await response.json();
-            setData(data);
+            const updatedTaskResponse = { ...updatedTask, ...data };
+            setData(updatedTaskResponse);
             setStatus('success');
-            onSuccess(data);
+            onSuccess(updatedTaskResponse);
         } catch (error) {
             setError(error);
             console.error(error);
