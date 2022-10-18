@@ -88,14 +88,19 @@ function App() {
     const onGroupUpdate = useCallback(
         (updater) => {
             setData((currentGroups) => {
-                const [groupId, updatedTaks] = updater(currentGroups);
-                const updatedGroups = currentGroups.map((group) => {
-                    if (group.id === groupId) {
-                        return { ...group, tasks: updatedTaks };
-                    } else {
-                        return group;
-                    }
-                });
+                const [groupId, updatedTasks] = updater(currentGroups);
+                let updatedGroups;
+                if(updatedTasks) {
+                    updatedGroups = currentGroups.map((group) => {
+                        if (group.id === groupId) {
+                            return { ...group, tasks: updatedTasks };
+                        } else {
+                            return group;
+                        }
+                    });
+                } else {
+                    updatedGroups = currentGroups.filter(group => group.id !== groupId);
+                }
                 return updatedGroups;
             });
         },

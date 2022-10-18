@@ -50,3 +50,47 @@ export function useAddGroup() {
         isError: status === 'error',
     };
 }
+
+export function useDeleteGroup() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [status, setStatus] = useState('initial');
+    const [error, setError] = useState();
+    const [user, generateCustomQueries] = useUser();
+
+    const deleteGroup = async (groupId, { onSuccess }) => {
+        setIsLoading(true);
+        try {
+            const response = await fetch(
+                `${API_BASE_URL}/groups/${groupId}` +
+                    `?${generateCustomQueries()}`,
+                {
+                    headers: {
+                        Authorization: `bearer ${user.accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+                }
+            );
+            if (!response.ok) {
+                setError(response);
+                console.error(response);
+                setStatus('error');
+            }
+            setStatus('success');
+            onSuccess(groupId);
+        } catch (error) {
+            setError(error);
+            console.error(error);
+            setStatus('error');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    return {
+        deleteGroup,
+        isLoading,
+        error,
+        isSuccess: status === 'success',
+        isError: status === 'error',
+    };
+}
