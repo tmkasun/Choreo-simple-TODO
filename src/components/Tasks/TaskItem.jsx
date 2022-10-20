@@ -10,7 +10,9 @@ import { IconButton } from '../IconButton';
 
 const getItemStyle = (isDragging, draggableStyle, status) => ({
     // change background colour if dragging
-    background: isDragging ? "#5392ffdb" : status === TASK_STATUS.COMPLETED ? '#8ac926a6' : status === TASK_STATUS.INPROGRSS ? '#ffca3aa6' : status === TASK_STATUS.OPEN && '#ff595ea6',
+    background: isDragging ? "#5392ffdb" : status === TASK_STATUS.COMPLETED ? '#EFFDF2' : status === TASK_STATUS.INPROGRSS ? '#FFF5EB' : status === TASK_STATUS.OPEN && '#FCEDED',
+    border: `1px solid ${status === TASK_STATUS.COMPLETED ? '#BDE9D3' : status === TASK_STATUS.INPROGRSS ? '#FFCC8C' : status === TASK_STATUS.OPEN && '#F8C2C2'}`,
+    
     // styles we need to apply on draggables
     ...draggableStyle
 });
