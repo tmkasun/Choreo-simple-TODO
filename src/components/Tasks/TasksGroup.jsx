@@ -63,7 +63,7 @@ function TasksGroup(props) {
             </div>}
             <div className='group-header'>
                 <div className='group-header-content'>
-                    <h2 className="task-group-name">{name}</h2>
+                    <h5 className="task-group-name">{name}</h5>
                 </div>
                 {id > 12 && <Dropdown horizontal values={Object.values(GROUP_ACTIONS)} onChange={handleGroupUpdate} />}
             </div>
@@ -71,7 +71,6 @@ function TasksGroup(props) {
                 <NewTask groupId={id} onAdd={onAdd} />
             </div>
             <TasksList movingTasks={movingTasks} groupId={id} onUpdate={onUpdate} onDelete={onDelete} tasks={tasks} />
-            {tasks.length === 0 && "No tasks available."}
         </div>
     )
 }

@@ -7,8 +7,9 @@
 }
 
 .user-avatar {
-    width: 40px;
-    border-radius: 20px;
+    width: 2.5rem;
+    margin-right: 1rem;
+    border-radius: 1.25rem;
 }
 
 .login-dropdown {
@@ -23,12 +24,13 @@
     filter: grayscale(1);
 }
 
-.logout-button {
+.avatar-button {
+    display: flex;
+    align-items: center;
     font-size: 1.3rem;
     border-radius: 0.5rem;
     border: none;
     background: white;
     padding: 0.5rem;
-    box-shadow: rgb(102 102 102 / 34%) 0px 2px 6px 0px;
     cursor: pointer;
 }

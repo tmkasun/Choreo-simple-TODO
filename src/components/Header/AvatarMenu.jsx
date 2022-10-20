@@ -17,8 +17,8 @@ export default function AvatarMenu() {
 
     return (
         <div onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} className='login-panel'>
-            <button disabled={isInProgress} className='login-button'>
-                <img className='user-avatar' src={user.picture} alt='User avatar' /> Hi <b>{user.given_name}</b>
+            <button disabled={isInProgress} className='avatar-button'>
+                <img className='user-avatar' src={user.picture} alt='User avatar' /> Hi, {user.given_name}
             </button>
             {user && isHovered && !isInProgress && <div onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} className='login-dropdown'>
                 <button className='logout-button' onClick={logoutHandler}>

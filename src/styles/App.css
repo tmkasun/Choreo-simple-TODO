@@ -67,3 +67,13 @@
     margin-left: -0.3rem;
     position: absolute;
 }
+
+.filter-and-search {
+    display: flex;
+    column-gap: 1rem;
+    margin-left: 0.5rem; /* Counter act empty div */
+}
+
+.task-container {
+    margin-left: 2rem;
+}

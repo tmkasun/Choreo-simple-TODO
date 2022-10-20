@@ -1,5 +1,4 @@
 .base-grid {
-    padding: 0rem 1rem;
     display: grid;
     grid-gap: 2rem;
     width: 100%;
@@ -12,17 +11,21 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-left: -1rem;
-    margin-right: -1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 0 1rem;
     background: white;
     border-radius: 0.5rem 0.5rem 0 0;
     box-shadow: 0px 0px 12px -3px;
 }
 
 .top-bar {
-    padding-top: 1rem;
+    height: 4rem;
+    padding: 0 1rem;
+    /* padding: 1rem 2rem 1rem 1.6rem; */
+    display: flex;
+    align-items: center;
+    gap: 140px;
+    background: #ffffff;
+    box-shadow: 0px 1px 4px rgb(0 0 0 / 8%), inset 0px -1px 0px #e1e2e7;
 }
 
 .task-board {

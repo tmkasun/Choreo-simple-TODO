@@ -1,3 +1,7 @@
+:root {
+  --main-radius: 0.625rem; /* 10px */
+}
+
 * {
   box-sizing: border-box;
 }
@@ -6,7 +10,7 @@ body {
   font-family: roboto, sans-serif;
   margin: 0px;
   padding: 0;
-  background: #e6eaf3c7;
+  background: #E6E8F0;
 }
 
 #root {

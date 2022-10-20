@@ -21,6 +21,8 @@ import {
 import Loading from '../components/Loading';
 import Banner from '../components/Banner/Banner';
 import TaskListScroll from '../components/Tasks/TaskListScroll';
+import SearchInput from '../components/Header/SearchInput';
+import FilterTasks from '../components/Header/FilterTasks';
 
 function App() {
     const {
@@ -90,7 +92,7 @@ function App() {
             setData((currentGroups) => {
                 const [groupId, updatedTasks] = updater(currentGroups);
                 let updatedGroups;
-                if(updatedTasks) {
+                if (updatedTasks) {
                     updatedGroups = currentGroups.map((group) => {
                         if (group.id === groupId) {
                             return { ...group, tasks: updatedTasks };
@@ -99,7 +101,9 @@ function App() {
                         }
                     });
                 } else {
-                    updatedGroups = currentGroups.filter(group => group.id !== groupId);
+                    updatedGroups = currentGroups.filter(
+                        (group) => group.id !== groupId
+                    );
                 }
                 return updatedGroups;
             });
@@ -144,16 +148,7 @@ function App() {
         return <Redirect to="/login" />;
     }
     return (
-        <BaseLayout
-            header={
-                <Header
-                    showByStatus={showByStatus}
-                    setShowByStatus={setShowByStatus}
-                    searchText={searchText}
-                    setSearchText={setSearchText}
-                />
-            }
-        >
+        <BaseLayout header={<Header />}>
             {isLoading && (
                 <div className="listing-notifications">
                     {' '}
@@ -165,15 +160,26 @@ function App() {
                     <Banner error={error} />
                 </div>
             )}
-
             {!isLoading && filteredGroups && (
-                <TaskListScroll
-                    onGroupAdd={onGroupAdd}
-                    onDragEnd={onDragEnd}
-                    onGroupUpdate={onGroupUpdate}
-                    moving={moving}
-                    filteredGroups={filteredGroups}
-                />
+                <div className="task-container">
+                    <div className="filter-and-search">
+                        <SearchInput
+                            searchText={searchText}
+                            setSearchText={setSearchText}
+                        />
+                        <FilterTasks
+                            showByStatus={showByStatus}
+                            setShowByStatus={setShowByStatus}
+                        />
+                    </div>
+                    <TaskListScroll
+                        onGroupAdd={onGroupAdd}
+                        onDragEnd={onDragEnd}
+                        onGroupUpdate={onGroupUpdate}
+                        moving={moving}
+                        filteredGroups={filteredGroups}
+                    />
+                </div>
             )}
         </BaseLayout>
     );

@@ -1,19 +1,19 @@
 import '../../styles/Header/Header.css';
 import AvatarMenu from './AvatarMenu';
-import FilterTasks from './FilterTasks';
-import SearchInput from './SearchInput';
+import logo from '../../images/logo.svg';
 
 export default function Header(props) {
-    const { searchText, setSearchText, showByStatus, setShowByStatus } = props;
     return (
-        <div className='header-container'>
-            <div className='header-left'>
-                <SearchInput searchText={searchText} setSearchText={setSearchText} />
-                <FilterTasks showByStatus={showByStatus} setShowByStatus={setShowByStatus} />
+        <div className="header-container">
+            <div className="header-left">
+                <div className="choreo-logo-container">
+                    <img className="choreo-logo" src={logo} alt="Choreo Logo" />
+                </div>
+                <h4>Todo</h4>
             </div>
-
-            <div className='header-right'>
+            <div className="header-right">
                 <AvatarMenu />
             </div>
-        </div>)
+        </div>
+    );
 }
