@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import { ASGARDEO_STATE_SUFFIX_CHOREO, generateCodeVerifier, generateHash } from "../utils/auth";
-import { default as asgardeoSdkConfig } from '../../data/configs/asgardeo.json'
+import {
+    ASGARDEO_STATE_SUFFIX_CHOREO,
+    generateCodeVerifier,
+    generateHash,
+} from '../utils/auth';
+import { default as asgardeoSdkConfig } from '../../data/configs/asgardeo.json';
 import { useLocation } from 'react-router-dom';
-
-const signInRedirectURL = `${window.location.origin}/oauth/callback`;
 
 export const useAuthRequestURL = () => {
     const [codeChallenge, setCodeChallenge] = useState(null);
@@ -23,9 +25,10 @@ export const useAuthRequestURL = () => {
             const {
                 endpoints: { authorizationEndpoint },
                 clientID,
-                scope
+                scope,
             } = asgardeoSdkConfig;
             const { state } = configs;
+            const signInRedirectURL = `${window.location.origin}/oauth/callback`;
             return (
                 `${authorizationEndpoint}?response_type=code&client_id=${clientID}` +
                 `&scope=${scope.join('+')}&redirect_uri=${signInRedirectURL}` +
@@ -54,33 +57,35 @@ export const useAsgardeoToken = () => {
         endpoints: { tokenEndpoint },
         clientID,
         stsTokenEndpoint,
-        stsConfig
+        stsConfig,
     } = asgardeoSdkConfig;
 
     const { search } = useLocation();
-    const sessionState = new URLSearchParams(search).get("session_state");
-    const oauthCode = new URLSearchParams(search).get("code");
+    const sessionState = new URLSearchParams(search).get('session_state');
+    const oauthCode = new URLSearchParams(search).get('code');
     useEffect(() => {
         if (oauthCode) {
             (async () => {
                 setAsgardeoIsLoading(true);
                 const formBody = new URLSearchParams({
-                    'client_id': clientID,
-                    'code': oauthCode,
-                    'grant_type': 'authorization_code',
-                    'redirect_uri': signInRedirectURL,
-                    'code_verifier': sessionStorage.getItem('pkce_code_verifier#0'),
+                    client_id: clientID,
+                    code: oauthCode,
+                    grant_type: 'authorization_code',
+                    redirect_uri: signInRedirectURL,
+                    code_verifier: sessionStorage.getItem(
+                        'pkce_code_verifier#0'
+                    ),
                 });
 
                 try {
                     const response = await fetch(tokenEndpoint, {
-                        "headers": {
-                            "content-type": "application/x-www-form-urlencoded"
+                        headers: {
+                            'content-type': 'application/x-www-form-urlencoded',
                         },
-                        "body": formBody,
-                        "method": "POST",
-                        "mode": "cors",
-                        "credentials": "omit"
+                        body: formBody,
+                        method: 'POST',
+                        mode: 'cors',
+                        credentials: 'omit',
                     });
                     if (!response.ok) {
                         setAsgardeoError(response);
@@ -98,7 +103,7 @@ export const useAsgardeoToken = () => {
                 } finally {
                     setAsgardeoIsLoading(false);
                 }
-            })()
+            })();
         }
     }, [oauthCode]);
 
@@ -110,7 +115,8 @@ export const useAsgardeoToken = () => {
                 const { id_token, access_token } = asgardeoTokenData;
                 const formBody = new URLSearchParams({
                     client_id: client_id,
-                    grant_type: 'urn:ietf:params:oauth:grant-type:token-exchange',
+                    grant_type:
+                        'urn:ietf:params:oauth:grant-type:token-exchange',
                     subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
                     scope: scope.join('+'),
                     subject_token: id_token,
@@ -118,14 +124,14 @@ export const useAsgardeoToken = () => {
                 });
                 try {
                     const response = await fetch(stsTokenEndpoint, {
-                        "headers": {
-                            "authorization": `Bearer ${id_token}`,
-                            "content-type": "application/x-www-form-urlencoded"
+                        headers: {
+                            authorization: `Bearer ${id_token}`,
+                            'content-type': 'application/x-www-form-urlencoded',
                         },
-                        "body": formBody,
-                        "method": "POST",
-                        "mode": "cors",
-                        "credentials": "include"
+                        body: formBody,
+                        method: 'POST',
+                        mode: 'cors',
+                        credentials: 'include',
                     });
                     if (!response.ok) {
                         setChoreoError(response);
@@ -141,11 +147,20 @@ export const useAsgardeoToken = () => {
                     console.error(error);
                     setChoreoStatus('error');
                 } finally {
-                    sessionStorage.removeItem('pkce_code_verifier#0')
+                    sessionStorage.removeItem('pkce_code_verifier#0');
                     setIsChoreoTokenLoading(false);
                 }
             })();
         }
-    }, [asgardeoStatus])
-    return { asgardeoTokenData, isAsgardeoLoading, asgardeoError, asgardeoStatus, choreoTokenData, isChoreoTokenLoading, choreoError, choreoStatus }
-}
+    }, [asgardeoStatus]);
+    return {
+        asgardeoTokenData,
+        isAsgardeoLoading,
+        asgardeoError,
+        asgardeoStatus,
+        choreoTokenData,
+        isChoreoTokenLoading,
+        choreoError,
+        choreoStatus,
+    };
+};
