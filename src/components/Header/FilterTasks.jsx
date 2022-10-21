@@ -4,7 +4,7 @@ export default function FilterTasks(props) {
     const { showByStatus, setShowByStatus } = props;
     return (
         <div className="filter-container">
-            <select value={showByStatus} onChange={(e) => setShowByStatus(e.target.value)} name="filter-by-status" id="filter-by-status">
+            <select className="drop-down" value={showByStatus} onChange={(e) => setShowByStatus(e.target.value)} name="filter-by-status" id="filter-by-status">
                 <option value={TASK_STATUS.ALL}>Show all tasks</option>
                 <option value={TASK_STATUS.COMPLETED}>Completed</option>
                 <option value={TASK_STATUS.INPROGRSS}>In Progress</option>

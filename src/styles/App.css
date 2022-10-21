@@ -3,21 +3,35 @@
     width: 95vw;
     height: 80vh;
     overflow-x: scroll;
-    column-gap: 0.5rem;
+    column-gap: 1.25rem;
     padding-bottom: 1rem;
     padding-top: 1.5rem;
 }
 
+.task-list-container::-webkit-scrollbar {
+    width: 0.35em;
+    height: 0em;
+}
+   
+.task-list-containert::-webkit-scrollbar-track {
+    background-color: #fff;
+}
+   
+.task-list-container::-webkit-scrollbar-thumb {
+    background-color: #8D91A3;
+    border-radius: 5px;
+}
+
 .right-shadow {
-    box-shadow: inset -19px 0 20px -30px;
+    border-right: 1px solid #dfdfdf3d;
 }
 
 .left-shadow {
-    box-shadow: inset 19px 0 20px -30px;
+    border-right: 1px solid #dfdfdf3d;
 }
 
 .left-right-shadow {
-    box-shadow: inset 19px 0 20px -30px, inset -19px 0 20px -30px;
+    border-right: 1px solid #dfdfdf3d;
 }
 
 .listing-notifications {
@@ -36,38 +50,41 @@
 }
 
 .scroller-button button {
-    font-size: 3rem;
-    background: white;
+    background: #fff;
     border-radius: 1.5rem;
-    padding: 1rem;
     width: 3rem;
     height: 3rem;
     cursor: pointer;
     border: none;
-    box-shadow: 0px 0px 12px -3px;
+    border: 1px solid #e2e2e24b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 1px 1px #D2D5DD;
+}
+.scroller-button button img {
+    width: 5rem;
 }
 
 .scroller-button-left {
-    left: -0.5rem;
+    left: 0rem;
 }
 
-.scroller-button-left button::before {
-    content: '\2039';
+/* .scroller-button-left button::before {
     margin-top: -1.9rem;
     margin-left: -0.6rem;
     position: absolute;
-}
+} */
 
 .scroller-button-right {
-    right: 1rem;
+    right: 0.5rem;
 }
 
-.scroller-button-right button::before {
-    content: '\203A';
+/* .scroller-button-right button::before {
     margin-top: -1.8rem;
     margin-left: -0.3rem;
     position: absolute;
-}
+} */
 
 .filter-and-search {
     display: flex;

@@ -37,12 +37,12 @@ export default function AvatarMenu() {
                 disabled={isInProgress}
                 className="avatar-button"
             >
+            <div className='title-class'>Hi, {user.given_name}</div>
                 <img
                     className="user-avatar"
                     src={user.picture}
                     alt="User avatar"
                 />
-                Hi, {user.given_name}
             </button>
             {isMenuOpen && user && !isInProgress && (
                 <div className="dropdown-content avatar-dropdown">

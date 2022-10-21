@@ -4,13 +4,15 @@
 
 * {
   box-sizing: border-box;
+  font-family: "Gilmer";
 }
 
 body {
-  font-family: roboto, sans-serif;
+  font-family: "Gilmer";
   margin: 0px;
   padding: 0;
-  background: #E6E8F0;
+  background: #F7F8FB;
+  color: #40404B;
 }
 
 #root {
