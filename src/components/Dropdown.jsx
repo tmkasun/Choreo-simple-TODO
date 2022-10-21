@@ -29,7 +29,7 @@ export default function Dropdown(props) {
     return (
         <>
             <div className="dropdown">
-                <ul ref={dropdownRef} className={`dropbtn icons ${horizontal ? 'horizontal-btn' : 'vertical-btn'}`} onClick={() => setShow(!show)}>
+                <ul ref={dropdownRef} className="dropbtn icons vertical-btn" onClick={() => setShow(!show)}>
                     <li></li>
                     <li></li>
                     <li></li>

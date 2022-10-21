@@ -10,7 +10,8 @@ body {
   font-family: roboto, sans-serif;
   margin: 0px;
   padding: 0;
-  background: #E6E8F0;
+  background: #F7F8FB;
+  color: #40404B;
 }
 
 #root {

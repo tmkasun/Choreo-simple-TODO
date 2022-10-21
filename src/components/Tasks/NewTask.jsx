@@ -32,10 +32,11 @@ export const NewTask = forwardRef(({ onAdd, groupId }, ref) => {
                         handleAddClick()
                     }
                 }}
+                
                 onChange={e => setTitle(e.target.value)} />
-            <button disabled={title === '' || isLoading} onClick={handleAddClick}>
-                {isLoading ? 'Adding' : 'Add'}
-            </button>
+                <button disabled={title === '' || isLoading} onClick={handleAddClick}>
+                    {isLoading ? 'Adding' : 'Add'}
+                </button>
         </div>
     );
 })

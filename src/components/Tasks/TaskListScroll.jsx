@@ -3,6 +3,8 @@ import TasksGroup from './TasksGroup';
 import { useOnScreen } from '../../data/hooks/utils';
 import { DragDropContext } from "react-beautiful-dnd";
 import { useRef } from 'react';
+import ChevronRight from '../../images/right.svg';
+import ChevronLeft from '../../images/left.svg';
 
 const TaskListScroll = (props) => {
     const { filteredGroups, moving, onDragEnd, onGroupUpdate, onGroupAdd } = props;
@@ -15,12 +17,16 @@ const TaskListScroll = (props) => {
         <>
          {!isLeft && (
                 <div className="scroller-button scroller-button-left">
-                    <button onClick={() => leftRef.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })}></button>
+                    <button onClick={() => leftRef.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })}>
+                    <img src={ChevronLeft}/>
+                    </button>
                 </div>
             )}
             {!isRight && (
                 <div className="scroller-button scroller-button-right">
-                                        <button onClick={() => rightRef.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })}></button>
+                                        <button onClick={() => rightRef.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })}>
+                                            <img src={ChevronRight}/>
+                                        </button>
 
                 </div>
             )}

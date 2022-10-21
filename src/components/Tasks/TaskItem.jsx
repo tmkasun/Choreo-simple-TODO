@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
 import { TASK_STATUS, useDeleteTask, useUpdateTask } from '../../data/hooks/tasks';
-import deleteIcon from "../../images/delete.png";
+import deleteIcon from "../../images/Delete.svg";
 
 import '../../styles/Tasks/TaskItem.css'
 import Dropdown from '../Dropdown';

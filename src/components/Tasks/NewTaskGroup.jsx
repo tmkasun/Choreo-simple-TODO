@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useAddGroup } from '../../data/hooks/groups';
 import '../../styles/Tasks/NewTasksGroup.css'
 import InputWithButton from '../InputWithButton';
+import addIcon from '../../images/addicon.svg';
+import closeIcon from '../../images/closeIcon.svg';
 
 
 export default function NewTaskGroup(props) {
@@ -18,7 +20,7 @@ export default function NewTaskGroup(props) {
     const onSubmit = (newGroup) => addGroup({ name: newGroup }, { onSuccess: onGroupAdd })
     return (
         <div className='new-task-group-container'>
-            {<span onClick={() => setOpenAddGroup(!openAddGroup)} className={openAddGroup ? 'close-character' : 'add-character'} />}
+            {<span onClick={() => setOpenAddGroup(!openAddGroup)} className={openAddGroup ? 'close-character' : 'add-character'}>{openAddGroup ? <img src={closeIcon} />:<img src={addIcon} />}</span>}
             {openAddGroup && <InputWithButton
                 loading={isLoading}
                 disabled={isLoading}
