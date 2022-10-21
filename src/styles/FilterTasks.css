@@ -16,6 +16,8 @@
         inset 0px -3px 9px rgba(0, 0, 0, 0.04);
     border-radius: 0.3125rem;
     outline: 0;
+    font-size: 13px;
+    margin-right: 1rem;
 }
 .drop-down {
     background-color: aqua;

@@ -14,7 +14,7 @@
 
 .group-deleting-overlay {
     position: absolute;
-    background: #edb7b7f2;
+    background: #fff;
     top: 0;
     left: 0;
     width: 100%;
@@ -25,6 +25,8 @@
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(1px);
+    border: 1px dashed #FE523C;
+    color: #FE523C;
 }
 
 .new-todo-layout {
@@ -41,6 +43,7 @@
     row-gap: 1rem;
     overflow-Y: scroll;
     padding: 0 1rem;
+    margin-bottom: 2.5rem;
 }
 
 

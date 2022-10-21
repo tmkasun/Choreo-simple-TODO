@@ -8,12 +8,9 @@ import '../../styles/Tasks/TasksList.css';
 import { getActiveTasks } from '../../data/utils/tasks';
 
 const getListStyle = (isDraggingOver) => ({
-    background: isDraggingOver ? '#d4dbe7a1' : 'white',
-    borderRadius: '1rem',
+    background: isDraggingOver ? '#e5e5e5a1' : 'white',
+    borderRadius: '0.25rem',
     paddding: 0,
-    boxShadow: isDraggingOver
-        ? 'rgb(204 219 232) 3px 3px 6px 0px inset, rgb(255 255 255 / 50%) -3px -3px 6px 1px inset'
-        : 'none',
 });
 
 const TasksList = (props) => {

@@ -28,7 +28,8 @@
 }
 
 .title-class{
-    font-size: 13px;
+    font-family: inherit;
+    font-size: 15px;
     line-height: 20px;
     color: #222228;
     margin-right: 1rem;

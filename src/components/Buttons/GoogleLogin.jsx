@@ -13,7 +13,8 @@ export default function GoogleLogin() {
     }
     return (
         <LoginButton isInProgress={isInProgress} onLoginClick={onLoginClick}>
-            <img className={isInProgress ? 'gray-logo' : ''} src={googleLogo} alt='Google logo' /> Login with google
+            <img className={isInProgress ? 'gray-logo' : ''} src={googleLogo} alt='Google logo' />
+            <div>Login with Google</div>
         </LoginButton>
     );
 }
