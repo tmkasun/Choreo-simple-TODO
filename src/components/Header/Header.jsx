@@ -9,7 +9,7 @@ export default function Header(props) {
                 <div className="choreo-logo-container">
                     <img className="choreo-logo" src={logo} alt="Choreo Logo" />
                 </div>
-                <h4>Todo</h4>
+                <h4>Todo Dashboard</h4>
             </div>
             <div className="header-right">
                 <AvatarMenu />

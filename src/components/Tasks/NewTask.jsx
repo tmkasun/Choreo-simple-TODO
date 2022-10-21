@@ -13,31 +13,39 @@ export const NewTask = forwardRef(({ onAdd, groupId }, ref) => {
             setTitle('');
             taskInputRef.current.focus();
         }
-    }, [isSuccess, data])
+    }, [isSuccess, data]);
     function handleAddClick() {
         if (title !== '') {
             const newTask = {
                 title,
-                groupId
+                groupId,
             };
             addTask(newTask);
         }
     }
 
     return (
-        <div ref={ref} className='new-todo'>
-            <input ref={taskInputRef} placeholder="Type & press `Enter`" disabled={isLoading} value={title}
+        <div ref={ref} className="new-todo">
+            <input
+                ref={taskInputRef}
+                placeholder="Type & press `Enter`"
+                disabled={isLoading}
+                value={title}
                 onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                        handleAddClick()
+                    if (e.key === 'Enter') {
+                        handleAddClick();
                     }
                 }}
-                onChange={e => setTitle(e.target.value)} />
-            <button disabled={title === '' || isLoading} onClick={handleAddClick}>
+                onChange={(e) => setTitle(e.target.value)}
+            />
+            <button
+                disabled={title === '' || isLoading}
+                onClick={handleAddClick}
+            >
                 {isLoading ? 'Adding' : 'Add'}
             </button>
         </div>
     );
-})
+});
 
 export default NewTask;
