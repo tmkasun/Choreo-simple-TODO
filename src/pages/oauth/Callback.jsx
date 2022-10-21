@@ -4,6 +4,7 @@ import { useAsgardeoToken } from '../../data/hooks/auth';
 import { setCookie } from '../../data/utils/cookies';
 
 import '../../styles/Callback.css';
+import CallbackItem from './CallbackItem';
 
 export default function Callback(params) {
     const {
@@ -42,22 +43,50 @@ export default function Callback(params) {
             );
         }
     }, [asgardeoTokenData]);
+    const getAsgardeoStatus = () => {
+        let status = 'loading';
+        if (isAsgardeoLoading) {
+            status = 'loading';
+        }
+        if (asgardeoStatus === 'success') {
+            status = 'success';
+        }
+        if (asgardeoError) {
+            status = 'error';
+        }
+        return status;
+    };
+
+    const getChoreoStatus = () => {
+        let status = 'loading';
+        if (isChoreoTokenLoading) {
+            status = 'loading';
+        }
+        if (choreoStatus === 'success') {
+            status = 'success';
+        }
+        if (asgardeoError) {
+            status = 'error';
+        }
+        return status;
+    };
     return (
         <div className="callback-layout">
             <ul>
                 <li>
-                    {asgardeoStatus === 'success'
-                        ? 'Asgardeo token Done'
-                        : 'Asgardeo token pending . . .'}
-                    {isAsgardeoLoading && 'Requesting Asgardeo token'}
-                    {asgardeoError && `${asgardeoError}`}
+                    <CallbackItem
+                        text="Requesting Asgardeo token"
+                        status={getAsgardeoStatus()}
+                    />
+                    {asgardeoError && <div>{asgardeoError}</div>}
                 </li>
                 <li>
-                    {choreoStatus === 'success'
-                        ? 'Choreo token Done'
-                        : 'Choreo token pending . . .'}
-                    {isChoreoTokenLoading && 'Requesting Choreo token'}
-                    {choreoError && `${choreoError}`}
+                    <CallbackItem
+                        text="Requesting Choreo token"
+                        status={getChoreoStatus()}
+                    />
+
+                    {choreoError && <div>{choreoError}</div>}
                 </li>
             </ul>
         </div>
