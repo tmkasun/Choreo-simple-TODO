@@ -1,31 +1,56 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useUser from '../../data/hooks/user.js';
-import '../../styles/AvatarMenu.css'
+import '../../styles/AvatarMenu.css';
 
 import { default as AsgardeoConfig } from '../../data/configs/asgardeo.json';
-const signOutRedirectURL = process.env.REACT_APP_signOutRedirectURL;
+const signOutRedirectURL = `${window.location.origin}/`;
 
 export default function AvatarMenu() {
-    const [isHovered, setIsHovered] = useState(false);
     const [isInProgress, setIsInProgress] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const dropdownRef = useRef();
     const [user] = useUser();
+
+    useEffect(() => {
+        const windowClicker = function (event) {
+            if (event.target !== dropdownRef.current) {
+                setIsMenuOpen(false);
+            }
+        };
+        window.addEventListener('click', windowClicker, false);
+        return () => {
+            window.removeEventListener('click', windowClicker, false);
+        };
+    }, []);
+
     const logoutHandler = () => {
         setIsInProgress(true);
         user.logout();
-        window.location.href = `${AsgardeoConfig.baseUrl}/oidc/logout?id_token_hint=${user.asgardeoIdToken}&post_logout_redirect_uri=${signOutRedirectURL}`
-    }
+        window.location.href = `${AsgardeoConfig.baseUrl}/oidc/logout?id_token_hint=${user.asgardeoIdToken}&post_logout_redirect_uri=${signOutRedirectURL}`;
+    };
 
     return (
-        <div onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} className='login-panel'>
-            <button disabled={isInProgress} className='avatar-button'>
-                <div className='title-class'>Hi, {user.given_name}</div>
-                <img className='user-avatar' src={user.picture} alt='User avatar' /> 
+        <div className="login-panel">
+            <button
+                ref={dropdownRef}
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                disabled={isInProgress}
+                className="avatar-button"
+            >
+            <div className='title-class'>Hi, {user.given_name}</div>
+                <img
+                    className="user-avatar"
+                    src={user.picture}
+                    alt="User avatar"
+                />
             </button>
-            {user && isHovered && !isInProgress && <div onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} className='login-dropdown'>
-                <button className='logout-button' onClick={logoutHandler}>
-                    Logout
-                </button>
-            </div>}
+            {isMenuOpen && user && !isInProgress && (
+                <div className="dropdown-content avatar-dropdown">
+                    <a onClick={logoutHandler} href="#">
+                        Logout
+                    </a>
+                </div>
+            )}
         </div>
     );
 }
