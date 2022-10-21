@@ -8,6 +8,8 @@ import {
 import { default as asgardeoSdkConfig } from '../../data/configs/asgardeo.json';
 import { useLocation } from 'react-router-dom';
 
+const signInRedirectURL = `${window.location.origin}/oauth/callback`;
+
 export const useAuthRequestURL = () => {
     const [codeChallenge, setCodeChallenge] = useState(null);
 
@@ -28,7 +30,6 @@ export const useAuthRequestURL = () => {
                 scope,
             } = asgardeoSdkConfig;
             const { state } = configs;
-            const signInRedirectURL = `${window.location.origin}/oauth/callback`;
             return (
                 `${authorizationEndpoint}?response_type=code&client_id=${clientID}` +
                 `&scope=${scope.join('+')}&redirect_uri=${signInRedirectURL}` +
