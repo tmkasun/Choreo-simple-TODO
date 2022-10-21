@@ -10,10 +10,14 @@ export default function GoogleLogin() {
         setIsInProgress(true);
         const loginURL = await getAuthRequestURL();
         window.location.href = loginURL;
-    }
+    };
     return (
         <LoginButton isInProgress={isInProgress} onLoginClick={onLoginClick}>
-            <img className={isInProgress ? 'gray-logo' : ''} src={googleLogo} alt='Google logo' />
+            <img
+                className={isInProgress ? 'gray-logo' : ''}
+                src={googleLogo}
+                alt="Google logo"
+            />
             <div>Login with Google</div>
         </LoginButton>
     );

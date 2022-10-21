@@ -23,12 +23,13 @@ const TasksList = (props) => {
     const inputID = `show-only-active-todos-${groupId}`;
     return (
         <div className="todo-list">
-            {tasks.length === 0 &&
-                (<div className="no-tasks">
+            {tasks.length === 0 && (
+                <div className="no-tasks">
                     <img src={refreshButton} />
                     <span>No tasks available.</span>
-                </div>)}
-            <div className='todo-list-container'>
+                </div>
+            )}
+            <div className="todo-list-container">
                 <Droppable droppableId={`${groupId}`}>
                     {(provided, snapshot) => (
                         <ul
@@ -53,18 +54,20 @@ const TasksList = (props) => {
                     )}
                 </Droppable>
             </div>
-            {tasks.length !== 0 && (<div className="todo-actions">
-                <div className="active-selector">
-                    <input
-                        id={inputID}
-                        type="checkbox"
-                        className="show-only-active"
-                        checked={showActive}
-                        onChange={(e) => setShowActive(e.target.checked)}
-                    />
-                    <label htmlFor={inputID}>Show only active tasks</label>
+            {tasks.length !== 0 && (
+                <div className="todo-actions">
+                    <div className="active-selector">
+                        <input
+                            id={inputID}
+                            type="checkbox"
+                            className="show-only-active"
+                            checked={showActive}
+                            onChange={(e) => setShowActive(e.target.checked)}
+                        />
+                        <label htmlFor={inputID}>Show only active tasks</label>
+                    </div>
                 </div>
-            </div>)}
+            )}
         </div>
     );
 };
