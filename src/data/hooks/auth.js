@@ -4,7 +4,7 @@ import { ASGARDEO_STATE_SUFFIX_CHOREO, generateCodeVerifier, generateHash } from
 import { default as asgardeoSdkConfig } from '../../data/configs/asgardeo.json'
 import { useLocation } from 'react-router-dom';
 
-const signInRedirectURL = process.env.REACT_APP_signInRedirectURL;
+const signInRedirectURL = `${window.location.origin}/oauth/callback`;
 
 export const useAuthRequestURL = () => {
     const [codeChallenge, setCodeChallenge] = useState(null);

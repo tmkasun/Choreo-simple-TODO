@@ -3,7 +3,7 @@ import useUser from '../../data/hooks/user.js';
 import '../../styles/AvatarMenu.css';
 
 import { default as AsgardeoConfig } from '../../data/configs/asgardeo.json';
-const signOutRedirectURL = process.env.REACT_APP_signOutRedirectURL;
+const signOutRedirectURL = window.location.origin;
 
 export default function AvatarMenu() {
     const [isInProgress, setIsInProgress] = useState(false);
