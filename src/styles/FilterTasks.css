@@ -23,6 +23,6 @@
     background-color: aqua;
 }
 
-.drop-down:after {
-    margin-right: 5rem !important;
+.drop-down::after {
+    margin-right: 5rem;
 }

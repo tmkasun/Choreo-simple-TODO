@@ -32,7 +32,6 @@ export const useTasksByGroup = () => {
 
     return { data, isLoading, setData };
 };
-// const sampleData = {"data":{"groups":[{"id":70, "name":"Urgent and important", "tasks":[{"id":73, "title":"Task 2", "status":"open"}, {"id":71, "title":"Test ", "status":"complete"}, {"id":72, "title":"New task", "status":"in-progress"}]}, {"id":71, "name":"Urgent, not important", "tasks":[]}, {"id":72, "name":"Important, not urgent", "tasks":[]}, {"id":73, "name":"Not urgent and not important", "tasks":[]}]}}
 
 export const useTaskGroups = () => {
     const [data, setData] = useState();
