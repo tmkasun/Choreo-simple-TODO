@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useUser from '../../data/hooks/user.js';
 import '../../styles/AvatarMenu.css';
 
@@ -7,7 +7,22 @@ const signOutRedirectURL = process.env.REACT_APP_signOutRedirectURL;
 
 export default function AvatarMenu() {
     const [isInProgress, setIsInProgress] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const dropdownRef = useRef();
     const [user] = useUser();
+
+    useEffect(() => {
+        const windowClicker = function (event) {
+            if (event.target !== dropdownRef.current) {
+                setIsMenuOpen(false);
+            }
+        };
+        window.addEventListener('click', windowClicker, false);
+        return () => {
+            window.removeEventListener('click', windowClicker, false);
+        };
+    }, []);
+
     const logoutHandler = () => {
         setIsInProgress(true);
         user.logout();
@@ -16,7 +31,12 @@ export default function AvatarMenu() {
 
     return (
         <div className="login-panel">
-            <button disabled={isInProgress} className="avatar-button">
+            <button
+                ref={dropdownRef}
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                disabled={isInProgress}
+                className="avatar-button"
+            >
                 <img
                     className="user-avatar"
                     src={user.picture}
@@ -24,7 +44,7 @@ export default function AvatarMenu() {
                 />
                 Hi, {user.given_name}
             </button>
-            {user && !isInProgress && (
+            {isMenuOpen && user && !isInProgress && (
                 <div className="dropdown-content avatar-dropdown">
                     <a onClick={logoutHandler} href="#">
                         Logout
