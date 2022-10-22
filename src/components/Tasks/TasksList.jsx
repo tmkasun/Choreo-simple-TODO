@@ -10,7 +10,7 @@ import { getActiveTasks } from '../../data/utils/tasks';
 const getListStyle = (isDraggingOver) => ({
     background: isDraggingOver ? '#e5e5e5a1' : 'white',
     borderRadius: '0.25rem',
-    paddding: 0,
+    paddingBottom: '2rem'
 });
 
 const TasksList = (props) => {
@@ -23,34 +23,46 @@ const TasksList = (props) => {
     const inputID = `show-only-active-todos-${groupId}`;
     return (
         <div className="todo-list">
-            {tasks.length === 0 && (
-                <div className="no-tasks">
-                    <img src={refreshButton} />
-                    <span>No tasks available.</span>
-                </div>
-            )}
             <div className="todo-list-container">
                 <Droppable droppableId={`${groupId}`}>
                     {(provided, snapshot) => (
-                        <ul
-                            ref={provided.innerRef}
-                            style={getListStyle(snapshot.isDraggingOver)}
-                            {...provided.droppableProps}
-                            className="task-list-ul"
-                        >
-                            {visibleTasks.map((task, index) => (
-                                <TaskItem
-                                    isMoving={movingTasks[task.id]}
-                                    index={index}
-                                    onUpdate={onUpdate}
-                                    groupId={groupId}
-                                    onDelete={onDelete}
-                                    key={task.id}
-                                    task={task}
-                                />
-                            ))}
-                            {provided.placeholder}
-                        </ul>
+                        <>
+                            {tasks.length === 0 ? (
+                                <div
+                                    style={getListStyle(
+                                        snapshot.isDraggingOver
+                                    )}
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                    className="no-tasks"
+                                >
+                                    <img src={refreshButton} />
+                                    <span>No tasks available.</span>
+                                </div>
+                            ) : (
+                                <ul
+                                    ref={provided.innerRef}
+                                    style={getListStyle(
+                                        snapshot.isDraggingOver
+                                    )}
+                                    {...provided.droppableProps}
+                                    className="task-list-ul"
+                                >
+                                    {visibleTasks.map((task, index) => (
+                                        <TaskItem
+                                            isMoving={movingTasks[task.id]}
+                                            index={index}
+                                            onUpdate={onUpdate}
+                                            groupId={groupId}
+                                            onDelete={onDelete}
+                                            key={task.id}
+                                            task={task}
+                                        />
+                                    ))}
+                                    {provided.placeholder}
+                                </ul>
+                            )}
+                        </>
                     )}
                 </Droppable>
             </div>
