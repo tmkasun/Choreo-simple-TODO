@@ -13,7 +13,7 @@ export default function AvatarMenu() {
 
     useEffect(() => {
         const windowClicker = function (event) {
-            if (event.target !== dropdownRef.current) {
+            if (!dropdownRef.current.contains(event.target)) {
                 setIsMenuOpen(false);
             }
         };
@@ -21,7 +21,7 @@ export default function AvatarMenu() {
         return () => {
             window.removeEventListener('click', windowClicker, false);
         };
-    }, []);
+    }, [dropdownRef.current]);
 
     const logoutHandler = () => {
         setIsInProgress(true);
