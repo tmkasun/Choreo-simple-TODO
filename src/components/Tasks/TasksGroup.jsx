@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import NewTask from './NewTask';
 import TasksList from './TasksList';
 
@@ -64,6 +64,14 @@ function TasksGroup(props) {
         if (selection === GROUP_ACTIONS.EDIT) {
         }
     };
+    const isMutable = useMemo(() => {
+        return ![
+            'urgent and important',
+            'urgent, not important',
+            'important, not urgent',
+            'not urgent and not important',
+        ].includes(name.toLocaleLowerCase());
+    }, []);
     return (
         <div className="task-group-container">
             {isEditing && (
@@ -73,7 +81,7 @@ function TasksGroup(props) {
                 <div className="group-header-content">
                     <h5 className="task-group-name">{name}</h5>
                 </div>
-                {id > 12 && (
+                {isMutable && (
                     <Dropdown
                         horizontal
                         values={Object.values(GROUP_ACTIONS)}
