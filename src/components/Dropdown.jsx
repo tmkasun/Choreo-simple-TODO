@@ -17,7 +17,7 @@ export default function Dropdown(props) {
     }, [show, onOpen]);
     useEffect(() => {
         const windowClicker = function (event) {
-            if (event.target !== dropdownRef.current) {
+            if (!dropdownRef.current.contains(event.target)) {
                 setShow(false);
             }
         };
