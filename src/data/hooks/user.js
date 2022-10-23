@@ -21,6 +21,7 @@ export default function useUser() {
             user = {
                 logout: () => {
                     deleteCookie('access_token');
+                    deleteCookie('refresh_token');
                     deleteCookie('id_token');
                 },
                 idToken,
