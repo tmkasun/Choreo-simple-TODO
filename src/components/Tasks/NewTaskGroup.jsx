@@ -32,9 +32,19 @@ export default function NewTaskGroup(props) {
                     }
                 >
                     {openAddGroup ? (
-                        <img src={closeIcon} />
+                        <img
+                            width={24}
+                            height={48}
+                            alt="Close icon"
+                            src={closeIcon}
+                        />
                     ) : (
-                        <img src={addIcon} />
+                        <img
+                            width={24}
+                            height={48}
+                            alt="Add icon"
+                            src={addIcon}
+                        />
                     )}
                 </span>
             }

@@ -10,7 +10,7 @@ import { getActiveTasks } from '../../data/utils/tasks';
 const getListStyle = (isDraggingOver) => ({
     background: isDraggingOver ? '#e5e5e5a1' : 'white',
     borderRadius: '0.25rem',
-    paddingBottom: '2rem'
+    paddingBottom: '2rem',
 });
 
 const TasksList = (props) => {
@@ -36,7 +36,12 @@ const TasksList = (props) => {
                                     {...provided.droppableProps}
                                     className="no-tasks"
                                 >
-                                    <img src={refreshButton} />
+                                    <img
+                                        width={301}
+                                        height={201}
+                                        alt="No tasks"
+                                        src={refreshButton}
+                                    />
                                     <span>No tasks available.</span>
                                 </div>
                             ) : (

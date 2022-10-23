@@ -39,6 +39,8 @@ export default function AvatarMenu() {
             >
                 <div className="title-class">Hi, {user.given_name}</div>
                 <img
+                    width={40}
+                    height={40}
                     className="user-avatar"
                     src={user.picture}
                     alt="User avatar"

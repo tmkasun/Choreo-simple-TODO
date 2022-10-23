@@ -27,7 +27,7 @@ const TaskListScroll = (props) => {
                             })
                         }
                     >
-                        <img src={ChevronLeft} />
+                        <img alt='Scroll to left' width={34} height={34} src={ChevronLeft} />
                     </button>
                 </div>
             )}
@@ -42,7 +42,7 @@ const TaskListScroll = (props) => {
                             })
                         }
                     >
-                        <img src={ChevronRight} />
+                        <img alt='Scroll to right' width={34} height={34} src={ChevronRight} />
                     </button>
                 </div>
             )}

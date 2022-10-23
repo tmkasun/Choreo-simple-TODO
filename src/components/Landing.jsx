@@ -8,6 +8,8 @@ export default function Landing() {
         <div className="landing-wrapper">
             <div className="login-card">
                 <img
+                    width={125}
+                    height={32}
                     className="choreo-logo"
                     src={ChoreoLogo}
                     alt="Choreo Logo"

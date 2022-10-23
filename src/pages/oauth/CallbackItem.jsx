@@ -8,7 +8,7 @@ function CallbackItem({ text, status }) {
         if (status === 'success') {
             return (
                 <div className="success-icon">
-                    <img src={SuccessIcon} />
+                    <img alt='success' src={SuccessIcon} />
                 </div>
             );
         } else if (status === 'error') {
@@ -16,7 +16,7 @@ function CallbackItem({ text, status }) {
         }
         return (
             <div className="spinner-icon">
-                <img src={SpinnerIcon} />
+                <img alt='error' src={SpinnerIcon} />
             </div>
         );
     };

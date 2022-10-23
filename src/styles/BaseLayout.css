@@ -7,7 +7,7 @@
 }
 
 .grid-footer {
-    color: rgb(136, 136, 136);
+    color: #646464;
     display: flex;
     justify-content: flex-end;
     align-items: center;
