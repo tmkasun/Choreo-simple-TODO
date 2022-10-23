@@ -24,7 +24,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    backdrop-filter: blur(1px);
     border: 1px dashed #FE523C;
     color: #FE523C;
 }

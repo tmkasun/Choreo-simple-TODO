@@ -7,6 +7,7 @@ import {
 } from '../utils/auth';
 import { default as asgardeoSdkConfig } from '../../data/configs/asgardeo.json';
 import { useLocation } from 'react-router-dom';
+import { getCookie, setCookie } from '../utils/cookies';
 
 const signInRedirectURL = `${window.location.origin}/oauth/callback`;
 
@@ -164,4 +165,73 @@ export const useAsgardeoToken = () => {
         choreoError,
         choreoStatus,
     };
+};
+
+export const useRefreshUser = () => {
+    const [data, setData] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const { stsTokenEndpoint, stsConfig } = asgardeoSdkConfig;
+
+    const refreshUser = useCallback(async () => {
+        setLoading(true);
+        const { client_id, orgHandle, scope } = stsConfig;
+        const idToken = getCookie('id_token');
+        const refresh_token = getCookie('refresh_token');
+        if(!refresh_token) {
+            setError('No refresh token found');
+            setLoading(false);
+            return;
+        }
+        const formBody = new URLSearchParams({
+            client_id: client_id,
+            grant_type: 'refresh_token',
+            refresh_token,
+            orgHandle,
+        });
+
+        try {
+            const response = await fetch(stsTokenEndpoint, {
+                headers: {
+                    authorization: `Bearer ${idToken}`,
+                    'content-type': 'application/x-www-form-urlencoded',
+                },
+                body: formBody,
+                method: 'POST',
+                mode: 'cors',
+                credentials: 'include',
+            });
+
+            if (!response.ok) {
+                setError(response);
+                console.error(response);
+            } else {
+                const choreoTokenData = await response.json();
+                if (choreoTokenData) {
+                    setCookie(
+                        'id_token',
+                        choreoTokenData.id_token,
+                        choreoTokenData.expires_in
+                    );
+                    setCookie(
+                        'refresh_token',
+                        choreoTokenData.refresh_token,
+                        86400
+                    );
+                    setCookie(
+                        'access_token',
+                        choreoTokenData.access_token,
+                        choreoTokenData.expires_in
+                    );
+                }
+                setData(choreoTokenData);
+            }
+        } catch (error) {
+            setError(error);
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+    return { data, error, loading, refreshUser };
 };

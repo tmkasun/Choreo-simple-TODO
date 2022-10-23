@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import Banner from '../../components/Banner/Banner';
 import { useAsgardeoToken } from '../../data/hooks/auth';
 import { setCookie } from '../../data/utils/cookies';
 
@@ -25,6 +26,7 @@ export default function Callback(params) {
                 choreoTokenData.id_token,
                 choreoTokenData.expires_in
             );
+            setCookie('refresh_token', choreoTokenData.refresh_token, 86400);
             setCookie(
                 'access_token',
                 choreoTokenData.access_token,
@@ -78,7 +80,7 @@ export default function Callback(params) {
                         text="Requesting Asgardeo token"
                         status={getAsgardeoStatus()}
                     />
-                    {asgardeoError && <div>{asgardeoError}</div>}
+                    {asgardeoError && <Banner error={asgardeoError}/>}
                 </li>
                 <li>
                     <CallbackItem
@@ -86,7 +88,7 @@ export default function Callback(params) {
                         status={getChoreoStatus()}
                     />
 
-                    {choreoError && <div>{choreoError}</div>}
+                    {choreoError && <Banner error={choreoError}/>}
                 </li>
             </ul>
         </div>

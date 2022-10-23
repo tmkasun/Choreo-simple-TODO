@@ -35,9 +35,6 @@ export default function useUser() {
         }
         return user;
     }, [accessToken]);
-    if (!memonizedUser) {
-        history.push('/login');
-    }
     const generateCustomParams = () => {
         if (memonizedUser) {
             const queryPrams = new URLSearchParams(customParams(memonizedUser));

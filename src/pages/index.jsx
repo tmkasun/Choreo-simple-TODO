@@ -1,15 +1,9 @@
 // import { TokenExchangePlugin } from '@asgardeo/token-exchange-plugin';
 import React, { useCallback, useMemo, useState } from 'react';
-import {
-    BrowserRouter as Router,
-    Redirect,
-    Route,
-    Switch,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import '../styles/App.css';
 import Callback from './oauth/Callback.jsx';
-import useUser from '../data/hooks/user.js';
 import BaseLayout from '../components/BaseLayout.jsx';
 import Header from '../components/Header/Header.jsx';
 import Login from './login/index.jsx';
@@ -23,6 +17,7 @@ import Banner from '../components/Banner/Banner';
 import TaskListScroll from '../components/Tasks/TaskListScroll';
 import SearchInput from '../components/Header/SearchInput';
 import FilterTasks from '../components/Header/FilterTasks';
+import Protected from '../components/Protected';
 
 function App() {
     const {
@@ -36,7 +31,6 @@ function App() {
     const [moving, setMoving] = useState({});
     const [searchText, setSearchText] = useState('');
     const [showByStatus, setShowByStatus] = useState(TASK_STATUS.ALL);
-    const [user] = useUser();
     const onDragEnd = (result) => {
         const { source, destination, draggableId } = result;
         const movingTaskId = parseInt(draggableId, 10);
@@ -144,9 +138,7 @@ function App() {
             return [...currentGroups, { ...newGroup, tasks: [] }];
         });
     };
-    if (!user) {
-        return <Redirect to="/login" />;
-    }
+
     return (
         <BaseLayout header={<Header />}>
             {isLoading && (
@@ -189,7 +181,15 @@ export default function Routing() {
     return (
         <Router>
             <Switch>
-                <Route exact path="/" component={App} />
+                <Route
+                    exact
+                    path="/"
+                    render={() => (
+                        <Protected>
+                            <App />
+                        </Protected>
+                    )}
+                />
                 <Route exact path="/oauth/callback" component={Callback} />
                 <Route exact path="/login" component={Login} />
                 <Route path="*" component={() => 'Page not found!'} />
