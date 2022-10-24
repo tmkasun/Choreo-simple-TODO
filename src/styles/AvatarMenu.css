@@ -27,7 +27,7 @@
     cursor: pointer;
 }
 
-.title-class{
+.title-class {
     font-family: inherit;
     font-size: 15px;
     line-height: 20px;
@@ -38,4 +38,8 @@
 .login-panel .avatar-dropdown {
     margin-left: 0rem;
     margin-top: 3.8rem;
+}
+
+.dropdown-content.avatar-dropdown a:hover {
+    background-color: #e1e1e1;
 }

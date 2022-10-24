@@ -3,6 +3,9 @@ import NewTask from './NewTask';
 import TasksList from './TasksList';
 
 import '../../styles/Tasks/TasksGroup.css';
+import EditGroupIcon from '../../images/edit-group.svg';
+import DeleteGroupIcon from '../../images/delete-group.svg';
+
 import Dropdown from '../Dropdown';
 import { useDeleteGroup } from '../../data/hooks/groups';
 
@@ -17,6 +20,7 @@ function TasksGroup(props) {
     const { tasks } = group;
     const { deleteGroup } = useDeleteGroup();
     const [isEditing, setIsEditing] = useState(false);
+    const [groupError, setGroupError] = useState(null);
     const onDelete = (deletedTask) => {
         onGroupUpdate((currentGroups) => {
             const currentTasks = currentGroups.find(
@@ -59,7 +63,13 @@ function TasksGroup(props) {
     const handleGroupUpdate = (selection) => {
         setIsEditing(true);
         if (selection === GROUP_ACTIONS.DELETE) {
-            deleteGroup(group.id, { onSuccess: onGroupDelete });
+            const numberOfTask = tasks.length;
+            if (numberOfTask > 0) {
+                setGroupError("Can't delete a group with tasks");
+                setIsEditing(false);
+            } else {
+                deleteGroup(group.id, { onSuccess: onGroupDelete });
+            }
         }
         if (selection === GROUP_ACTIONS.EDIT) {
         }
@@ -77,16 +87,43 @@ function TasksGroup(props) {
             {isEditing && (
                 <div className="group-deleting-overlay">Deleting . . .</div>
             )}
+            {groupError && (
+                <div className="group-deleting-overlay">
+                    {groupError}{' '}
+                    <button onClick={() => setGroupError(null)}>ok</button>
+                </div>
+            )}
             <div className="group-header">
                 <div className="group-header-content">
                     <h5 className="task-group-name">{name}</h5>
                 </div>
                 {isMutable && (
-                    <Dropdown
-                        horizontal
-                        values={Object.values(GROUP_ACTIONS)}
-                        onChange={handleGroupUpdate}
-                    />
+                    <Dropdown horizontal>
+                        <a
+                            onClick={() =>
+                                handleGroupUpdate(GROUP_ACTIONS.EDIT)
+                            }
+                        >
+                            <img
+                                src={EditGroupIcon}
+                                alt="Edit group"
+                                width={16}
+                            />
+                            <span>Edit</span>
+                        </a>
+                        <a
+                            onClick={() =>
+                                handleGroupUpdate(GROUP_ACTIONS.DELETE)
+                            }
+                        >
+                            <img
+                                src={DeleteGroupIcon}
+                                alt="Delete group"
+                                width={16}
+                            />
+                            <span className="delete-action">Delete</span>
+                        </a>
+                    </Dropdown>
                 )}
             </div>
             <div className="new-todo-layout">

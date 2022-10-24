@@ -24,8 +24,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px dashed #FE523C;
-    color: #FE523C;
+    border: 1px dashed #fe523c;
+    color: #fe523c;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+.group-deleting-overlay button {
+    padding: 0.325rem 1rem;
+    background: white;
+    border: 1px solid #5567d5;
+    border-radius: 0.3125rem;
+    cursor: pointer;
+    box-shadow: 0px 1px 2px rgb(0 0 0 / 15%);
 }
 
 .new-todo-layout {
@@ -40,22 +51,21 @@
     width: 100%;
     max-height: 55vh;
     row-gap: 1rem;
-    overflow-Y: scroll;
+    overflow-y: scroll;
     padding: 0 1rem;
     margin-bottom: 2.5rem;
 }
 
-
 .todo-list::-webkit-scrollbar {
     width: 0.35em;
 }
-   
+
 .todo-list::-webkit-scrollbar-track {
     background-color: #fff;
 }
-   
+
 .todo-list::-webkit-scrollbar-thumb {
-    background-color: #8D91A3;
+    background-color: #8d91a3;
     border-radius: 5px;
 }
 

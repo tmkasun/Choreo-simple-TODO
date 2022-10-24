@@ -27,7 +27,7 @@ const TasksList = (props) => {
                 <Droppable droppableId={`${groupId}`}>
                     {(provided, snapshot) => (
                         <>
-                            {tasks.length === 0 ? (
+                            {visibleTasks.length === 0 ? (
                                 <div
                                     style={getListStyle(
                                         snapshot.isDraggingOver

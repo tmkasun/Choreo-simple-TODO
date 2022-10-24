@@ -1,5 +1,5 @@
 .icons li {
-    background: none repeat scroll 0 0 #40404B;
+    background: none repeat scroll 0 0 #40404b;
     height: 0.125rem;
     width: 0.125rem;
     line-height: 0;
@@ -53,9 +53,15 @@
     text-decoration: none;
     display: flex;
     text-transform: capitalize;
-    color: #40404B;
+    color: #40404b;
     font-weight: 400;
     font-size: 14px;
+    display: flex;
+    column-gap: 1rem;
+}
+
+.dropdown-content .delete-action {
+    color: #fe523c;
 }
 
 .dropdown-content a:hover {

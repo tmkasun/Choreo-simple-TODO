@@ -7,7 +7,7 @@ import '../styles/Dropdown.css';
  * @returns
  */
 export default function Dropdown(props) {
-    const { onOpen, values, onChange, horizontal = false } = props;
+    const { onOpen, values, onChange, horizontal = false, children } = props;
     const [show, setShow] = useState(false);
     const dropdownRef = useRef();
     useEffect(() => {
@@ -40,15 +40,17 @@ export default function Dropdown(props) {
                 </ul>
                 {show && (
                     <div className="dropdown-content">
-                        {values.map((value) => (
-                            <a
-                                key={value}
-                                onClick={() => onChange(value)}
-                                href="#"
-                            >
-                                {value}
-                            </a>
-                        ))}
+                        {values
+                            ? values.map((value, index) => (
+                                  <a
+                                      key={index}
+                                      onClick={() => onChange(value)}
+                                      href="#"
+                                  >
+                                      {value}
+                                  </a>
+                              ))
+                            : children}
                     </div>
                 )}
             </div>
