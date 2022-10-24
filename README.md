@@ -4,6 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 https://simple-todo-using-choreo.vercel.app/
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ftmkasun%2FChoreo-simple-TODO)
+
 # How to run the app locally
 
 - Run
