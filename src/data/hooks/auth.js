@@ -193,7 +193,6 @@ export const useRefreshUser = () => {
         try {
             const response = await fetch(stsTokenEndpoint, {
                 headers: {
-                    authorization: `Bearer ${idToken}`,
                     'content-type': 'application/x-www-form-urlencoded',
                 },
                 body: formBody,
