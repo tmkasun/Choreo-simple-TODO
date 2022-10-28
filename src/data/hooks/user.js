@@ -17,7 +17,7 @@ export default function useUser() {
             const idToken = getCookie('id_token');
             const asgardeoIdToken = getCookie('asgardeo_id_token');
             const { given_name, picture, email, sid, ...otherClaims } =
-                parseJwt(idToken);
+                parseJwt(asgardeoIdToken);
             user = {
                 logout: () => {
                     deleteCookie('access_token');
