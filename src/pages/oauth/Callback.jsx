@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Banner from '../../components/Banner/Banner';
 import { useAsgardeoToken } from '../../data/hooks/auth';
-import { setCookie } from '../../data/utils/cookies';
+import { COOKIES, setCookie } from '../../data/utils/cookies';
 
 import '../../styles/Callback.css';
 import CallbackItem from './CallbackItem';
@@ -22,13 +22,17 @@ export default function Callback(params) {
     useEffect(() => {
         if (choreoTokenData) {
             setCookie(
-                'id_token',
+                COOKIES.CHOREO_ID_TOKEN,
                 choreoTokenData.id_token,
                 choreoTokenData.expires_in
             );
-            setCookie('refresh_token', choreoTokenData.refresh_token, 86400);
             setCookie(
-                'access_token',
+                COOKIES.CHOREO_REFRESH_TOKEN,
+                choreoTokenData.refresh_token,
+                86400
+            );
+            setCookie(
+                COOKIES.CHOREO_ACCESS_TOKEN,
                 choreoTokenData.access_token,
                 choreoTokenData.expires_in
             );
@@ -39,9 +43,14 @@ export default function Callback(params) {
     useEffect(() => {
         if (asgardeoTokenData) {
             setCookie(
-                'asgardeo_id_token',
+                COOKIES.ASGARDEO_ID_TOKEN,
                 asgardeoTokenData.id_token,
                 asgardeoTokenData.expires_in
+            );
+            setCookie(
+                COOKIES.ASGARDEO_REFRESH_TOKEN,
+                asgardeoTokenData.refresh_token,
+                86400
             );
         }
     }, [asgardeoTokenData]);
@@ -80,7 +89,7 @@ export default function Callback(params) {
                         text="Requesting Asgardeo token"
                         status={getAsgardeoStatus()}
                     />
-                    {asgardeoError && <Banner error={asgardeoError}/>}
+                    {asgardeoError && <Banner error={asgardeoError} />}
                 </li>
                 <li>
                     <CallbackItem
@@ -88,7 +97,7 @@ export default function Callback(params) {
                         status={getChoreoStatus()}
                     />
 
-                    {choreoError && <Banner error={choreoError}/>}
+                    {choreoError && <Banner error={choreoError} />}
                 </li>
             </ul>
         </div>

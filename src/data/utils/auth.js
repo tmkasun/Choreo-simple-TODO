@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid';
+import { default as asgardeoSdkConfig } from '../configs/asgardeo.json';
 
 export function generateCodeVerifier() {
     return nanoid(48);
@@ -50,3 +51,36 @@ export function parseJwt(token) {
 }
 
 export const ASGARDEO_STATE_SUFFIX_CHOREO = '_request_0'; // Used to identify the request counter in the state
+
+export const getChoreoAccessToken = async (id_token) => {
+    const {
+        stsTokenEndpoint,
+        stsConfig: { client_id, orgHandle, scope },
+    } = asgardeoSdkConfig;
+    const formBody = new URLSearchParams({
+        client_id: client_id,
+        grant_type: 'urn:ietf:params:oauth:grant-type:token-exchange',
+        subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
+        scope: scope.join('+'),
+        subject_token: id_token,
+        orgHandle,
+    });
+    const response = await fetch(stsTokenEndpoint, {
+        headers: {
+            authorization: `Bearer ${id_token}`,
+            'content-type': 'application/x-www-form-urlencoded',
+        },
+        body: formBody,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+    });
+
+    if (!response.ok) {
+        console.error(response);
+        throw new Error(response);
+    } else {
+        const data = await response.json();
+        return data;
+    }
+};

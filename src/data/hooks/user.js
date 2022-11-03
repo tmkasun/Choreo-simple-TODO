@@ -1,48 +1,51 @@
-import { useMemo } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { parseJwt } from '../utils/auth';
-import { deleteCookie, getCookie } from '../utils/cookies';
+import { COOKIES, deleteCookie, getCookie } from '../utils/cookies';
 
 const customParams = (user) => ({
     'x-choreo-user-email': user.email,
     'x-choreo-user-sid': user.sid,
 });
 
+export const readUser = () => {
+    const accessToken = getCookie(COOKIES.CHOREO_ACCESS_TOKEN);
+    let user = null;
+    if (accessToken) {
+        const idToken = getCookie(COOKIES.CHOREO_ID_TOKEN);
+        const asgardeoIdToken = getCookie(COOKIES.ASGARDEO_ID_TOKEN);
+        const { given_name, picture, email, sid, ...otherClaims } =
+            parseJwt(asgardeoIdToken);
+        user = {
+            logout: () => Object.values(COOKIES).forEach(deleteCookie),
+            idToken,
+            asgardeoIdToken,
+            accessToken,
+            given_name,
+            picture,
+            email,
+            sid,
+            customParams: new URLSearchParams({ email, sid }).toString(),
+        };
+    }
+    return user;
+};
+
 export default function useUser() {
-    const accessToken = getCookie('access_token');
-    const history = useHistory();
-    const memonizedUser = useMemo(() => {
-        let user = null;
-        if (accessToken) {
-            const idToken = getCookie('id_token');
-            const asgardeoIdToken = getCookie('asgardeo_id_token');
-            const { given_name, picture, email, sid, ...otherClaims } =
-                parseJwt(asgardeoIdToken);
-            user = {
-                logout: () => {
-                    deleteCookie('access_token');
-                    deleteCookie('refresh_token');
-                    deleteCookie('id_token');
-                },
-                idToken,
-                asgardeoIdToken,
-                accessToken,
-                given_name,
-                picture,
-                email,
-                sid,
-                customParams: new URLSearchParams({ email, sid }).toString(),
-            };
-        }
-        return user;
-    }, [accessToken]);
+    const [user, setUser] = useState(readUser);
+    const accessToken = getCookie(COOKIES.CHOREO_ACCESS_TOKEN);
+
+    const refreshUser = useCallback(() => {
+        setUser(readUser());
+    });
+    useEffect(refreshUser, [accessToken]);
     const generateCustomParams = () => {
-        if (memonizedUser) {
-            const queryPrams = new URLSearchParams(customParams(memonizedUser));
+        if (user) {
+            const queryPrams = new URLSearchParams(customParams(user));
             return queryPrams.toString();
         } else {
             return '';
         }
     };
-    return [memonizedUser, generateCustomParams];
+    return [user, generateCustomParams, refreshUser];
 }

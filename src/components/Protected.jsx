@@ -20,26 +20,29 @@ import '../styles/Protected.css';
 
 const Protected = (props) => {
     const { children } = props;
-    const [user] = useUser();
+    const [user, , initUser] = useUser();
     const {
         refreshUser,
-        error: refreshError,
-        loading: isRefreshing,
+        choreoError,
+        isChoreoTokenLoading,
+        isAsgardeoLoading,
+        asgardeoError,
     } = useRefreshUser();
     useEffect(() => {
         if (!user) {
-            refreshUser();
+            refreshUser({ onSuccuss: initUser });
         }
     }, []);
+    const isRefreshing = isChoreoTokenLoading || isAsgardeoLoading;
     if (!user && isRefreshing) {
         return (
-            <div className='restoring-user-session'>
+            <div className="restoring-user-session">
                 <Loading />
                 Restoring the user session . . .
             </div>
         );
     }
-    if (!user && !isRefreshing && refreshError) {
+    if (!user && !isRefreshing && (choreoError || asgardeoError)) {
         return <Redirect to="/login" />;
     }
     return children;

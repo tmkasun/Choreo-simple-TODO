@@ -4,10 +4,11 @@ import {
     ASGARDEO_STATE_SUFFIX_CHOREO,
     generateCodeVerifier,
     generateHash,
+    getChoreoAccessToken,
 } from '../utils/auth';
 import { default as asgardeoSdkConfig } from '../../data/configs/asgardeo.json';
 import { useLocation } from 'react-router-dom';
-import { getCookie, setCookie } from '../utils/cookies';
+import { COOKIES, getCookie, setCookie } from '../utils/cookies';
 
 const signInRedirectURL = `${window.location.origin}/oauth/callback`;
 
@@ -63,7 +64,6 @@ export const useAsgardeoToken = () => {
     } = asgardeoSdkConfig;
 
     const { search } = useLocation();
-    const sessionState = new URLSearchParams(search).get('session_state');
     const oauthCode = new URLSearchParams(search).get('code');
     useEffect(() => {
         if (oauthCode) {
@@ -113,43 +113,17 @@ export const useAsgardeoToken = () => {
         if (asgardeoStatus === 'success') {
             (async () => {
                 setIsChoreoTokenLoading(true);
-                const { client_id, orgHandle, scope } = stsConfig;
-                const { id_token, access_token } = asgardeoTokenData;
-                const formBody = new URLSearchParams({
-                    client_id: client_id,
-                    grant_type:
-                        'urn:ietf:params:oauth:grant-type:token-exchange',
-                    subject_token_type: 'urn:ietf:params:oauth:token-type:jwt',
-                    scope: scope.join('+'),
-                    subject_token: id_token,
-                    orgHandle,
-                });
+                const { id_token } = asgardeoTokenData;
                 try {
-                    const response = await fetch(stsTokenEndpoint, {
-                        headers: {
-                            authorization: `Bearer ${id_token}`,
-                            'content-type': 'application/x-www-form-urlencoded',
-                        },
-                        body: formBody,
-                        method: 'POST',
-                        mode: 'cors',
-                        credentials: 'include',
-                    });
-                    if (!response.ok) {
-                        setChoreoError(response);
-                        console.error(response);
-                        setChoreoStatus('error');
-                    } else {
-                        const data = await response.json();
-                        setChoreoToken(data);
-                        setChoreoStatus('success');
-                    }
+                    const data = await getChoreoAccessToken(id_token);
+                    setChoreoToken(data);
+                    setChoreoStatus('success');
                 } catch (error) {
                     setChoreoError(error);
                     console.error(error);
                     setChoreoStatus('error');
                 } finally {
-                    sessionStorage.removeItem('pkce_code_verifier#0');
+                    sessionStorage.removeItem('pkce_code_verifier#0'); // TODO: Should have removed after successfully generating a token from Asgardeo
                     setIsChoreoTokenLoading(false);
                 }
             })();
@@ -168,30 +142,38 @@ export const useAsgardeoToken = () => {
 };
 
 export const useRefreshUser = () => {
-    const [data, setData] = useState(null);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const { stsTokenEndpoint, stsConfig } = asgardeoSdkConfig;
+    const [asgardeoTokenData, setAsgardeoData] = useState();
+    const [isAsgardeoLoading, setAsgardeoIsLoading] = useState(true);
+    const [asgardeoError, setAsgardeoError] = useState();
 
-    const refreshUser = useCallback(async () => {
-        setLoading(true);
-        const { client_id, orgHandle, scope } = stsConfig;
-        const idToken = getCookie('id_token');
-        const refresh_token = getCookie('refresh_token');
-        if(!refresh_token) {
-            setError('No refresh token found');
-            setLoading(false);
+    const [newChoreoToken, setChoreoToken] = useState();
+    const [isChoreoTokenLoading, setIsChoreoTokenLoading] = useState(true);
+    const [choreoError, setChoreoError] = useState();
+    const [choreoStatus, setChoreoStatus] = useState('initial');
+
+    const {
+        stsConfig,
+        clientID: asgardeoClientID,
+        endpoints: { tokenEndpoint: asgardeoTokenEndpoint },
+    } = asgardeoSdkConfig;
+
+    const refreshUser = useCallback(async ({ onSuccuss }) => {
+        setAsgardeoIsLoading(true);
+        const asgardeoRefreshToken = getCookie(COOKIES.ASGARDEO_REFRESH_TOKEN);
+        if (!asgardeoRefreshToken) {
+            setAsgardeoError('No refresh token found');
+            setAsgardeoIsLoading(false);
+            setIsChoreoTokenLoading(false);
             return;
         }
         const formBody = new URLSearchParams({
-            client_id: client_id,
+            client_id: asgardeoClientID,
             grant_type: 'refresh_token',
-            refresh_token,
-            orgHandle,
+            refresh_token: asgardeoRefreshToken,
         });
 
         try {
-            const response = await fetch(stsTokenEndpoint, {
+            const response = await fetch(asgardeoTokenEndpoint, {
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded',
                 },
@@ -202,35 +184,73 @@ export const useRefreshUser = () => {
             });
 
             if (!response.ok) {
-                setError(response);
+                setAsgardeoError(response);
                 console.error(response);
             } else {
-                const choreoTokenData = await response.json();
-                if (choreoTokenData) {
+                const asgardeoTokenData = await response.json();
+                if (asgardeoTokenData) {
+                    setAsgardeoData(asgardeoTokenData);
                     setCookie(
-                        'id_token',
-                        choreoTokenData.id_token,
-                        choreoTokenData.expires_in
+                        COOKIES.ASGARDEO_ID_TOKEN,
+                        asgardeoTokenData.id_token,
+                        asgardeoTokenData.expires_in
                     );
                     setCookie(
-                        'refresh_token',
-                        choreoTokenData.refresh_token,
-                        86400
-                    );
-                    setCookie(
-                        'access_token',
-                        choreoTokenData.access_token,
-                        choreoTokenData.expires_in
+                        COOKIES.ASGARDEO_REFRESH_TOKEN,
+                        asgardeoTokenData.refresh_token,
+                        86400 // TODO Should read from the token expire at claim
                     );
                 }
-                setData(choreoTokenData);
+                setIsChoreoTokenLoading(true);
+                const { id_token } = asgardeoTokenData;
+                try {
+                    const newChoreoToken = await getChoreoAccessToken(id_token);
+                    if (newChoreoToken) {
+                        setCookie(
+                            COOKIES.CHOREO_ID_TOKEN,
+                            newChoreoToken.id_token,
+                            newChoreoToken.expires_in
+                        );
+                        setCookie(
+                            COOKIES.CHOREO_REFRESH_TOKEN,
+                            newChoreoToken.refresh_token,
+                            86400
+                        );
+                        setCookie(
+                            COOKIES.CHOREO_ACCESS_TOKEN,
+                            newChoreoToken.access_token,
+                            newChoreoToken.expires_in
+                        );
+                        setChoreoToken(newChoreoToken);
+                        setChoreoStatus('success');
+                        onSuccuss(newChoreoToken);
+                    } else {
+                        setChoreoStatus('error');
+                        setChoreoError(new Error('No token found'));
+                    }
+                } catch (error) {
+                    setChoreoError(error);
+                    console.error(error);
+                    setChoreoStatus('error');
+                } finally {
+                    setIsChoreoTokenLoading(false);
+                }
             }
         } catch (error) {
-            setError(error);
+            setAsgardeoError(error);
             console.error(error);
         } finally {
-            setLoading(false);
+            setAsgardeoIsLoading(false);
         }
     }, []);
-    return { data, error, loading, refreshUser };
+    return {
+        asgardeoTokenData,
+        isAsgardeoLoading,
+        asgardeoError,
+        choreoTokenData: newChoreoToken,
+        isChoreoTokenLoading,
+        choreoError,
+        choreoStatus,
+        refreshUser,
+    };
 };

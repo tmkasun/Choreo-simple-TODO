@@ -1,3 +1,12 @@
+export const COOKIES = {
+    CHOREO_ID_TOKEN: 'c_id_token',
+    CHOREO_REFRESH_TOKEN: 'c_refresh_token',
+    CHOREO_ACCESS_TOKEN: 'c_access_token',
+    ASGARDEO_ID_TOKEN: 'a_id_token',
+    ASGARDEO_REFRESH_TOKEN: 'a_refresh_token',
+    ASGARDEO_ACCESS_TOKEN: 'a_access_token',
+};
+
 export const getCookie = (key) => {
     const name = `${key}=`;
     const decodedCookie = decodeURIComponent(document.cookie);

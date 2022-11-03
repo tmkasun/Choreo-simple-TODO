@@ -10,7 +10,6 @@ export default function AvatarMenu() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const dropdownRef = useRef();
     const [user] = useUser();
-
     useEffect(() => {
         const windowClicker = function (event) {
             if (!dropdownRef.current.contains(event.target)) {
